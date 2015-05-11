@@ -6,6 +6,7 @@ Hay que utilizar `pandoc`:
 
 - `sudo apt-get install pandoc`
 - Seguir [estas](http://pandoc.org/installing.html#linux) instrucciones
+- `pandoc Trabajo.md -o Trabajo.pdf`
 
 ## Cómo usar Markdown
 
