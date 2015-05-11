@@ -9,7 +9,17 @@ fontsize: 11pt
 geometry: margin=1in
 ---
 
-# Prueba
+# Splines cuadráticos
 
-Esto es una prueba: $\delta_{ij}$.
+## Descripción del espacio de splines cuadráticos
+
+## Ejemplos
+
+# Splines cúbicos
+
+## Construcción a partir de los valores de $s''(x)$ en los nodos $\{x_i\}$
+## Propiedades de minimización
+## Ejemplos
+
+# Implementación en ordenador
 
