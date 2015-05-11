@@ -1,5 +1,12 @@
 # Metodos
 
+## Compilar el documento
+
+Hay que utilizar `pandoc`:
+
+- `sudo apt-get install pandoc`
+- Seguir [estas](http://pandoc.org/installing.html#linux) instrucciones
+
 ## Cómo usar Markdown
 
 ### Títulos
