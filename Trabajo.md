@@ -11,6 +11,9 @@ geometry: margin=1in
 
 # Splines cuadráticos
 
+El espacio de splines de clase 2 se nota $S_2(x_1,x_2,...,x_n)$ Una base sería ${1,x,x^2,(x-x_1)_+,(x-x_2)_+,...,(x-x_n)_+}$
+
+
 ## Descripción del espacio de splines cuadráticos
 
 ## Ejemplos
@@ -22,7 +25,3 @@ geometry: margin=1in
 ## Ejemplos
 
 # Implementación en ordenador
-
-# Aprende a interpolar con Los Vengadores(Parte de Pablo Medina)
-
-El espacio de splines de clase 2 se nota $S_2(x_1,x_2,...,x_n)$ Una base sería ${1,x,x^2,(x-x_1)_+,(x-x_2)_+,...,(x-x_n)_+}$
