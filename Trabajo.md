@@ -11,10 +11,7 @@ geometry: margin=1in
 
 # Splines cuadráticos
 
-<<<<<<< HEAD
-=======
 El espacio de splines de clase 2 se nota $S_2(x_1,x_2,...,x_n)$ Una base sería ${1,x,x^2,(x-x_1)_+,(x-x_2)_+,...,(x-x_n)_+}$
->>>>>>> c7d9990fbcc4b795af884d8a6aa6f45b2ce4f997
 
 ## Descripción del espacio de splines cuadráticos
 El espacio de splines de clase 2 con n nodos se denota $S_2(x_1,x_2,...,x_n)$. Los splines de clase 2 están constituídos por parábolas de forma que además de tener una función continua, su derivada también lo es, por lo tanto, para $i=1,...,n-1$ tenemos la siguiente condición:
