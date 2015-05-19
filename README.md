@@ -15,6 +15,7 @@ Hay que utilizar `pandoc`:
 # Título
 ## Segundo título
 ### ...
+<!---Comentarios-->
 ```
 
 ### Fórmulas
