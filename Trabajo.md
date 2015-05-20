@@ -15,8 +15,8 @@ El espacio de splines de clase 2 se nota $S_2(x_1,x_2,...,x_n)$.
 Una base sería $\{1,x,x^2,(x-x_1)_+,(x-x_2)_+,...,(x-x_n)_+\}$
 
 ## Descripción del espacio de splines cuadráticos
-El espacio de splines de clase 2 con n nodos se denota $S_2(x_1,x_2,...,x_n)$.
-Los splines de clase 2 están constituídos por parábolas de forma que además de
+El espacio de splines de clase 2 con $n$ nodos se denota $S_2(x_1,x_2,...,x_n)$.
+Los splines de clase 2 están constituidos por parábolas, de forma que además de
 tener una función continua, su derivada también lo es.
 Por lo tanto, para $i=1,...,n-1$ tenemos la siguiente condición:
 
@@ -47,19 +47,68 @@ El conjunto $S_2(x_1,x_2,...,x_n)$ satisface las propiedades siguienes:
 
 # Implementación en ordenador: Octave
 
+Implementaremos las siguientes funciones en Octave:
+
+1. `Spline31` : Calcula spline de **clase 1**.
+1. `SplineNat`: Calcula spline **natural**.
+2. `SplinePer`: Calcula spline **periódico**.
+3. `SplineSuj`: Calcula spline **sujeto**.
+5. `ConvierteApp`: Transforma los coeficientes de un spline en una
+ estructura `pp`.
+8. `SplineCuad`: Calcula spline **cuadrático** de clase 1.
+
+
 ## Splines cúbicos
+
+### Spline natural
+
+Para crear la función `SplineNat`, creamos primero una función que calcule
+las derivadas definiendo un sistema de ecuaciones:
+
+```octave
+function d = DersSplineNat(x, y)
+  h     = diff(x);
+  h2_n  = h(2:end);   # h del segundo elemento en adelante
+  h1_n1 = h(1:end-1); # h sin el último elemento
+  p     = diff(y)./h;
+
+  b = 3.*[p(1) (h2_n.*p(1:end-1) + h1_n1.*p(2:end)) p(end)];
+
+  A  = diag([h2_n 1], -1);
+  A += diag(2*[1 (h2_n + h1_n1) 1]);
+  A += diag([1 h1_n1], 1);
+
+  d = A\b'; # Derivadas
+end
+```
+
+Las funciones que utilizamos son:
+
+- `diff(x)` es un vector con elemento `i` `x(i) - x(i-1)`.
+- `end` en un rango indica el último elemento de un vector.
+- `diag(d, n)` define una matriz $n-$diagonal con diagonal `d`.
+
+Obtenidas las derivadas basta calcular cada polinomio $s_i$ con la función
+`Spline31` definida para los splines cúbicos de clase 1:
+
+```octave
+SplineNat = @(x,y) Spline31(x, y, DersSplineNat(x,y))
+```
+
+### Spline sujeto
+### Spline periódico
 
 ## Splines cuadráticos
 
 ### Resolviendo a trozos
 
-### Mediante sistema de ecuaciones
+### Mediante resolución de sistema
 
 Utilizando el sistema que vimos anteriormente, podemos definir fácilmente una
 función que calcule los coeficientes de un spline cuadrático de clase 1:
 
 ```octave
-function s = coefsSpline(x, y, d_k, k)
+function s = coefsSplineCuad(x, y, d_k, k)
   # Número de intervalos
   n = length(x) - 1;
 
@@ -79,9 +128,13 @@ function s = coefsSpline(x, y, d_k, k)
 
 end
 ```
+La función toma como argumentos los nodos y valores en los nodos, así como
+la derivada en un nodo $k$. Para obtener el spline aplicamos el método
+global:
 
-Definimos la matriz columna a columna: las **3 primeras columnas** corresponden a
-los valores de `x` en $1, x, x^2$, así como los valores de la derivada:
+Definimos la matriz columna a columna: las **3 primeras columnas**
+corresponden a los valores de `x` en $1, x, x^2$, así como los valores
+de la derivada:
 
 ```octave
 A(:,1) = [ones(n+1,1); 0];
@@ -92,10 +145,10 @@ A(:,3) = [x'.^2      ; 2.*x(k+1)];
 Una vez hecho esto pasamos a las **potencias truncadas**. Para ello, en cada
 columna:
 
-- Definimos una función `pot` correspondiente a la potencia truncada en el valor
-correspondiente: `pot    =  @(t) (t > x(j-2)) .* (t - x(j-2))`. Como *Octave*
-tiene tipos dinámicos convertirá `(t > x(j-2))` a $1$ o $0$. De esta forma,
-$pot(x) = (x - x_{j-1})_{+}$.
+- Definimos una función `pot` correspondiente a la potencia truncada
+en el valor correspondiente: `pot = @(t) (t > x(j-2)) .* (t - x(j-2))`.
+Como *Octave* tiene tipos dinámicos convertirá `(t > x(j-2))` a $1$ o $0$.
+De esta forma, $pot(x) = (x - x_{j-1})_+$.
 
 - Aplicamos `pot` a `x` en cada columna, añadiendo el valor de la derivada.
 
