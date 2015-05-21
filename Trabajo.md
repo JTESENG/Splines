@@ -61,40 +61,6 @@ Implementaremos las siguientes funciones en Octave:
 ## Splines cúbicos
 
 ### Spline natural
-
-Para crear la función `SplineNat`, creamos primero una función que calcule
-las derivadas definiendo un sistema de ecuaciones:
-
-```octave
-function d = DersSplineNat(x, y)
-  h     = diff(x);
-  h2_n  = h(2:end);   # h del segundo elemento en adelante
-  h1_n1 = h(1:end-1); # h sin el último elemento
-  p     = diff(y)./h;
-
-  b = 3.*[p(1) (h2_n.*p(1:end-1) + h1_n1.*p(2:end)) p(end)];
-
-  A  = diag([h2_n 1], -1);
-  A += diag(2*[1 (h2_n + h1_n1) 1]);
-  A += diag([1 h1_n1], 1);
-
-  d = A\b'; # Derivadas
-end
-```
-
-Las funciones que utilizamos son:
-
-- `diff(x)` es un vector con elemento `i` `x(i) - x(i-1)`.
-- `end` en un rango indica el último elemento de un vector.
-- `diag(d, n)` define una matriz $n-$diagonal con diagonal `d`.
-
-Obtenidas las derivadas basta calcular cada polinomio $s_i$ con la función
-`Spline31` definida para los splines cúbicos de clase 1:
-
-```octave
-SplineNat = @(x,y) Spline31(x, y, DersSplineNat(x,y))
-```
-
 ### Spline sujeto
 ### Spline periódico
 
