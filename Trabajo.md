@@ -49,28 +49,27 @@ El conjunto $S_2(x_1,x_2,...,x_n)$ satisface las propiedades siguienes:
 
 # Implementación en ordenador: Octave
 
-Implementaremos las siguientes funciones en Octave:
+Hemos implementado las siguientes funciones en Octave:
 
+0. `SplineLineal`: Calcula spline **lineal**. *(Usado en los splines cúbicos)*
 1. `Spline31` : Calcula spline de **clase 1**.
 1. `SplineNat`: Calcula spline **natural**.
 2. `SplinePer`: Calcula spline **periódico**.
 3. `SplineSuj`: Calcula spline **sujeto**.
-5. `ConvierteApp`: Transforma los coeficientes de un spline en una
- estructura `pp`.
 8. `SplineCuad`: Calcula spline **cuadrático** de clase 1.
 
+## Spline Lineal
 
-## Splines cúbicos
-
-### Spline natural
-### Spline sujeto
-### Spline periódico
+La función que nos permite calcular un spline lineal es muy 
+```octave
+function s = SplineLineal(x,y)
+  p = diff(y)./diff(x);
+  A = [p' y(1:end-1)'];
+  s = mkpp(x,A);
+end
+```
 
 ## Splines cuadráticos
-
-### Resolviendo a trozos
-
-### Mediante resolución de sistema
 
 Utilizando el sistema que vimos anteriormente, podemos definir fácilmente una
 función que calcule los coeficientes de un spline cuadrático de clase 1:
@@ -96,29 +95,9 @@ function s = coefsSplineCuad(x, y, d_k, k)
 
 end
 ```
-La función toma como argumentos los nodos y valores en los nodos, así como
-la derivada en un nodo $k$. Para obtener el spline aplicamos el método
-global:
 
-Definimos la matriz columna a columna: las **3 primeras columnas**
-corresponden a los valores de `x` en $1, x, x^2$, así como los valores
-de la derivada:
-
-```octave
-A(:,1) = [ones(n+1,1); 0];
-A(:,2) = [x'         ; 1];
-A(:,3) = [x'.^2      ; 2.*x(k+1)];
-```
-
-Una vez hecho esto pasamos a las **potencias truncadas**. Para ello, en cada
-columna:
-
-- Definimos una función `pot` correspondiente a la potencia truncada
+Definimos una función `pot` correspondiente a la potencia truncada
 en el valor correspondiente: `pot = @(t) (t > x(j-2)) .* (t - x(j-2))`.
 Como *Octave* tiene tipos dinámicos convertirá `(t > x(j-2))` a $1$ o $0$.
 De esta forma, $pot(x) = (x - x_{j-1})_+$.
 
-- Aplicamos `pot` a `x` en cada columna, añadiendo el valor de la derivada.
-
-Definida la matriz del sistema podemos calcular finalmente la solución empleando
-la **división izquierda**.
