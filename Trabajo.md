@@ -3,6 +3,7 @@ title: Ampliación de interpolación con Splines
 author: [Miguel Anguita Ruiz, Pablo Baeyens Fernández, Pablo David Medina Sánchez, Ruben Morales Pérez, Francisco Javier Morales Piqueras]
 lang: spanish
 header-includes:
+	\newtheorem{proposition}{Proposición}
 toc: false
 numbersections: false
 fontsize: 11pt
@@ -27,11 +28,12 @@ Por lo tanto, para $i=1,...,n-1$ tenemos la siguiente condición:
    \hline
 \end{tabular}
 
-Proposición:<!---Ponerlo esto mejor, con mejor formato-->
+\begin{proposition}
 El conjunto $S_2(x_1,x_2,...,x_n)$ satisface las propiedades siguienes:
 \begin{enumerate}
   \item Es un espacio vectorial con $\dim(S_2(x_1,x_2,...,x_n))$
 \end{enumerate}
+\end{proposition}
 
 
 ## Ejemplos
