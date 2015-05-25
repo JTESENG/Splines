@@ -52,20 +52,18 @@ El conjunto $S_2(x_1,x_2,...,x_n)$ satisface las propiedades siguienes:
 
 ### Cota de error en los splines cúbicos
 
-<!--La prueba en el paper original ocupa 8 páginas, no sé si merece la pena(?)-->
 \begin{teorema}
 Sea $f \in C^4([a,b])$, $n \in \mathbb{N}$, $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$ y  $s \in S_3^1(P)$ spline para $f$. Además, sean $h = max\{x_i - x_{i-1}\}_{i = 1...n}$, $M > 0$ cota superior de $|f^{iv)}|$ en $[a,b]$, $E = f - s$, $x \in [a,b]$.
 
 Se verifica:
 
 \begin{equation} \label{eq:errorS31}
-|E(x)| \leq \frac{M}{384}h^4
+|E(x)| \leq \frac{5M}{384}h^4
 \end{equation}
 
 \end{teorema}
 
-\begin{proof}
-\end{proof}
+La prueba, así como cotas para las derivadas, puede consultarse en *Optimal Error Bounds for Cubic Spline Interpolation*, Charles Hall y Weston Meyer, (1976).
 
 ## Ejemplos
 
