@@ -9,6 +9,7 @@ header-includes:
 	\newtheorem*{teorema}{Teorema}
 	\theoremstyle{definition}
 	\newtheorem*{definicion}{Definición}
+	\newtheorem*{problema}{Problema}
 toc: true
 numbersections: true
 fontsize: 11pt
@@ -74,6 +75,32 @@ W. Kammerer, G. Reddien y R.S. Varga, (1973).
 ## Construcción a partir de los valores de $s''(x)$ en los nodos $\{x_i\}$
 
 ## Propiedades de minimización
+
+Comenzamos planteando un problema de minimización sobre $(C^2([a,b]), || \cdot ||)$, con la norma definida de la forma usual:
+
+\begin{equation}
+|| f || = \sqrt{ \int_a^b f(x)^2 dx }
+\end{equation}
+
+El problema es aproximar una función de clase 2 con funciones que la interpolen en
+unos nodos y cuyas derivadas en los extremos coincidan:
+ 
+\begin{problema}
+Sea $f \in C^2([a,b])$, $P \in \mathscr{P}([a,b])$. Sea $H \subset C^2([a,b])$ definido por:
+\[H = \{g \in C^2([a,b]) \; : \; \forall p \in P \; g(p) = f(p) \text{ y } \; g'(a) = f'(a), \; g'(b) = f'(b)\} \]
+
+Hallar $u \in H$ tal que $||f - u||$ sea mínimo.
+\end{problema}
+
+
+<!--\begin{teorema}[Minimización]
+Sea $f \in C^2([a,b])$, $P \in \mathscr{P}([a,b])$. Se verifica:
+\begin{equation}
+\int_a^b f(x)^2 dx \geq \int_a^b f(x)^2 dx
+\end{equation}
+\end{teorema}-->
+
+
 
 ### Cota de error en los splines cúbicos
 
@@ -149,10 +176,10 @@ end
 # Definiciones y notación
 
 \begin{definicion}
-Sea $I \subset \mathbb{R}$ un intervalo acotado:
+Sea $I \subset \mathbb{R}$ un intervalo cerrado y acotado con extremos $a,b$:
 
 \begin{itemize}
-\item Una \textbf{partición} de $I$ es un subconjunto finito de $I$.
+\item Una \textbf{partición} $P$ de $I$ es un subconjunto finito de $I$ con $a,b\in P$ .
 \item $\mathscr{P}(I)$ es el conjunto de todas las particiones de $I$.
 \end{itemize}
 \end{definicion}
