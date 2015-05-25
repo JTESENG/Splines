@@ -41,11 +41,8 @@ En cuanto a su dimensión, es finita y esta es n+2. Se demuestra fácilmente:
 
 Por otra parte, y con el conocimiento de la dimensión del espacio, podemos describir una base representativa del espacio de splines cuadráticos con el uso de potencias truncadas.
 
-Una base del espacio es : {1, x, x2, (x-x1)+2, ... , (x-xn-1)+2} con n+2 vectores linealmente independientes.
+Una base del espacio es : {1, x, x^2, (x-x1)+^2, ... , (x-xn-1)+^2} con n+2 vectores linealmente independientes.
 
-Demostración:
-
-... (En breve)
 
 ///// Lo de abajo es de Pablo
 El espacio de splines de clase 2 con $n$ nodos se denota $S_2(x_1,x_2,...,x_n)$.
