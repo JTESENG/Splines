@@ -76,20 +76,20 @@ W. Kammerer, G. Reddien y R.S. Varga, (1973).
 
 ## Propiedades de minimización
 
-Comenzamos planteando un problema de minimización sobre $(C^2([a,b]), || \cdot ||)$, con la norma definida de la forma usual:
+Comenzamos planteando un problema de minimización sobre el espacio normadoç
+ $(C^2([a,b]), || \cdot ||)$, con la norma definida de la forma usual:
 
 \begin{equation}
 || f || = \sqrt{ \int_a^b f(x)^2 dx }
 \end{equation}
 
-El problema es aproximar una función de clase 2 con funciones que la interpolen en
-unos nodos y cuyas derivadas en los extremos coincidan:
+Planteamos el problema:
  
 \begin{problema}
 Sea $f \in C^2([a,b])$, $P \in \mathscr{P}([a,b])$. Sea $H \subset C^2([a,b])$ definido por:
 \[H = \{g \in C^2([a,b]) \; : \; \forall p \in P \; g(p) = f(p) \text{ y } \; g'(a) = f'(a), \; g'(b) = f'(b)\} \]
 
-Hallar $u \in H$ tal que $||f - u||$ sea mínimo.
+Hallar $u \in H$ tal que $||u''||$ sea mínima.
 \end{problema}
 
 
