@@ -20,6 +20,8 @@ geometry: margin=1in
 
 # Splines cuadráticos
 
+##Introducción a los splines
+
 Un spline es una curva diferenciable definida a trozos en un intervalo [a,b]. Suponiendo que tenemos este intervalo, se define una partición P del intervalo anterior como P = {X0=a < X1 <...< Xn-1 < Xn=b}. Esta es la base de todo spline y el punto de partida para definir nuestro área de estudio: el spline cuadrático.
 
 ## Descripción del espacio de splines cuadráticos
