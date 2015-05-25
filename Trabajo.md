@@ -26,27 +26,28 @@ Un spline es una curva diferenciable definida a trozos en un intervalo [a,b]. Su
 
 ## Descripción del espacio de splines cuadráticos
 
-(¿Podriais ponerlo si sabeis en formato md? Que me hago un lio para poner los simbolitos y tal...
+(¿Podriais ponerlo si sabeis en formato md? Hay simbolos que sé poner y otros no...)
 
 Sea [a,b] un intervalo y P = {X0=a < X1 <...< Xn-1 < Xn=b} una partición del propio intervalo tal que {X0,X1...Xn} son los nodos de P
 Se define el espacio de spline cuadráticos como el conjunto de funciones a trozos o splines definidas en el intervalo dado y asociadas a la partición P anterior tal que sus trozos son polinomios de grado menor o igual que dos de la forma ax^2 + bx + c, además, son funciones continuas y derivables en [a,b] (con derivada continua), es decir, son de clase 1, lo que nos proporcionará condiciones interesantes para resolver problemas de interpolantes con este tipo de splines.
 
-Lo denotaremos como:  S2(x0, x1, ..., xn), tal que {x0,...xn} son los nodos de la partición P. Describamos a continuación este espacio.
+Lo denotaremos como:  $S_2(x_1,x_2,...,x_n)$, tal que $(x_0,...,x_n)$ son los nodos de la partición P. Describamos a continuación este espacio.
 
 En cuanto a su dimensión, es finita y esta es n+2. Se demuestra fácilmente:
 
 - Cada trozo de un spline cuadrático (llamémoslo s) es de la forma ax^2 + bx + c, por lo tanto cada trozo está determinado por 3 parámetros. Supongamos que tenemos n trozos, por lo que tenemos 3n parámetros en total.
 
-- Veamos las consecuencias de la continuidad y derivabilidad en todo el intervalo. Si imponemos esas condiciones tenemos que: si(xi) = si+1(xi) para todo i=1...n-1 y si'(xi) = si+1'(xi) para todo i=1...n-1. De cada condición se obtienen n-1 ecuaciones, por lo tanto obtendremos: n-1 + n-1 = 2n-2 ecuaciones linealmente independientes (esto se comprueba fácilmente sabiendo que si(xi) - si+1'(xi) = 0 y si'(xi) - si+1'(xi) = 0).
+- Veamos las consecuencias de la continuidad y derivabilidad en todo el intervalo. Si imponemos esas condiciones tenemos que: $s_i(x_i)=s_{i+1}(x_{i+1})$ para todo i=1...n-1 y $s_i'(x_i)=s_{i+1}'(x_{i+1})$ para todo $i=1...n-1$. De cada condición se obtienen n-1 ecuaciones, por lo tanto obtendremos: n-1 + n-1 = 2n-2 ecuaciones linealmente independientes.
 
-- Por lo tanto, la dimensión S2(x0, x1, ..., xn) será 3n-(2n-2), es decir, n+2 como queríamos demostrar.
+- Por lo tanto, $\dim(S_2(x_1,x_2,...,x_n))$ = 3n-(2n-2) = n+2, como queríamos demostrar.
 
 Por otra parte, y con el conocimiento de la dimensión del espacio, podemos describir una base representativa del espacio de splines cuadráticos con el uso de potencias truncadas.
 
-Una base del espacio es : {1, x, x^2, (x-x1)+^2, ... , (x-xn-1)+^2} con n+2 vectores linealmente independientes.
+Una base del espacio es : $(1, x, x^2, (x-x_1)+^2, ... , (x-x_{n-1})+^2} con n+2 vectores linealmente independientes.
 
 
 ///// Lo de abajo es de Pablo
+
 El espacio de splines de clase 2 con $n$ nodos se denota $S_2(x_1,x_2,...,x_n)$.
 Los splines de clase 2 están constituidos por parábolas, de forma que además de
 tener una función continua, su derivada también lo es.
