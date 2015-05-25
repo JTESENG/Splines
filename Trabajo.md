@@ -3,12 +3,16 @@ title: Ampliación de interpolación con Splines
 author: [Miguel Anguita Ruiz, Pablo Baeyens Fernández, Pablo David Medina Sánchez, Ruben Morales Pérez, Francisco Javier Morales Piqueras]
 lang: spanish
 header-includes:
+	\usepackage{mathrsfs}
 	\newtheorem{proposition}{Proposición}
-toc: false
-numbersections: false
+	\newtheorem{teorema}{Teorema}
+toc: true
+numbersections: true
 fontsize: 11pt
 geometry: margin=1in
 ---
+
+\pagebreak
 
 # Splines cuadráticos
 
@@ -38,6 +42,7 @@ El conjunto $S_2(x_1,x_2,...,x_n)$ satisface las propiedades siguienes:
 
 ## Ejemplos
 
+\pagebreak
 
 # Splines cúbicos
 
@@ -45,13 +50,32 @@ El conjunto $S_2(x_1,x_2,...,x_n)$ satisface las propiedades siguienes:
 
 ## Propiedades de minimización
 
+### Cota de error en los splines cúbicos
+
+<!--La prueba en el paper original ocupa 8 páginas, no sé si merece la pena(?)-->
+\begin{teorema}
+Sea $f \in C^4([a,b])$, $n \in \mathbb{N}$, $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$ y  $s \in S_3^1(P)$ spline para $f$. Además, sean $h = max\{x_i - x_{i-1}\}_{i = 1...n}$, $M > 0$ cota superior de $|f^{iv)}|$ en $[a,b]$, $E = f - s$, $x \in [a,b]$.
+
+Se verifica:
+
+\begin{equation} \label{eq:errorS31}
+|E(x)| \leq \frac{M}{384}h^4
+\end{equation}
+
+\end{teorema}
+
+\begin{proof}
+\end{proof}
+
 ## Ejemplos
+
+\pagebreak
 
 # Implementación en ordenador: Octave
 
 Hemos implementado las siguientes funciones en Octave:
 
-0. `SplineLineal`: Calcula spline **lineal**. *(Usado en los splines cúbicos)*
+1. `SplineLineal`: Calcula spline **lineal**. *(Usado en los splines cúbicos)*
 1. `Spline31` : Calcula spline de **clase 1**.
 1. `SplineNat`: Calcula spline **natural**.
 2. `SplinePer`: Calcula spline **periódico**.
