@@ -46,6 +46,7 @@ Una base del espacio es : {1, x, x2, (x-x1)+2, ... , (x-xn-1)+2} con n+2 vectore
 Demostración:
 
 ... (En breve)
+
 ///// Lo de abajo es de Pablo
 El espacio de splines de clase 2 con $n$ nodos se denota $S_2(x_1,x_2,...,x_n)$.
 Los splines de clase 2 están constituidos por parábolas, de forma que además de
