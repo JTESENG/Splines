@@ -74,33 +74,6 @@ W. Kammerer, G. Reddien y R.S. Varga, (1973).
 
 ## Construcción a partir de los valores de $s''(x)$ en los nodos $\{x_i\}$
 
-## Propiedades de minimización
-
-Comenzamos planteando un problema de minimización sobre $(C^2([a,b]), || \cdot ||)$, con la norma definida de la forma usual:
-
-\begin{equation}
-|| f || = \sqrt{ \int_a^b f(x)^2 dx }
-\end{equation}
-
-El problema es aproximar una función de clase 2 con funciones que la interpolen en
-unos nodos y cuyas derivadas en los extremos coincidan:
- 
-\begin{problema}
-Sea $f \in C^2([a,b])$, $P \in \mathscr{P}([a,b])$. Sea $H \subset C^2([a,b])$ definido por:
-\[H = \{g \in C^2([a,b]) \; : \; \forall p \in P \; g(p) = f(p) \text{ y } \; g'(a) = f'(a), \; g'(b) = f'(b)\} \]
-
-Hallar $u \in H$ tal que $||f - u||$ sea mínimo.
-\end{problema}
-
-
-<!--\begin{teorema}[Minimización]
-Sea $f \in C^2([a,b])$, $P \in \mathscr{P}([a,b])$. Se verifica:
-\begin{equation}
-\int_a^b f(x)^2 dx \geq \int_a^b f(x)^2 dx
-\end{equation}
-\end{teorema}-->
-
-
 
 /* Conclusión de cuadráticos
    El problema de este procedimiento se presenta cuando hay que especificar condicinoes
@@ -165,6 +138,35 @@ Un tipo de spline es el Not-a-knot, requiere que la tercera derivada en los punt
 x_1 y x_(n-1) sea continua. Esto es S'''_0(x_1)=S'''_1(x_1) y 
 S'''_(n-1)(x_(n-1))=S'''_n(x_(n-1)).
 
+
+
+
+
+## Propiedades de minimización
+
+Comenzamos planteando un problema de minimización sobre $(C^2([a,b]), || \cdot ||)$, con la norma definida de la forma usual:
+
+\begin{equation}
+|| f || = \sqrt{ \int_a^b f(x)^2 dx }
+\end{equation}
+
+El problema es aproximar una función de clase 2 con funciones que la interpolen en
+unos nodos y cuyas derivadas en los extremos coincidan:
+ 
+\begin{problema}
+Sea $f \in C^2([a,b])$, $P \in \mathscr{P}([a,b])$. Sea $H \subset C^2([a,b])$ definido por:
+\[H = \{g \in C^2([a,b]) \; : \; \forall p \in P \; g(p) = f(p) \text{ y } \; g'(a) = f'(a), \; g'(b) = f'(b)\} \]
+
+Hallar $u \in H$ tal que $||f - u||$ sea mínimo.
+\end{problema}
+
+
+<!--\begin{teorema}[Minimización]
+Sea $f \in C^2([a,b])$, $P \in \mathscr{P}([a,b])$. Se verifica:
+\begin{equation}
+\int_a^b f(x)^2 dx \geq \int_a^b f(x)^2 dx
+\end{equation}
+\end{teorema}-->
 
 
 
