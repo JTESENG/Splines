@@ -4,8 +4,11 @@ author: [Miguel Anguita Ruiz, Pablo Baeyens Fernández, Pablo David Medina Sánc
 lang: spanish
 header-includes:
 	\usepackage{mathrsfs}
-	\newtheorem{proposition}{Proposición}
-	\newtheorem{teorema}{Teorema}
+	\usepackage{amsthm}
+	\newtheorem*{proposition}{Proposición}
+	\newtheorem*{teorema}{Teorema}
+	\theoremstyle{definition}
+	\newtheorem*{definicion}{Definición}
 toc: true
 numbersections: true
 fontsize: 11pt
@@ -140,8 +143,49 @@ function s = coefsSplineCuad(x, y, d_k, k)
 end
 ```
 
-Definimos una función `pot` correspondiente a la potencia truncada
-en el valor correspondiente: `pot = @(t) (t > x(j-2)) .* (t - x(j-2))`.
-Como *Octave* tiene tipos dinámicos convertirá `(t > x(j-2))` a $1$ o $0$.
-De esta forma, $pot(x) = (x - x_{j-1})_+$.
+\pagebreak
+\appendix
+
+# Definiciones y notación
+
+\begin{definicion}
+Sea $I \subset \mathbb{R}$ un intervalo acotado:
+
+\begin{itemize}
+\item Una \textbf{partición} de $I$ es un subconjunto finito de $I$.
+\item $\mathscr{P}(I)$ es el conjunto de todas las particiones de $I$.
+\end{itemize}
+\end{definicion}
+
+\vspace*{3pt}
+
+\begin{definicion} Sea $a \in \mathbb{R}$, $n \in \mathbb{N}$. La 
+\textbf{potencia truncada} en $a$ de grado $n$, $(x - a)_+^n$ viene dada por: 
+
+\[
+ (x - a)_+^n =
+  \begin{cases}
+      0 			& \text{si } x \leq a \\
+   (x - a)^n   & \text{si } x > a
+  \end{cases}
+\]
+\end{definicion}
+
+Cualquier potencia truncada de grado $n$ es de clase $n - 1$, y su derivada de 
+orden $n$ presenta una discontinuidad en $a$. La derivada de $(x - a)_+^n$ en
+$x$ es $n(x - a)_+^{n-1}$.
+
+Su implementación en Octave es bastante sencilla: dados `a` y `n`, podemos definir
+la potencia truncada como función anónima de la siguiente forma:
+
+```octave
+pot = @(x) (x > a) * (x - a)^n
+```
+
+Como Octave tiene tipos dinámicos convertirá `(x > a)` a $1$ si $x > a$ y a $0$
+en otro caso.
+
+
+
+
 
