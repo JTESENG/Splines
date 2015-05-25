@@ -39,6 +39,28 @@ El conjunto $S_2(x_1,x_2,...,x_n)$ satisface las propiedades siguienes:
 \end{enumerate}
 \end{proposition}
 
+## Interpolación con splines cuadráticos
+
+## Error en los splines cuadráticos
+
+\begin{teorema}
+Sean $f \in C^2([a,b])$, $\{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$, $s \in S_2^1(\{x_i\}_{i = 0...n})$ spline para $f$, 
+
+$h = max\{x_i - x_{i-1}\}_{i = 1...n}$, $E = f - s$. Además, sea $M >0$ tal que:
+
+\[ M \geq Sup \{|f''(x) - f''(y)| \; : \; |x - y| \leq h, \; x,y \in [a,b] \}\]
+
+Entonces, se verifica, para todo $x \in [a,b]$:
+
+\begin{equation}
+E(x) \leq \frac{h^2M}{2}
+\end{equation}
+
+\end{teorema}
+
+La demostración, así como cotas para las derivadas y cotas más precisas en función
+de la localización de $x$ puede encontrarse en *Quadratic Interpolatory Splines*,
+W. Kammerer, G. Reddien y R.S. Varga, (1973).
 
 ## Ejemplos
 
@@ -53,7 +75,7 @@ El conjunto $S_2(x_1,x_2,...,x_n)$ satisface las propiedades siguienes:
 ### Cota de error en los splines cúbicos
 
 \begin{teorema}
-Sea $f \in C^4([a,b])$, $n \in \mathbb{N}$, $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$ y  $s \in S_3^1(P)$ spline para $f$. Además, sean $h = max\{x_i - x_{i-1}\}_{i = 1...n}$, $M > 0$ cota superior de $|f^{iv)}|$ en $[a,b]$, $E = f - s$, $x \in [a,b]$.
+Sea $f \in C^4([a,b])$, $n \in \mathbb{N}$, $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$ y  $s \in S_3^1(P)$ spline para $f$. Además, sean $h = max\{x_i - x_{i-1}\}_{i = 1...n}$, $M > 0$ cota superior de $|f^{iv)}|$ en $[a,b]$ y $E = f - s$, $x \in [a,b]$.
 
 Se verifica:
 
@@ -63,7 +85,7 @@ Se verifica:
 
 \end{teorema}
 
-La prueba, así como cotas para las derivadas, puede consultarse en *Optimal Error Bounds for Cubic Spline Interpolation*, Charles Hall y Weston Meyer, (1976).
+La demostración, así como cotas para las derivadas, puede consultarse en *Optimal Error Bounds for Cubic Spline Interpolation*, Charles Hall y Weston Meyer, (1976).
 
 ## Ejemplos
 
