@@ -102,6 +102,73 @@ Sea $f \in C^2([a,b])$, $P \in \mathscr{P}([a,b])$. Se verifica:
 
 
 
+/* Conclusión de cuadráticos
+   El problema de este procedimiento se presenta cuando hay que especificar condicinoes
+   respecto a la derivada del interpolante en los puntos extremos x_0 y x_n. No
+   existe un número suficiente de constantes para asegurar que se satisgafan las condiciones.
+*/
+
+###Splines cúbicos a partir de las segundas derivadas:
+Uno de los problemas de la interpolación polinomial es que, al ir aumentando los
+nodos (diferentes), el grado del polinomio aumenta (gr(p(x)) = nodos - 1). Esto
+conlleva unas fluctuaciones en los extremos de la interpolación. (**1)
+
+Sin embargo, si dividimos el intervalo en una partición P(n)={t_0=x_0<x_1<...<x_n=t_n}
+, con un serie de subintervalos,
+podemos aproximar un polinomio en cada intervalo minimizando la cota de error. (**3)
+
+Para no
+volver a tener el problema de las fluctuaciones, indeseables en la mayoría de las
+aplicaciones, se suelen utilizar polinomios interpolantes de grado <= 3.
+Esta técnica se conoce como aproximación polinomial fragmentaria, donde: (#1)
+
+/* Dato curioso
+   La palabra spline con el tiempo se usó para referirse a una larga banda flexible
+   generalmente de metal, que podía usarse para dibujar curvas continuas suaves,
+   forzando a la banda a pasar por puntos específicos y trazados a lo largo de la curva.
+   (**2)
+*/
+
+// Este tipo de aproximación tiene una desventaja, no se tiene asegurada la derivabilidad
+
+#### Spline cúbicos:
+La aproximación más utilizada es la interpolación de splines cúbicos debido a que
+proporciona un excelente ajuste a los puntos tabulados y su cálculo no es excesivamente
+complejo.
+Definimos una potencia truncada como: (**4)
+Una potencia truncada pertenece a Clase k-1, su derivada k-1 es continua.
+
+// Propiedades
+Dada una función definida en [a,b], una partición del intervalo P(n)={a=x_0<x_1<...<x_n=b}
+-S(x) es un polinomio cúbico denotado por S_j(x) en el subintervalo de extremos
+x_j y x_(j+1), para j=0,1,..n-1.
+-S_j(x_j) = f(x_j) y S_j(x_(j+1)) = f(x_(j+1))
+-S'_(j+1)(x_(j+1)) = S'_j(x_(j+1))
+-S''_(j+1)(x_(j+1)) = S''_j(x_(j+1))
+
+
+Dentro de los cúbicos encontramos los de clase 1 y 2, denotados por: (#)
+1.Los splines cúbicos de clase 1 son continuos y derivables en su dominio. Son un
+espacio vectorial de dimensión 2*(n+1), cuya base es: (**5).
+
+Una desventaja de estos splines es que no se asegura que haya derivabilidad en los
+extremos, en un contexto geométrico eso significa que la función no es "suave" en
+los puntos de unión. Generalmente las condiciones físicas necesitan esa suavidad,
+y es aquí donde intervienen los splines cúbicos de clase 2.
+
+2. Los splines cúbicos de clase 2 son continuos y 2 veces derivables.
+Como sabemos que la dimensión de un spline S_k^r es (k-r)+r+1 la dimensión de 
+este espacio vectorial es (3-2)n+2+1=n+3. Cuando k=r+1 el superíndice se omite.
+
+Como tenemos n+1 variables, tenemos 2 libertades en la resolución.
+Un tipo de spline es el Not-a-knot, requiere que la tercera derivada en los puntos
+x_1 y x_(n-1) sea continua. Esto es S'''_0(x_1)=S'''_1(x_1) y 
+S'''_(n-1)(x_(n-1))=S'''_n(x_(n-1)).
+
+
+
+
+
 ### Cota de error en los splines cúbicos
 
 \begin{teorema}
