@@ -3,8 +3,8 @@
 ## A Hacer
 
 - [ ] Splines cuadráticos
-	- [ ] Introducción
-	- [ ] Descripción del espacio de splines cuadráticos
+	- [X] Introducción
+	- [X] Descripción del espacio de splines cuadráticos
 	- [ ] Interpolación con splines cuadráticos
    	- [ ] A trozos
    	- [ ] Global
