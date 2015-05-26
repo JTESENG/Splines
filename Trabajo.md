@@ -37,10 +37,11 @@ La palabra **spline** con el tiempo se usó para referirse a una larga banda fle
 generalmente de metal, que podía usarse para dibujar curvas continuas suaves,
 forzando a la banda a pasar por puntos específicos y trazados a lo largo de la curva.
 
+
 ## Descripción del espacio de splines cuadráticos
 
 
-Partimos de $[a,b]$ un intervalo y $P \in \mathscr{P}([a,b])$. En esta primera sección 
+Partimos de $[a,b]$ un intervalo y $P \in \mathscr{P}([a,b])$. En esta primera sección
 nos centramos en los splines cuadráticos: los pertenecientes a $S_2^1(P)$.
 
 Sus trozos son polinomios de grado menor o igual que $2$ de la forma
@@ -108,7 +109,7 @@ W. Kammerer, G. Reddien y R.S. Varga, (1973).
 ## Ejemplos
 
 \begin{problema}
-Dados los datos de la tabla, halla mediante el método global el spline 
+Dados los datos de la tabla, halla mediante el método global el spline
 cuadrático que interpole los nodos y cuya derivada en $x_1$ sea $4$.
 \begin{table}[h]
 \centering
@@ -171,13 +172,32 @@ s(x) =
 \end{solucion}
 \pagebreak
 
+
+## Método local para la resolución de splines cuadráticos
+
+El problema que debemos resolver es el siguiente:
+
+
+	\begin{tabular}{|c|}
+		\hline
+		Hallar $s(x)\ \in S_2(x_0,x_1...,x_n)$ tal que:\\
+		$s(x_i)=y_i\ i=0,1,...,n$\\
+		$s'(x_i)=d_i\ i=0,1,...,n$\\
+		\hline
+	\end{tabular}
+
+La ecuación para cada $s_i$ sería la siguiente:
+
+	$s_i(x)=y_{i-1}+d_{i-1}(x-x_{i-1})+\frac{p_i-d_{i-1}}{h_i}(x-x_{i-1})(x-x_i)$
+
+Siendo $p_i$ La diferencia dividida de orden , y $h_i=x_i-x_{i-1}$
 # Splines cúbicos
 
-Uno de los problemas de la interpolación polinomial es que, al ir aumentando el 
-número de nodos el grado del polinomio necesario para interpolarlos aumenta. 
+Uno de los problemas de la interpolación polinomial es que, al ir aumentando el
+número de nodos el grado del polinomio necesario para interpolarlos aumenta.
 Esto conlleva fluctuaciones en los extremos de la interpolación. <!--(1)-->
 
-Si dividimos el intervalo en una partición podemos interpolar utilizando un 
+Si dividimos el intervalo en una partición podemos interpolar utilizando un
 polinomio en cada intervalo, es decir, utilizando **splines cúbicos**. Como veremos después este método minimiza la cota de error.
 
 <!--(**3)-->
@@ -187,7 +207,7 @@ polinomio en cada intervalo, es decir, utilizando **splines cúbicos**. Como ver
 <!--
 
 Creo que poner esto es repetirse con respecto a lo que se dice antes. Si quereis
-lo ponemos en la introducción porque puede escribirse de forma que corresponda a 
+lo ponemos en la introducción porque puede escribirse de forma que corresponda a
 splines cúbicos y cuadráticos.
 
 **Propiedades:**
@@ -205,7 +225,7 @@ $x_j$ y $x_{j+1}$, para $j=0,1,..n-1$.
 
 Dentro de los cúbicos encontramos los de clase 1 y 2, denotados por: <!--(#)-->
 
-1. Los splines cúbicos de clase 1 son continuos y derivables 
+1. Los splines cúbicos de clase 1 son continuos y derivables
 con derivada continua. Forman un espacio vectorial de dimensión $2(n+1)$, cuya base es: <!--(**5)-->.
 Estos splines no aseguran derivabilidad en los extremos.
 En un contexto geométrico esto significa que la función no es *suave* en
@@ -213,7 +233,7 @@ los puntos de unión. Generalmente las condiciones físicas necesitan esa suavid
 y es aquí donde intervienen los splines cúbicos de clase 2.
 
 2. Los splines cúbicos de clase 2 son continuos y 2 veces derivables.
-Como sabemos que la dimensión de un spline la dimensión de este espacio es 
+Como sabemos que la dimensión de un spline la dimensión de este espacio es
 $(3-2)n+2+1=n+3$.
 
 Como tenemos $n+1$ variables, tenemos $2$ libertades en la resolución.
