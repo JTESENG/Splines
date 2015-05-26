@@ -5,7 +5,7 @@ lang: spanish
 header-includes:
 	\usepackage{mathrsfs}
 	\usepackage{amsthm}
-	\newtheorem*{proposition}{Proposición}
+	\newtheorem*{proposicion}{Proposición}
 	\newtheorem*{teorema}{Teorema}
 	\theoremstyle{definition}
 	\newtheorem*{definicion}{Definición}
@@ -22,39 +22,54 @@ geometry: margin=1in
 
 ##Introducción a los splines
 
-Un spline es una curva diferenciable definida a trozos en un intervalo $[a,b]$. Suponiendo que tenemos este intervalo, se define una partición P del intervalo anterior como $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$. Esta es la base de todo spline y el punto de partida para definir nuestro área de estudio: el spline cuadrático.
+\begin{definicion}
+Sea $[a,b]$ un intervalo, $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$,
+$k,r \in \mathbb{N}$, $r < k$. Se dice que $s:[a,b] \to \mathbb{R}$ es un
+spline si $s \in C^r([a,b])$ y para todo $1 \leq i \leq n$,
+$s_{|[x_{i-1},x_i]} \in \mathbb{P}_k$. $S^r_k(P)$ es el espacio de dichas funciones.
+\end{definicion}.
 
 ## Descripción del espacio de splines cuadráticos
 
 
-Sea $[a,b]$ un intervalo y $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$.
-Se define el espacio de spline cuadráticos como el conjunto de funciones a trozos o 
-splines definidas en el intervalo dado y asociadas a la partición $P$ anterior tal que 
-sus trozos son polinomios de grado menor o igual que dos de la forma $ax^2 + bx + c$, 
-además, son funciones continuas y derivables en $[a,b]$ (con derivada continua), es 
-decir, son de clase 1, lo que nos proporcionará condiciones interesantes para resolver 
-problemas de interpolantes con este tipo de splines.
+Partimos de $[a,b]$ un intervalo y $P = \{x_i\}_{i = 0...n} \in
+\mathscr{P}([a,b])$. En esta primera sección nos centramos en los splines
+cuadráticos: los pertenecientes a $S_2^1(P)$.
 
-Lo denotaremos como:  $S_2(x_1,x_2,...,x_n)$, tal que $(x_0,...,x_n)$ son los nodos de la partición P. Describamos a continuación este espacio.
+Sus trozos son polinomios de grado menor o igual que $2$ de la forma
+$ax^2 + bx + c$. Además son funciones de clase $1$ (derivables en $[a,b]$
+con derivada continua), lo que nos proporcionará condiciones interesantes
+para resolver problemas de interpolantes con este tipo de splines.
 
-En cuanto a su dimensión, es finita y esta es $n+2$. Se demuestra fácilmente:
+Describamos a continuación este espacio.
 
-- Cada trozo de un spline cuadrático (llamémoslo $s$) es de la forma $ax^2 + bx + c$, por lo tanto cada trozo está determinado por 3 parámetros. Con $n trozos
-tenemos $3n$ parámetros en total.
+\begin{proposicion}
+Sea $[a,b]$ intervalo, $P = \{x_i\}_{i=0...n} \in \mathscr{P}([a,b])$, entonces $dim(S_2(P)) = n+2$.
+\end{proposicion}
 
-- Veamos las consecuencias de la continuidad y derivabilidad en todo el intervalo. Si 
-imponemos esas condiciones tenemos que: $s_i(x_i)=s_{i+1}(x_i)$ 
-para todo $i=1...n-1$ y $s_i'(x_i)=s_{i+1}'(x_i)$ para todo $i=1...n-1$. De cada 
-condición se obtienen $n-1$ ecuaciones, por lo tanto obtendremos: $n-1 + n-1 = 2n-2$
-ecuaciones linealmente independientes.
+\begin{proof}
 
-- Por lo tanto, $dim(S_2(x_1,x_2,...,x_n))$ = 3n-(2n-2) = n+2, como queríamos demostrar.
+Sea $s \in S_2(P)$.
 
-Por otra parte, y con el conocimiento de la dimensión del espacio, podemos describir 
-una base representativa del espacio de splines cuadráticos con el uso de potencias 
-truncadas.
+- Para cada intervalo $[x_{i-1}, x_i]$ $ s_|{[x_{i-1}, x_i]}(x) = ax^2 + bx + c$ para ciertos $a,b,c \in \mathbb{R}$. Por lo tanto cada trozo está determinado por 3 parámetros. Con $n$ trozos tenemos $3n$ parámetros en total.
 
-Una base del espacio es : $\{1, x, x^2, (x-x_1)_+^2, ... , (x-x_{n-1})_+^2\}$ con $n+2$ vectores linealmente independientes.
+- Si imponemos la continuidad y derivabilidad en los extremos tenemos que:
+
+\[
+s_i(x_i)=s_{i+1}(x_i)
+s_i'(x_i)=s_{i+1}'(x_i)
+\]
+
+para todo $i=1...n-1$. De cada condición se obtienen $n-1$ ecuaciones, por
+lo tanto obtendremos: $n-1 + n-1 = 2n-2$ ecuaciones linealmente
+independientes.
+
+Por lo tanto, $dim(S_2(P)) = 3n-(2n-2) = n+2$.
+\end{proof}
+
+Con el conocimiento de la dimensión del espacio podemos describir
+una base representativa del espacio de splines cuadráticos con el
+uso de potencias truncadas. Una **base del espacio** es : $\{1, x, x^2, (x-x_1)_+^2, ... , (x-x_{n-1})_+^2\}$.
 
 
 <!-- Lo de abajo es de Pablo
@@ -71,23 +86,27 @@ Por lo tanto, para $i=1,...,n-1$ tenemos la siguiente condición:
    \hline
 \end{tabular}
 
-\begin{proposition}
+\begin{proposicion}
 El conjunto $S_2(x_1,x_2,...,x_n)$ satisface las propiedades siguienes:
 \begin{enumerate}
   \item Es un espacio vectorial con $\dim(S_2(x_1,x_2,...,x_n))$
 \end{enumerate}
-\end{proposition} -->
+\end{proposicion} -->
 
 ## Interpolación con splines cuadráticos
 
 ## Error en los splines cuadráticos
 
 \begin{teorema}
-Sean $f \in C^2([a,b])$, $\{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$, $s \in S_2^1(\{x_i\}_{i = 0...n})$ spline para $f$, 
+Sean $f \in C^2([a,b])$, $\{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$,
+$s \in S_2^1(\{x_i\}_{i = 0...n})$ spline para $f$,
 
-$h = max\{x_i - x_{i-1}\}_{i = 1...n}$, $E = f - s$. Además, sea $M >0$ tal que:
+$h = max\{x_i - x_{i-1}\}_{i = 1...n}$, $E = f - s$.
+Además, sea $M >0$ tal que:
 
-\[ M \geq Sup \{|f''(x) - f''(y)| \; : \; |x - y| \leq h, \; x,y \in [a,b] \}\]
+\[
+ M \geq Sup \{|f''(x) - f''(y)| \; : \; |x - y| \leq h, \; x,y \in [a,b] \}
+ \]
 
 Entonces, se verifica, para todo $x \in [a,b]$:
 
@@ -97,8 +116,9 @@ E(x) \leq \frac{h^2M}{2}
 
 \end{teorema}
 
-La demostración, así como cotas para las derivadas y cotas más precisas en función
-de la localización de $x$ puede encontrarse en *Quadratic Interpolatory Splines*,
+La demostración, así como cotas para las derivadas y cotas más precisas en
+función de la localización de $x$ puede encontrarse en
+*Quadratic Interpolatory Splines*,
 W. Kammerer, G. Reddien y R.S. Varga, (1973).
 
 ## Ejemplos
@@ -109,20 +129,13 @@ W. Kammerer, G. Reddien y R.S. Varga, (1973).
 
 ## Construcción a partir de los valores de $s''(x)$ en los nodos $\{x_i\}$
 
-
-/* Conclusión de cuadráticos
-   El problema de este procedimiento se presenta cuando hay que especificar condicinoes
-   respecto a la derivada del interpolante en los puntos extremos x_0 y x_n. No
-   existe un número suficiente de constantes para asegurar que se satisgafan las condiciones.
-*/
-
-###Splines cúbicos a partir de las segundas derivadas:
+### Splines cúbicos a partir de las segundas derivadas:
 Uno de los problemas de la interpolación polinomial es que, al ir aumentando los
 nodos (diferentes), el grado del polinomio aumenta ($gr(p)) = n - 1$). Esto
 conlleva unas fluctuaciones en los extremos de la interpolación. (**1)
 
-Sin embargo, si dividimos el intervalo en una partición $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([t_0,t_n])$, con un serie de subintervalos, podemos aproximar un polinomio 
-en cada intervalo minimizando la cota de error. 
+Sin embargo, si dividimos el intervalo en una partición $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([t_0,t_n])$, con un serie de subintervalos, podemos aproximar un polinomio
+en cada intervalo minimizando la cota de error.
 
 <!--(**3)-->
 
@@ -138,21 +151,22 @@ Esta técnica se conoce como aproximación polinomial fragmentaria, donde: <!--(
    <!--(**2)
 
 
-// Este tipo de aproximación tiene una desventaja, no se tiene asegurada la derivabilidad 
+// Este tipo de aproximación tiene una desventaja, no se tiene asegurada la derivabilidad
 -->
 
-#### Spline cúbicos:
-La aproximación más utilizada es la interpolación con splines cúbicos debido a 
+ Spline cúbicos:
+La aproximación más utilizada es la interpolación con splines cúbicos debido a
 que proporciona un excelente ajuste a los puntos tabulados y su cálculo no es excesivamente complejo.
 
-<!-- Lo he definido yo (Pablo) en el apéndice 
+<!-- Lo he definido yo (Pablo) en el apéndice
 Definimos una potencia truncada como: (**4)
 Una potencia truncada pertenece a Clase k-1, su derivada k-1 es continua.-->
 
 **Propiedades:**
 
 
-Dada una función definida en $[a,b]$, una partición del intervalo $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$
+Dada una función definida en $[a,b]$, una partición del intervalo $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$:
+
 - $S$ es un polinomio cúbico denotado por $S_j$ en el subintervalo de extremos
 $x_j$ y $x_{j+1}$, para $j=0,1,..n-1$.
 - $S_j(x_j) = f(x_j)$ y $S_j(x_{j+1}) = f(x_{j+1})$
@@ -171,13 +185,13 @@ los puntos de unión. Generalmente las condiciones físicas necesitan esa suavid
 y es aquí donde intervienen los splines cúbicos de clase 2.
 
 2. Los splines cúbicos de clase 2 son continuos y 2 veces derivables.
-Como sabemos que la dimensión de un spline $S_k^r$ es $(k-r)n+r+1$ la dimensión de 
+Como sabemos que la dimensión de un spline $S_k^r$ es $(k-r)n+r+1$ la dimensión de
 este espacio vectorial es $(3-2)n+2+1=n+3$. Cuando $k=r+1$ el superíndice se omite.
 
 Como tenemos $n+1$ variables, tenemos $2$ libertades en la resolución.
 <!--Este dijo que no lo pusieramos.
 Un tipo de spline es el Not-a-knot, requiere que la tercera derivada en los puntos
-x_1 y x_(n-1) sea continua. Esto es S'''_0(x_1)=S'''_1(x_1) y 
+x_1 y x_(n-1) sea continua. Esto es S'''_0(x_1)=S'''_1(x_1) y
 S'''_(n-1)(x_(n-1))=S'''_n(x_(n-1)).-->
 
 
@@ -192,7 +206,7 @@ Comenzamos planteando un problema de minimización sobre el espacio normado
 \end{equation}
 
 Planteamos el problema:
- 
+
 \begin{problema}
 Sea $f \in C^2([a,b])$, $P \in \mathscr{P}([a,b])$. Sea $H \subset C^2([a,b])$ definido por:
 \[H = \{g \in C^2([a,b]) \; : \; \forall p \in P \; g(p) = f(p) \text{ y } \; g'(a) = f'(a), \; g'(b) = f'(b)\} \]
@@ -243,7 +257,7 @@ Hemos implementado las siguientes funciones en Octave:
 
 ## Spline Lineal
 
-La función que nos permite calcular un spline lineal es muy 
+La función que nos permite calcular un spline lineal es muy
 ```octave
 function s = SplineLineal(x,y)
   p = diff(y)./diff(x);
@@ -295,8 +309,8 @@ Sea $I \subset \mathbb{R}$ un intervalo cerrado y acotado con extremos $a,b$:
 
 \vspace*{3pt}
 
-\begin{definicion} Sea $a \in \mathbb{R}$, $n \in \mathbb{N}$. La 
-\textbf{potencia truncada} en $a$ de grado $n$, $(x - a)_+^n$ viene dada por: 
+\begin{definicion} Sea $a \in \mathbb{R}$, $n \in \mathbb{N}$. La
+\textbf{potencia truncada} en $a$ de grado $n$, $(x - a)_+^n$ viene dada por:
 
 \[
  (x - a)_+^n =
@@ -307,7 +321,7 @@ Sea $I \subset \mathbb{R}$ un intervalo cerrado y acotado con extremos $a,b$:
 \]
 \end{definicion}
 
-Cualquier potencia truncada de grado $n$ es de clase $n - 1$, y su derivada de 
+Cualquier potencia truncada de grado $n$ es de clase $n - 1$, y su derivada de
 orden $n$ presenta una discontinuidad en $a$. La derivada de $(x - a)_+^n$ en
 $x$ es $n(x - a)_+^{n-1}$.
 
@@ -320,8 +334,3 @@ pot = @(x) (x > a) * (x - a)^n
 
 Como Octave tiene tipos dinámicos convertirá `(x > a)` a $1$ si $x > a$ y a $0$
 en otro caso.
-
-
-
-
-
