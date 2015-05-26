@@ -131,7 +131,7 @@ W. Kammerer, G. Reddien y R.S. Varga, (1973).
 ### Splines cúbicos a partir de las segundas derivadas:
 Uno de los problemas de la interpolación polinomial es que, al ir aumentando los
 nodos (diferentes), el grado del polinomio aumenta ($gr(p)) = n - 1$). Esto
-conlleva unas fluctuaciones en los extremos de la interpolación. (**1)
+conlleva unas fluctuaciones en los extremos de la interpolación. (1)
 
 Sin embargo, si dividimos el intervalo en una partición $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([t_0,t_n])$, con un serie de subintervalos, podemos aproximar un polinomio
 en cada intervalo minimizando la cota de error.
@@ -154,12 +154,10 @@ Esta técnica se conoce como aproximación polinomial fragmentaria, donde: <!--(
 -->
 
  Spline cúbicos:
-La aproximación más utilizada es la interpolación con splines cúbicos debido a
-que proporciona un excelente ajuste a los puntos tabulados y su cálculo no es excesivamente complejo.
+La aproximación más utilizada es la interpolación con splines cúbicos
+debido a que proporciona un excelente ajuste a los puntos tabulados y su
+cálculo no es excesivamente complejo.
 
-<!-- Lo he definido yo (Pablo) en el apéndice
-Definimos una potencia truncada como: (**4)
-Una potencia truncada pertenece a Clase k-1, su derivada k-1 es continua.-->
 
 **Propiedades:**
 
@@ -197,12 +195,12 @@ S'''_(n-1)(x_(n-1))=S'''_n(x_(n-1)).-->
 
 ## Propiedades de minimización
 
-Comenzamos planteando un problema de minimización sobre el espacio normado
- $(C^2([a,b]), ||\cdot||)$, con la norma definida de la forma usual:
+Comenzamos planteando un problema de minimización sobre el espacio euclídeo
+ $(C^2([a,b]), <\cdot,\cdot>)$, con la métrica y norma definida de la forma usual:
 
-\begin{equation}
-|| f || = \sqrt{ \int_a^b f(x)^2 dx }
-\end{equation}
+$$<f,g> = \int_a^b fg, \qquad || f || = \sqrt{ \int_a^b f^2}$$
+
+\vspace*{\baselineskip}
 
 Planteamos el problema:
 
@@ -213,52 +211,70 @@ Sea $f \in C^2([a,b])$, $P \in \mathscr{P}([a,b])$. Sea $H \subset C^2([a,b])$ d
 Hallar $u \in H$ tal que $||u''||$ sea mínima.
 \end{problema}
 
+\vspace*{\baselineskip}
+
 Para resolver el problema, demostramos el siguiente teorema:
 
 \begin{teorema}[Minimización]
 Sea $f \in C^2([a,b])$, $P \in \mathscr{P}([a,b])$, $s$ spline sujeto para $f$. Se verifica:
 
-\begin{equation}
+\[
 \forall u \in H : \; ||s''|| \leq ||u''||
-\end{equation}
+\]
 \end{teorema}
+
+\vspace*{\baselineskip}
 
 \begin{proof}
 Sea $u \in H$, $e = u - s$. Tenemos:
 
-\begin{equation} \label{eq:norma}
+\[
 ||u''||^2 = ||e'' + s''||^2 = ||e''||^2 + ||s''||^2 + 2<e'', s''>
-\end{equation}
+\]
 
 Dividimos $<e'',s''>$ en intervalos:
-\begin{equation} \label{eq:producto}
-<e'',s''> = \int_a^b e''(x)s''(x) dx
-= \sum_{i = 1}^{n-1} \int_{x_i}^{x_{i+1}} e''(x)s''(x) dx
-\end{equation}
+\[
+<e'',s''> = \int_a^b e''s''
+= \sum_1^{n-1} \int_{x_i}^{x_{i+1}} e''s''
+\]
 
-En cada intervalo, integramos por partes ($u = s''$, $dv = e''(x)dx$):
-\begin{equation} \label{eq:partes}
-\int_{x_i}^{x_{i+1}} e''(x)s''(x) dx = \left. e'(x)s''(x) \right|_{x = x_i}^{x=x_{i+1}} - \int_{x_i}^{x_{i+1}}e's'''
-\end{equation}
+En cada intervalo, integramos por partes:
+\[
+\sum_1^{n-1}  \int_{x_i}^{x_{i+1}} e''s''
+= \sum_1^{n-1}  \left. e'(x)s''(x) \right|_{x_i}^{x_{i+1}} - \sum_1^{n-1}  \int_{x_i}^{x_{i+1}}e's'''
+\]
 
-Sustituyendo \ref{eq:partes} en \ref{eq:producto}, agrupando la integral
-y simplificando la suma tenemos:
+La primera sumatoria es una suma telescópica, por lo que conservamos
+el primer y último término:
+\[
+\sum_1^{n-1} \left. e'(x)s''(x) \right|_{x_i}^{x_{i+1}}
+= e'(b)s''(b) - e'(a)s''(a)
+= (u'(b) - s'(b))s''(b) - (u'(a) - s'(b))s''(a)
+= 0
+\]
 
-\begin{equation}
-<e'',s''> = \sum_{i = 1}^{n-1} \left(\left. e'(x)s''(x) \right|_{x = x_i}^{x=x_{i+1}} \right) - \sum_{i=1}^{n-1} \int_a^be's''' = \\
-(e'(b)s''(b) - e'(a)s''(a)) - \sum_{i=1}^{n-1} s_i\int_a^be'(x) = \\
-(e'(b)s''(b) - e'(a)s''(a)) - \sum_{i=1}^{n-1}  s_i(e(b) - e(a)) = 0
-\end{equation}
+ya que $u, s \in H$.
 
-Donde utilizamos que $e(a) = e(b) = 0$. Por tanto $<e'',s''> = 0$ y tenemos:
+En cuanto a la segunda, $s'''|_{[x_i, x_{i+1}]}$ es constante, por lo
+que podemos sacarlo de la integral:
+\[
+\sum_{1}^{n-1} s_i\int_a^be'(x) = \sum_{1}^{n-1}  s_i(e(b) - e(a)) = 0
+\]
 
-\begin{equation}
-||u''||^2 = ||e''||^2 + ||s''||^2 + 2<e'', s''> = ||e''||^2 + ||s''||^2 \geq ||s''||^2
-\end{equation}
+Es decir, $<e'',s''> = 0$. Por tanto:
 
-Por lo que $||s''|| \leq ||u''||$.
+\[
+||u''||^2 = ||e''||^2 + ||s''||^2 + 2<e'', s''>
+= ||e''||^2 + ||s''||^2 \geq ||s''||^2
+\]
+
+donde utilizamos que la norma siempre es positiva.
 \end{proof}
 
+Así, podemos observar que el **spline cúbico sujeto**
+asociado a una función $f$ tiene la menor norma de su segunda derivada
+de entre las que interpolan a $f$ en una partición dada, por lo que
+resuelve nuestro problema.
 
 ### Cota de error en los splines cúbicos
 
