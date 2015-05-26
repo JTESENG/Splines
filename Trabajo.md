@@ -56,8 +56,7 @@ Sea $s \in S_2(P)$.
 - Si imponemos la continuidad y derivabilidad en los extremos tenemos que:
 
 \[
-s_i(x_i)=s_{i+1}(x_i)
-s_i'(x_i)=s_{i+1}'(x_i)
+s_i(x_i)=s_{i+1}(x_i) \qquad s_i'(x_i)=s_{i+1}'(x_i)
 \]
 
 para todo $i=1...n-1$. De cada condición se obtienen $n-1$ ecuaciones, por
@@ -214,15 +213,51 @@ Sea $f \in C^2([a,b])$, $P \in \mathscr{P}([a,b])$. Sea $H \subset C^2([a,b])$ d
 Hallar $u \in H$ tal que $||u''||$ sea mínima.
 \end{problema}
 
+Para resolver el problema, demostramos el siguiente teorema:
 
-<!--\begin{teorema}[Minimización]
-Sea $f \in C^2([a,b])$, $P \in \mathscr{P}([a,b])$. Se verifica:
+\begin{teorema}[Minimización]
+Sea $f \in C^2([a,b])$, $P \in \mathscr{P}([a,b])$, $s$ spline sujeto para $f$. Se verifica:
+
 \begin{equation}
-\int_a^b f(x)^2 dx \geq \int_a^b f(x)^2 dx
+\forall u \in H : \; ||s''|| \leq ||u''||
 \end{equation}
-\end{teorema}-->
+\end{teorema}
 
+\begin{proof}
+Sea $u \in H$, $e = u - s$. Tenemos:
 
+\begin{equation} \label{eq:norma}
+||u''||^2 = ||e'' + s''||^2 = ||e''||^2 + ||s''||^2 + 2<e'', s''>
+\end{equation}
+
+Dividimos $<e'',s''>$ en intervalos:
+\begin{equation} \label{eq:producto}
+<e'',s''> = \int_a^b e''(x)s''(x) dx
+= \sum_{i = 1}^{n-1} \int_{x_i}^{x_{i+1}} e''(x)s''(x) dx
+\end{equation}
+
+En cada intervalo, integramos por partes ($u = s''$, $dv = e''(x)dx$):
+\begin{equation} \label{eq:partes}
+\int_{x_i}^{x_{i+1}} e''(x)s''(x) dx = \left. e'(x)s''(x) \right|_{x = x_i}^{x=x_{i+1}} - \int_{x_i}^{x_{i+1}}e's'''
+\end{equation}
+
+Sustituyendo \ref{eq:partes} en \ref{eq:producto}, agrupando la integral
+y simplificando la suma tenemos:
+
+\begin{equation}
+<e'',s''> = \sum_{i = 1}^{n-1} \left(\left. e'(x)s''(x) \right|_{x = x_i}^{x=x_{i+1}} \right) - \sum_{i=1}^{n-1} \int_a^be's''' = \\
+(e'(b)s''(b) - e'(a)s''(a)) - \sum_{i=1}^{n-1} s_i\int_a^be'(x) = \\
+(e'(b)s''(b) - e'(a)s''(a)) - \sum_{i=1}^{n-1}  s_i(e(b) - e(a)) = 0
+\end{equation}
+
+Donde utilizamos que $e(a) = e(b) = 0$. Por tanto $<e'',s''> = 0$ y tenemos:
+
+\begin{equation}
+||u''||^2 = ||e''||^2 + ||s''||^2 + 2<e'', s''> = ||e''||^2 + ||s''||^2 \geq ||s''||^2
+\end{equation}
+
+Por lo que $||s''|| \leq ||u''||$.
+\end{proof}
 
 
 ### Cota de error en los splines cúbicos
