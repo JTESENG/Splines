@@ -28,24 +28,23 @@ geometry: margin=1in
 
 \begin{definicion}
 Sea $[a,b]$ un intervalo, $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$,
-$k,r \in \mathbb{N}$, $r < k$ <!--o-->. Se dice que $s:[a,b] \to \mathbb{R}$ es un
+$k,r \in \mathbb{N}$, $r < k$ <!-->-->. Se dice que $s:[a,b] \to \mathbb{R}$ es un
 spline si $s \in C^r([a,b])$ y para todo $1 \leq i \leq n$,
 $s_{|[x_{i-1},x_i]} \in \mathbb{P}_k$. $S^r_k(P)$ es el espacio de dichas funciones.
-\end{definicion}.
+\end{definicion}
 
 ## Descripción del espacio de splines cuadráticos
 
 
-Partimos de $[a,b]$ un intervalo y $P = \{x_i\}_{i = 0...n} \in
-\mathscr{P}([a,b])$. En esta primera sección nos centramos en los splines
-cuadráticos: los pertenecientes a $S_2^1(P)$.
+Partimos de $[a,b]$ un intervalo y $P \in \mathscr{P}([a,b])$. En esta primera sección 
+nos centramos en los splines cuadráticos: los pertenecientes a $S_2^1(P)$.
 
 Sus trozos son polinomios de grado menor o igual que $2$ de la forma
 $ax^2 + bx + c$. Además son funciones de clase $1$ (derivables en $[a,b]$
-con derivada continua), lo que nos proporcionará condiciones interesantes
-para resolver problemas de interpolantes con este tipo de splines.
+con derivada continua), lo que proporciona condiciones interesantes
+para resolver problemas de interpolantes.
 
-Describamos a continuación este espacio.
+Veamos algunas propiedades:
 
 \begin{proposicion}
 Sea $[a,b]$ intervalo, $P = \{x_i\}_{i=0...n} \in \mathscr{P}([a,b])$, entonces $dim(S_2(P)) = n+2$.
@@ -55,9 +54,9 @@ Sea $[a,b]$ intervalo, $P = \{x_i\}_{i=0...n} \in \mathscr{P}([a,b])$, entonces 
 
 Sea $s \in S_2(P)$.
 
-- Para cada intervalo $[x_{i-1}, x_i]$ $ s_|{[x_{i-1}, x_i]}(x) = ax^2 + bx + c$ para ciertos $a,b,c \in \mathbb{R}$. Por lo tanto cada trozo está determinado por 3 parámetros. Con $n$ trozos tenemos $3n$ parámetros en total.
+- Para cada intervalo $[x_{i-1}, x_i]$ $ s|_{[x_{i-1}, x_i]}(x) = ax^2 + bx + c$ para ciertos $a,b,c \in \mathbb{R}$. Por lo tanto cada trozo está determinado por 3 parámetros. Con $n$ trozos tenemos $3n$ parámetros en total.
 
-- Si imponemos la continuidad y derivabilidad en los extremos tenemos que:
+- Si imponemos la continuidad y derivabilidad en los extremos tenemos que
 
 \[
 s_i(x_i)=s_{i+1}(x_i) \qquad s_i'(x_i)=s_{i+1}'(x_i)
@@ -71,30 +70,8 @@ Por lo tanto, $dim(S_2(P)) = 3n-(2n-2) = n+2$.
 \end{proof}
 
 Con el conocimiento de la dimensión del espacio podemos describir
-una base representativa del espacio de splines cuadráticos con el
-uso de potencias truncadas. Una **base del espacio** es : $\{1, x, x^2, (x-x_1)_+^2, ... , (x-x_{n-1})_+^2\}$.
-
-
-<!-- Lo de abajo es de Pablo
-
-El espacio de splines de clase 2 con $n$ nodos se denota $S_2(x_1,x_2,...,x_n)$.
-Los splines de clase 2 están constituidos por parábolas, de forma que además de
-tener una función continua, su derivada también lo es.
-Por lo tanto, para $i=1,...,n-1$ tenemos la siguiente condición:
-
-\begin{tabular}{|c|}
-   \hline
-   $s_i(x_i)=s_{i+1}(x_{i+1})$\\
-   $s_i'(x_i)=s_{i+1}'(x_{i+1})$\\
-   \hline
-\end{tabular}
-
-\begin{proposicion}
-El conjunto $S_2(x_1,x_2,...,x_n)$ satisface las propiedades siguienes:
-\begin{enumerate}
-  \item Es un espacio vectorial con $\dim(S_2(x_1,x_2,...,x_n))$
-\end{enumerate}
-\end{proposicion} -->
+una base del espacio de splines cuadráticos con el uso de potencias truncadas.
+ Una **base del espacio** es: $\{1, x, x^2, (x-x_1)_+^2, ... , (x-x_{n-1})_+^2\}$.
 
 ## Interpolación con splines cuadráticos
 
@@ -192,38 +169,22 @@ s(x) =
 
 # Splines cúbicos
 
-## Construcción a partir de los valores de $s''(x)$ en los nodos $\{x_i\}$
+Uno de los problemas de la interpolación polinomial es que, al ir aumentando el 
+número de nodos el grado del polinomio necesario para interpolarlos aumenta. 
+Esto conlleva fluctuaciones en los extremos de la interpolación. <!--(1)-->
 
-### Splines cúbicos a partir de las segundas derivadas:
-Uno de los problemas de la interpolación polinomial es que, al ir aumentando los
-nodos (diferentes), el grado del polinomio aumenta ($gr(p)) = n - 1$). Esto
-conlleva unas fluctuaciones en los extremos de la interpolación. (1)
-
-Sin embargo, si dividimos el intervalo en una partición $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([t_0,t_n])$, con un serie de subintervalos, podemos aproximar un polinomio
-en cada intervalo minimizando la cota de error.
+Si dividimos el intervalo en una partición podemos interpolar utilizando un 
+polinomio en cada intervalo, es decir, utilizando **splines cúbicos**. Como veremos después este método minimiza la cota de error.
 
 <!--(**3)-->
-
-Para no
-volver a tener el problema de las fluctuaciones, indeseables en la mayoría de las
-aplicaciones, se suelen utilizar polinomios interpolantes de grado $\leq 3$.
-Esta técnica se conoce como aproximación polinomial fragmentaria, donde: <!--(#1)-->
-
-<!-- Dato curioso
-   La palabra spline con el tiempo se usó para referirse a una larga banda flexible
-   generalmente de metal, que podía usarse para dibujar curvas continuas suaves,
-   forzando a la banda a pasar por puntos específicos y trazados a lo largo de la curva.
-   <!--(**2)
+ <!--(#1)-->
 
 
-// Este tipo de aproximación tiene una desventaja, no se tiene asegurada la derivabilidad
--->
+<!--
 
- Spline cúbicos:
-La aproximación más utilizada es la interpolación con splines cúbicos
-debido a que proporciona un excelente ajuste a los puntos tabulados y su
-cálculo no es excesivamente complejo.
-
+Creo que poner esto es repetirse con respecto a lo que se dice antes. Si quereis
+lo ponemos en la introducción porque puede escribirse de forma que corresponda a 
+splines cúbicos y cuadráticos.
 
 **Propiedades:**
 
@@ -235,27 +196,29 @@ $x_j$ y $x_{j+1}$, para $j=0,1,..n-1$.
 - $S_j(x_j) = f(x_j)$ y $S_j(x_{j+1}) = f(x_{j+1})$
 - $S'_{j+1}(x_{j+1}) = S'_j(x_{j+1})$
 - $S''_{j+1}(x_{j+1}) = S''_j(x_{j+1})$
+-->
 
 
 Dentro de los cúbicos encontramos los de clase 1 y 2, denotados por: <!--(#)-->
 
-1. Los splines cúbicos de clase 1 son continuos y derivables en su dominio. Son un
-espacio vectorial de dimensión 2*(n+1), cuya base es: <!--(**5)-->.
-
-Una desventaja de estos splines es que no se asegura que haya derivabilidad en los
-extremos, en un contexto geométrico eso significa que la función no es *suave* en
+1. Los splines cúbicos de clase 1 son continuos y derivables 
+con derivada continua. Forman un espacio vectorial de dimensión $2(n+1)$, cuya base es: <!--(**5)-->.
+Estos splines no aseguran derivabilidad en los extremos.
+En un contexto geométrico esto significa que la función no es *suave* en
 los puntos de unión. Generalmente las condiciones físicas necesitan esa suavidad,
 y es aquí donde intervienen los splines cúbicos de clase 2.
 
 2. Los splines cúbicos de clase 2 son continuos y 2 veces derivables.
-Como sabemos que la dimensión de un spline $S_k^r$ es $(k-r)n+r+1$ la dimensión de
-este espacio vectorial es $(3-2)n+2+1=n+3$. Cuando $k=r+1$ el superíndice se omite.
+Como sabemos que la dimensión de un spline la dimensión de este espacio es 
+$(3-2)n+2+1=n+3$.
 
 Como tenemos $n+1$ variables, tenemos $2$ libertades en la resolución.
 <!--Este dijo que no lo pusieramos.
 Un tipo de spline es el Not-a-knot, requiere que la tercera derivada en los puntos
 x_1 y x_(n-1) sea continua. Esto es S'''_0(x_1)=S'''_1(x_1) y
 S'''_(n-1)(x_(n-1))=S'''_n(x_(n-1)).-->
+
+## Construcción a partir de los valores de $s''$ en los nodos $\{x_i\}$
 
 
 
