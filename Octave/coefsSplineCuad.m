@@ -14,6 +14,7 @@ function s = coefsSplineCuad(x, y, d_k, k)
   end
 
   # Resolución del sistema
+  A
   s = A \ [y' ; d_k];
 
 end

@@ -5,11 +5,15 @@ lang: spanish
 header-includes:
 	\usepackage{mathrsfs}
 	\usepackage{amsthm}
+	\usepackage{booktabs}
+	\usepackage{caption}
 	\newtheorem*{proposicion}{Proposición}
 	\newtheorem*{teorema}{Teorema}
 	\theoremstyle{definition}
 	\newtheorem*{definicion}{Definición}
 	\newtheorem*{problema}{Problema}
+	\theoremstyle{remark}
+	\newtheorem*{solucion}{Solución}
 toc: true
 numbersections: true
 fontsize: 11pt
@@ -24,7 +28,7 @@ geometry: margin=1in
 
 \begin{definicion}
 Sea $[a,b]$ un intervalo, $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$,
-$k,r \in \mathbb{N}$, $r < k$. Se dice que $s:[a,b] \to \mathbb{R}$ es un
+$k,r \in \mathbb{N}$, $r < k$ <!--o-->. Se dice que $s:[a,b] \to \mathbb{R}$ es un
 spline si $s \in C^r([a,b])$ y para todo $1 \leq i \leq n$,
 $s_{|[x_{i-1},x_i]} \in \mathbb{P}_k$. $S^r_k(P)$ es el espacio de dichas funciones.
 \end{definicion}.
@@ -122,6 +126,68 @@ W. Kammerer, G. Reddien y R.S. Varga, (1973).
 
 ## Ejemplos
 
+\begin{problema}
+Dados los datos de la tabla, halla mediante el método global el spline 
+cuadrático que interpole los nodos y cuya derivada en $x_1$ sea $4$.
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}l|lllll@{}}
+$x_i$ & 2 & 4 & 5 & 8 \\
+$y_i$ & 7 & 3 & 5 & 5 \\
+$d_i$ &   & 4 &   &   \\
+\end{tabular}
+\end{table}
+\end{problema}
+
+\begin{solucion}
+
+Debemos hallar $s \in S_2(P)$ con $a,b,c, \alpha, \beta \in \mathbb{R}$ tales que, para $x \in [2,8]$:
+
+\[ s(x)  = a + bx + cx^2 + \alpha (x - 4)^2_+ + \beta (x -5)^2_+\]
+
+Planteamos el sistema de ecuaciones $GX = b$:
+
+\[
+\begin{pmatrix}
+1 & 2 & 4  & 0  & 0\\
+1 & 4 & 16 & 0  & 0\\
+1 & 5 & 25 & 0  & 0\\
+1 & 8 & 64 & 16 & 9\\
+0 & 1 &  8 & 0  & 0
+\end{pmatrix}
+\begin{pmatrix}
+a 		 \\
+b 		 \\
+c 		 \\
+\alpha \\
+\beta
+\end{pmatrix}
+=
+\begin{pmatrix}
+7\\
+3\\
+5\\
+5\\
+4
+\end{pmatrix}
+\]
+
+Resolviendo el sistema, obtenemos la solución $a = 35, b = -20, c = 3, \alpha = -5, \beta = 2$. Por tanto, para $x \in [2,8]$:
+
+\[ s(x)  = 35 - 20x + 3x^2 -5(x - 4)^2_+ + 2(x -5)^2_+\]
+
+Es decir:
+
+\[
+s(x) =
+\begin{cases}
+3x^2 - 20x + 35  & x \in [2,4) \\
+8x^2 - 60x + 115 & x \in [4,5) \\
+5x^2 - 40x + 85  & x \in [5,8] \\
+\end{cases}
+\]
+
+\end{solucion}
 \pagebreak
 
 # Splines cúbicos
