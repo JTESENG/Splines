@@ -33,6 +33,10 @@ spline si $s \in C^r([a,b])$ y para todo $1 \leq i \leq n$,
 $s_{|[x_{i-1},x_i]} \in \mathbb{P}_k$. $S^r_k(P)$ es el espacio de dichas funciones.
 \end{definicion}
 
+La palabra **spline** con el tiempo se usó para referirse a una larga banda flexible
+generalmente de metal, que podía usarse para dibujar curvas continuas suaves,
+forzando a la banda a pasar por puntos específicos y trazados a lo largo de la curva.
+
 ## Descripción del espacio de splines cuadráticos
 
 
