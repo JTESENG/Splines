@@ -1,4 +1,4 @@
-function s = coefsSplineCuad(x, y, d_k, k)
+function B = SplineCuad(x, y, d_k, k)
   # Número de intervalos
   n = length(x) - 1;
 
@@ -14,7 +14,17 @@ function s = coefsSplineCuad(x, y, d_k, k)
   end
 
   # Resolución del sistema
-  A
-  s = A \ [y' ; d_k];
+  sol = A \ [y' ; d_k];
 
+  for k = 1:n
+    p = [sol(3), sol(2), sol(1)];
+
+    for l = 2:k
+      p += sol(l+2).*[1, -2.*x(l), x(l).^2];
+    end
+
+    B(k, :) = polyaffine(p,[-x(k) 1]);
+  end
+
+  s = mkpp(x,B);
 end
