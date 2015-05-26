@@ -57,8 +57,10 @@ Sea $s \in S_2(P)$.
 
 \[
 s_i(x_i)=s_{i+1}(x_i)
+
 s_i'(x_i)=s_{i+1}'(x_i)
 \]
+(MIRAD ESTO, EN EL PDF NO SE SEPARAN LAS CONDICIONES)
 
 para todo $i=1...n-1$. De cada condición se obtienen $n-1$ ecuaciones, por
 lo tanto obtendremos: $n-1 + n-1 = 2n-2$ ecuaciones linealmente
