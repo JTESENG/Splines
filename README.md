@@ -14,7 +14,7 @@
    	- [ ] Spline sujeto
    	- [ ] Spline natural
    	- [ ] Spline periódico
-	- [ ] Propiedades de minimización
+	- [X] Propiedades de minimización
 	- [ ] Ejemplos
 - [ ] Implementación en ordenador
 	- [ ] Splines cuadráticos
