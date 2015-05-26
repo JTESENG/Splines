@@ -438,3 +438,13 @@ pot = @(x) (x > a) * (x - a)^n
 
 Como Octave tiene tipos dinámicos convertirá `(x > a)` a $1$ si $x > a$ y a $0$
 en otro caso.
+
+
+
+
+
+
+
+${ S^{''}_i(x) = M_{i-1}{(x_i-x)}/h_i + M_i{(x-x_{i-1})/h_i} }$ *for* $x \in {[x_{i-1},x_i]}$
+
+${ S_i(x) = M_{i-1}{(x_i-x)^3/6h_i} + {M_i(x-x_{i-1})/6h_i} +{(y_{i-1}-{(M_{i-1}h^2_i)/6})}{(x_i-x)/h_i} + {(y_i-{(M_ih^2_i)/6}) {(x-x_{i-1})/h_i}} for x \in [x_{i-1},x_i]}$
