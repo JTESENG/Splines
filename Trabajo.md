@@ -185,36 +185,35 @@ Tenemos los siguientes matrices y vectores:
 - $b$: vector con los valores que queremos interpolar.
 
 De esta forma, deberíamos resolver el sistema $GX=b$.
-El sistema queda:
 
-\[
+Sea $x^{*}$ el punto en el que conocemos la derivada y d(x^{*}) la derivada en sí, el sistema queda:
+
+\begin{equation*}
 \begin{pmatrix}
-1 & x_0 & x_0^2  & \cdots & (x_0-x_1)_{+}^2 & \cdots & (x_0-x_{n-1})_{+}^2\\
-1 & x_1 & x_1^2  & \cdots & (x_1-x_1)_{+}^2 & \cdots & (x_1-x_{n-1})_{+}^2\\
-\vdots  &        &        &                 &        & \vdots \\
-\vdots  &        &        &                 &        & \vdots \\
-\vdots  &        &        &                 &        & \vdots \\
-1 & x_n & x_n^2  & \cdots & (x_n-x_1)_{+}^2 & \cdots & (x_n-x_{n-1})_{+}^2\\
-0 &   1 &  2x^{*}  & \cdots & 2(x^{*}-x_1)_{+} & \cdots & 2(x^{*}-x_{n-1})_{+}         
+	1 & x_0 & x_0^2   & (x_0-x_1)_{+}^2 & \cdots & (x_0-x_{n-1})_{+}^2\\
+	1 & x_1 & x_1^2   & (x_1-x_1)_{+}^2 & \cdots & (x_1-x_{n-1})_{+}^2\\
+	\vdots& & \vdots  & \vdots          & \cdots & \vdots \\
+	\vdots& & \vdots  & \vdots          & \cdots & \vdots \\
+	1 & x_n & x_n^2   & (x_n-x_1)_{+}^2 & \cdots & (x_n-x_{n-1})_{+}^2\\
+	0 &   1 &  2x^{*} & 2(x^{*}-x_1)_{+} & \cdots & 2(x^{*}-x_{n-1})_{+}         
 \end{pmatrix}
 \begin{pmatrix}
-a 		 \\
-\vdots 		 \\
-z		 \\
-\alpha \\
-\beta \\
-\vdots \\
-\omega
+	a 		 \\
+	\vdots 		 \\
+	z		 \\
+	\alpha \\
+	\vdots \\
+	\omega
 \end{pmatrix}
 =
 \begin{pmatrix}
-y_0\\
-\vdots\\
-\vdots\\
-y_n\\
-d(x^{*})\\
+	y_0\\
+	\vdots\\
+	\vdots\\
+	y_n\\
+	d(x^{*})\\
 \end{pmatrix}
-\]
+\end{equation*}
 
 
 
