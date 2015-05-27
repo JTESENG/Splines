@@ -264,72 +264,66 @@ S'''_(n-1)(x_(n-1))=S'''_n(x_(n-1)).-->
 
 ## Construcción a partir de los valores de $s''$ en los nodos $\{x_i\}$
 
-Vamos a plantear un método de resolución utilizando las segundas derivadas, denotamos por $M_i = S^{''}(x_i)$ y $h_i=x_i-x_{i-1}$ con $i=1, ... n.$
+Vamos a plantear un método de resolución utilizando las segundas derivadas, denotamos,
+para $i=1, ... n-1$:
 
-${ S^{''}(x_i) = S^{''}_i(x_i) = S^{''}_{i+1}(x_i) }$ con $i=1, ... {n-1}$, ${ S^{''}(x_0) = M_0 }$ y ${ S^{''}(x_n) = M_n }$
+- $M_i = S''(x_i)$, que son desconocidos a priori salvo en un spline natural.
+- $h_i = x_i-x_{i-1}$
 
-$M_i$ son desconocidos a priori, salvo en un spline natural.
+Como el spline es de clase 2, tenemos para $i=1, ... {n-1}$:
+$$S''(x_i) = S''_i(x_i) = S''_{i+1}(x_i)$$
 
-Por las características de suavidad de los splines cúbicos de clase 2, cada intervalo es un polinomio $S_i$ de grado 3, por ende, $S^{''}_i$ es lineal.
-
-${ S^{''}_i(x) = M_{i-1}{(x_i-x)}/h_i + M_i{(x-x_{i-1})/h_i} }$ para $x \in {[x_{i-1},x_i]}$
-
-Integramos dos veces y usamos que $S_i(x_{i-1}) = y_{i-1}$ y $S_i(x_i) = y_i$ para las constantes de integración.
-
-${ S_i(x) = M_{i-1}{(x_i-x)^3/6h_i} + {M_i(x-x_{i-1})/6h_i} +{(y_{i-1}-{(M_{i-1}h^2_i)/6})}{(x_i-x)/h_i} }$ 
-${ + {(y_i-{(M_ih^2_i)/6}) {(x-x_{i-1})/h_i}} }$ para ${x \in [x_{i-1},x_i]}$
-
-Esta ecuación nos permite calcular $S(x)$ si conocemos $M_i$ con $i=0,1,...n$ 
-Las condiciones de suavidad en las ligaduras nos permiten igualar:  ${ S^{'}_{i+1}(x_i) = S^{'}_{i}(x_i) }$ 
-
-Derivando una vez, si $x \in {[x_{i-1},x_i]}$
-
-${ S^{'}_i(x) = -M_{i-1}(x_i-x)^2/2h_i + M_i(x-x_{i-1})^2/2h_i + (y_i-y_{i-1})/h_i -(M_i-M_{i-1})h_i/6 }$
-
-Si $x \in {[x_{i},x_{i+1}]}$ : 
-
-${ S^{'}_{i+1}(x) = -M_i(x_{i+1}-x)^2/2h_i + M_{i+1}(x-x_i)^2/2h_{i+1} + (y_{i+1}-y_i)/h_{i+1} -(M_{i+1}-M_i)h_{i+1}/6 }$
+La restricción a cada intervalo de $S$ es un polinomio $S_i$ de grado 3, por ende, $S''_i$ es lineal, con expresión para $x \in [x_{i-1},x_i]$:
 
 
-Recordando que $h_i=x_i-x_{i-1}$ e igualando ${S^{'}_{i+1}(x_i) = S^{'}_i(x_i)}$:
+$$S''_i(x) = M_{i-1} \frac{x_i-x}{h_i} + M_i\frac{x-x_{i-1}}{h_i}$$
 
-${ -M_i(h_{i+1})/2 + (y_{i+1}-y_i)/h_{i+1} -(M_{i+1}-M_i)h_{i+1}/6 }$
+Integramos dos veces usando que $S_i(x_{i-1}) = y_{i-1}$ y $S_i(x_i) = y_i$ para las constantes de integración obteniendo, para ${x \in [x_{i-1},x_i]}$:
 
-${ =  M_ih_i/2 + (y_i-y_{i-1})/h_i -(M_i-M_{i-1})h_i/6 }$ 
+$$S_i(x) = M_{i-1}\frac{(x_i-x)^3}{6h_i} + M_i\frac{x-x_{i-1}}{6h_i} + \frac{y_{i-1} - M_{i-1}h^2_i}{6} \cdot \frac{x_i-x}{h_i} + \frac{y_i- M_ih^2_i}{6} \cdot \frac{x-x_{i-1}}{h_i}$$ 
+
+Esta ecuación nos permite calcular $S$ conocidas $M_i$ con $i=0,1,...n$.
+Las condiciones de suavidad en las ligaduras nos permiten igualar $S'_{i+1}(x_i) = S'_i(x_i)$. Derivando una vez, si $x \in {[x_{i-1},x_i]}$:
+
+$$S'_i(x) = -M_{i-1}\frac{(x_i-x)^2}{2h_i} + M_i\frac{(x-x_{i-1})^2}{2h_i} + \frac{y_i-y_{i-1}}{h_i} -(M_i-M_{i-1})\frac{h_i}{6}$$
+
+Si $x \in {[x_{i},x_{i+1}]}$: 
+
+$$S'_{i+1}(x) = -M_i\frac{(x_{i+1}-x)^2}{2h_i} + M_{i+1}\frac{(x-x_i)^2}{2h_{i+1}}
+ + \frac{y_{i+1}-y_i}{h_{i+1}} -(M_{i+1}-M_i)\frac{h_{i+1}}{6}$$
+
+
+Recordando que $h_i = x_i - x_{i-1}$ e igualando $S'_{i+1}(x_i) = S'_i(x_i)$:
+
+$$-M_i\frac{h_{i+1}}{2} + \frac{y_{i+1}-y_i}{h_{i+1}} -(M_{i+1}-M_i)\frac{h_{i+1}}{6}
+=  M_i\frac{h_i}{2} + \frac{y_i-y_{i-1}}{h_i} -(M_i-M_{i-1})\frac{h_i}{6}$$ 
 
 Agrupamos los $M_i$: 
 
-${ -M_i(h_{i+1})/2 + M_ih_{i+1}/6 - M_ih_i/2 + M_ih_i/6 + (y_{i+1}-y_i)/h_{i+1} - (y_i-y_{i-1})/h_i }$
+$$-M_i\frac{h_{i+1}}{2} + M_i\frac{h_{i+1}}{6} - M_i\frac{h_i}{2} + M_i\frac{h_i}{6} + \frac{y_{i+1}-y_i}{h_{i+1}} - \frac{y_i-y_{i-1}}{h_i} =  M_{i+1}\frac{h_{i+1}}{6} + M_{i-1}\frac{h_i}{6}$$
 
-${ =  M_{i+1}h_{i+1}/6 + M_{i-1}h_i/6  }$
+Multiplicamos a ambos lados por $6$, sacamos factor común y recordamos que $f[x_i,x_{i+1}] = \frac{y_{i+1}-y_i}{h_{i+1}}$:
 
-Multiplicamos a ambos lados por $6$, sacamos factor común y recordamos que ${ f{[x_i,x_{i+1}]} = (y_{i+1}-y_i)/h_{i+1} }$ 
-
-${ 6M_i(-3h_{i+1}/6 + h_{i+1}/6 - 3h_i/6 + h_i/6) + 6(f{[x_i,x_{i+1}]} - f{[x_{i-1},x_i]}) }$
-
-${ =  M_{i+1}h_{i+1} + M_{i-1}h_i  }$
+$$6M_i\frac{-3h_{i+1}}{6} + \frac{h_{i+1}}{6} - 3\frac{h_i}{6} + \frac{h_i}{6} + 6(f[x_i,x_{i+1}] - f[x_{i-1},x_i]) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
 
 
 Agrupando y multiplicando $M_i$ arriba y abajo por $-2$: 
 
-${ -2M_i(-2h_{i+1}-3h_i+h_i)/(-2) + 6(f{[x_i,x_{i+1}]} - f{[x_{i-1},x_i]}) }$
+$$-2M_i\frac{-2h_{i+1}-3h_i+h_i}{-2} + 6(f{[x_i,x_{i+1}]} - f{[x_{i-1},x_i]}) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
 
-${ =  M_{i+1}h_{i+1} + M_{i-1}h_i  }$
+Pasamos el $M_i$ a la derecha y dividimos por $(h_{i+1}+h_i)$ en ambos lados:
 
-Pasamos el $M_i$ a la derecha y dividimos por $(h_{i+1}+h_i)$ en ambos lados.
+$$6\frac{f{[x_i,x_{i+1}]} - f{[x_{i-1},x_i]}}{h_{i+1}-h_i} =  M_{i+1}\frac{h_{i+1}}{h_{i+1}+h_i} + M_{i-1}\frac{h_i}{h_{i+1}+h_i} + 2M_i$$
 
-${ 6(f{[x_i,x_{i+1}]} - f{[x_{i-1},x_i]})/(h_{i+1}-h_i) }$
-${ =  M_{i+1}h_{i+1}/(h_{i+1}+h_i) + M_{i-1}h_i/(h_{i+1}+h_i) + 2M_i  }$
+$$6f{[x_{i-1},x_i,x_{i+1}]} = \frac{M_{i+1}h_{i+1} + M_{i-1}h_i}{h_{i+1}+h_i} + 2M_i$$
 
-${ 6f{[x_{i-1},x_i,x_{i+1}]} = (M_{i+1}h_{i+1} + M_{i-1}h_i)/(h_{i+1}+h_i) + 2M_i  }$
 
-Denotando por ${ m_i=h_i/(h_i+h_{i+1}) }$, ${ \lambda_i = h_{i+1}/(h_i+h_{i+1}) }$ y ${ \gamma_i = 6f{[x_{i-1},x_i,x_{i+1}]} }$:
+Denotando por $m_i = \frac{h_i}{h_i+h_{i+1}}$, $\lambda_i = \frac{h_{i+1}}{h_i+h_{i+1}}$ y $\gamma_i = 6f[x_{i-1},x_i,x_{i+1}]$:
 
-${ m_iM_{i-1} + 2M_i + \lambda_iM_{i+1} = \gamma_i }$
+$$m_iM_{i-1} + 2M_i + \lambda_iM_{i+1} = \gamma_i$$
 
-Con los $M_i$ en las ligaduras tendremos $4(n-1)$ variables, hasta llegar a las $4n$ que necesitamos nos faltan dos condiciones.
-
-Hay diferentes condiciones que se nos pueden presentar:
+Con los $M_i$ en las ligaduras tendremos $4(n-1)$ variables, para que el sistema
+sea determinado nos faltan dos condiciones. Hay diferentes condiciones que se nos pueden presentar:
 
 -**Spline sujeto** 
 $S^{'}_1(x_0)=f^{'}_0$ y $S^{'}_n(x_n)=f^{'}_n$
