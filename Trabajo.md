@@ -26,10 +26,9 @@ geometry: margin=1in
 
 ##Introducción a los splines
 
-
 La palabra **spline** con el tiempo se usó para referirse a una larga banda flexible
 generalmente de metal, que podía usarse para dibujar curvas continuas suaves,
-forzando a la banda a pasar por puntos específicos y trazados a lo largo de la curva.
+forzando a la banda a pasar por puntos específicos y trazados a lo largo de dicha curva.
 
 La formalización del concepto de función spline, es decir, una curva continua
 que pasa por ciertos puntos se resume en la siguiente definición:
@@ -48,7 +47,7 @@ nos centramos en los splines cuadráticos: los pertenecientes a $S_2^1(P)$.
 
 Sus trozos son polinomios de grado menor o igual que $2$ de la forma
 $ax^2 + bx + c$. Además son funciones de clase $1$ (derivables en $[a,b]$
-con derivada continua), lo que proporciona condiciones interesantes
+con derivada continua), lo que proporciona unas condiciones interesantes
 para resolver problemas de interpolantes.
 
 Veamos algunas propiedades:
@@ -119,7 +118,7 @@ $x_k$ & $y_k$ & $d_k$ & $\frac{d_k-p_k}{h_k}$\\
 
 \vspace*{2\baselineskip}
 
-De esta forma, $s_k$ queda, para $x \in [x_{k-1}, x_k]$:
+De esta forma, $s_k$ queda, para $x \in [x_{k-1}, x_k]$
 
 \begin{equation} \label{eq:sk}
 s_k(x)=y_{k-1}+p_k(x-x_{k-1})+\frac{d_k-p_k}{h_k}(x-x_{k-1})(x-x_k)
@@ -147,7 +146,7 @@ $x_{k+1}$ & $y_{k+1}$ & $p_{k+1}$ & $\frac{p_{k+1}-d_k}{h_k}$ \\
 
 \vspace*{2\baselineskip}
 
-De esta forma, $s_k+1$ queda para $x \in [x_k, x_{k+1}]$ de la siguiente forma:
+De esta forma, $s_{k+1}$ queda para $x \in [x_k, x_{k+1}]$ de la siguiente forma:
 
 \begin{equation} \label{eq:skmas}
 s_{k+1}(x)=y_k+d_k(x-x_k)+\frac{p_{k+1}-d_k}{h_{k+1}}(x-x_k)(x-x_{k+1})
@@ -171,7 +170,6 @@ El método queda entonces de la siguiente forma:
 \end{enumerate}
 \end{enumerate}
 
-
 \end{solucion}
 
 ### Método global: cálculo con una base de potencias truncadas
@@ -189,12 +187,39 @@ Tenemos los siguientes matrices y vectores:
 De esta forma, deberíamos resolver el sistema $GX=b$.
 El sistema queda:
 
+\[
+\begin{pmatrix}
+1 & x_0 & x_0^2  & \cdots & (x_0-x_1)_{+}^2 & \cdots & (x_0-x_{n-1})_{+}^2\\
+1 & x_1 & x_1^2  & \cdots & (x_1-x_1)_{+}^2 & \cdots & (x_1-x_{n-1})_{+}^2\\
+\vdots  &
+\vdots  &
+1 & x_n & x_n^2  & \cdots & (x_n-x_1)_{+}^2 & \cdots & (x_n-x_{n-1})_{+}^2\\
+0 &   1 &  2x^{*}  & \cdots & 2(x^{*}-x_1)_{+} & \cdots & 2(x^{*}-x_{n-1})_{+}         
+\end{pmatrix}
+\begin{pmatrix}
+a 		 \\
+b 		 \\
+c 		 \\
+\alpha \\
+\beta
+\end{pmatrix}
+=
+\begin{pmatrix}
+7\\
+3\\
+5\\
+5\\
+4
+\end{pmatrix}
+\]
+
+
 
 ## Error en los splines cuadráticos
 
 \begin{teorema}
 Sean $f \in C^2([a,b])$, $\{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$,
-$s \in S_2^1(\{x_i\}_{i = 0...n})$ spline para $f$,
+$s \in S_2^1(\{x_i\}_{i = 0,...,n})$ spline para $f$,
 
 $h = max\{x_i - x_{i-1}\}_{i = 1...n}$, $E = f - s$.
 Además, sea $M >0$ tal que:
@@ -622,7 +647,7 @@ function s = SplineCuad(x, y, d_k, k)
   # Número de intervalos
   n = length(x) - 1;
 
-  # 1, x, x²
+  # 1, x, x^2
   A(:,1) = [ones(n+1,1); 0];
   A(:,2) = [x'         ; 1];
   A(:,3) = [x'.^2      ; 2.*x(k+1)];
