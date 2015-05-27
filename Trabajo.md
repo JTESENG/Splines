@@ -601,6 +601,41 @@ function s = coefsSplineCuad(x, y, d_k, k)
 
 end
 ```
+Otra implementación posible es calcular el spline a trozos:
+
+```octave
+function z = func (x, y, der, n) 
+	s=zeros(length(x)-1, 3);
+    d=der;
+    
+    #Recorremos todos los nodos de n+1 en adelante:
+    
+    for i=(n+1):length(x)
+		p=(y(i)-y(i-1))/(x(i)-x(i-1));
+        q=(p-d)/(x(i)-x(i-1));
+        v=[x(i-1) x(i-1)];
+        s(i-1,:)=[0 0 y(i-1)]+[0 d -d*x(i-1)]+q*poly(v);
+        d=2*p-d;     
+	endfor
+    d=der;
+    
+    #Recorremos todos los nodos desde n hasta el 1:
+    
+    for i=0:(n-2) 
+    	j=n-i;
+        j-1
+        p=(y(j)-y(j-1))/(x(j)-x(j-1));
+        q=(d-p)/(x(j)-x(j-1));
+        v=[x(j-1) x(j)];
+    	s(j-1,:)=[0 0 y(j-1)]+[0 p -p*x(j-1)]+q*poly(v);               
+    endfor
+    
+    for i=1:length(s)
+    	s(i,:)=polyaffine(s(i,:), [-x(i), 1]);
+    endfor
+    z=mkpp(x, s);
+endfunction
+```
 
 \pagebreak
 \appendix
