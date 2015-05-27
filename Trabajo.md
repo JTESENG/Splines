@@ -186,11 +186,32 @@ El problema que debemos resolver es el siguiente:
 		\hline
 	\end{tabular}
 
-La ecuación para cada $s_i$ sería la siguiente:
+Para todo nodo desde $1$ hasta $n$ calculamos la tabla de Diferencias Divididas de la siguiente forma:
 
-	$s_i(x)=y_{i-1}+d_{i-1}(x-x_{i-1})+\frac{p_i-d_{i-1}}{h_i}(x-x_{i-1})(x-x_i)$
+\begin{tabular}{|l |l |l |l |}
+\hline
+	X & Y & DD 1 & DD 2\\
+	\hline
+	$x_{i-1}$ & $y_{i-1}$ & & \\
+	$x_i$ & $y_i$ & $p_i=\frac{y_i-y_{i-1}}{h_i}$ & \\
+	$x_i$ & $y_i$ & $d_i$ & \\
+\hline
+\end{tabular}
+Siendo h_i=x_i-x_{i-1}
 
-Siendo $p_i$ La diferencia dividida de orden , y $h_i=x_i-x_{i-1}$
+De esta forma, para cada x_i ya tendríamos una fórmula:
+
+$s_i(x)=y_{i-1}+p_i(x-x_{i-1})+\frac{d_i-p_i}{h_i}(x-x_{i-1})(x-x_i)$
+## Método global: cálculo con una base de potencias truncadas
+
+Para este método usaremos una base del espacio vectorial $S_2(x_0,x_1...,x_n)$.
+
+Tenemos los siguientes matrices y vectores:
+$G$:matriz de Gram de nuestra base,
+$X$:vector de coeficientes
+$b$:vector con los valores que queremos interpolar.
+
+De esta forma, deberíamos resolver el sistema $G\ x=b$.
 # Splines cúbicos
 
 Uno de los problemas de la interpolación polinomial es que, al ir aumentando el
