@@ -78,8 +78,6 @@ Con el conocimiento de la dimensión del espacio podemos describir
 una base del espacio de splines cuadráticos con el uso de potencias truncadas.
  Una **base del espacio** es: $\{1, x, x^2, (x-x_1)_+^2, ... , (x-x_{n-1})_+^2\}$.
 
-## Interpolación con splines cuadráticos
-
 ## Error en los splines cuadráticos
 
 \begin{teorema}
@@ -173,35 +171,70 @@ s(x) =
 \pagebreak
 
 
+## Interpolación con splines cuadráticos
+
 ## Método local para la resolución de splines cuadráticos
 
 El problema que debemos resolver es el siguiente:
 
 
-	\begin{tabular}{|c|}
-		\hline
-		Hallar $s(x)\ \in S_2(x_0,x_1...,x_n)$ tal que:\\
-		$s(x_i)=y_i\ i=0,1,...,n$\\
-		$s'(x_i)=d_i\ i=0,1,...,n$\\
-		\hline
-	\end{tabular}
+\begin{tabular}{|c|}
+\hline
+Hallar $s(x)\ \in S_2(x_0,x_1...,x_n)$ tal que:\\
+$s(x_i)=y_i\ i=0,1,...,n$\\
+$s'(x_k)=d_k$\\
+\hline
+\end{tabular}
 
-Para todo nodo desde $1$ hasta $n$ calculamos la tabla de Diferencias Divididas de la siguiente forma:
+Es decir, sabemos los valores que toma la función en todos los nodos, y sabemos el valor de la derivada en el nodo k.
+
+Vamos calcular para un nodo $i$ el polinomio $s_i(x)$, teniendo la condición $i>0$, y que sabemos la derivada en el punto: $d_i$
 
 \begin{tabular}{|l |l |l |l |}
 \hline
-	X & Y & DD 1 & DD 2\\
-	\hline
-	$x_{i-1}$ & $y_{i-1}$ & & \\
-	$x_i$ & $y_i$ & $p_i=\frac{y_i-y_{i-1}}{h_i}$ & \\
-	$x_i$ & $y_i$ & $d_i$ & $\frac{d_i-p_i}{h_i}$\\
+X & Y & \text{DD 1} & \text{DD 2}\\
+\hline
+$x_{i-1}$ & $y_{i-1}$ & & \\
+$x_i$ & $y_i$ & $p_i=\frac{y_i-y_{i-1}}{h_i}$ & \\
+$x_i$ & $y_i$ & $d_i$ & $\frac{d_i-p_i}{h_i}$\\
 \hline
 \end{tabular}
 Siendo $h_i=x_i-x_{i-1}$
 
-De esta forma, para cada x_i ya tendríamos una fórmula:
+De esta forma, para cada $s_i$ ya tendríamos una fórmula:
 
-$s_i(x)=y_{i-1}+p_i(x-x_{i-1})+\frac{d_i-p_i}{h_i}(x-x_{i-1})(x-x_i)$
+$s_i(x)=y_{i-1}+p_k(x-x_{i-1})+\frac{d_k-p_k}{h_i}(x-x_{i-1})(x-x_k)$
+
+En el caso de que $i<n$, y que sabiendo la derivada en el punto $d_i$, calculamos la tabla de Diferencias divididas así:
+
+\begin{tabular}{|l |l |l |l |}
+\hline
+X & Y & DD 1 & DD 2\\
+\hline
+$x_i$ & $y_i$ & & \\
+$x_i$ & $y_i$ & $d_i$ & \\
+$x_{i+1}$ & $y_{i+1}$ & $p_{i+1}=\frac{y_{i+1}-y_i}{h_{i+1}}$ & $\frac{p_{i+1}-d_i}{h_i}$ \\
+\hline
+\end{tabular}
+
+Siendo $s_i(x)$ de la siguiente forma:
+
+$s_i(x)=y_i+d_i(x-x_i)+\frac{p_{i+1}-d_i}{h_{i+1}}(x-x_i)(x-x_{i+1})$
+
+Entonces, cuando empezamos, solo tenemos el nodo $k$, del que sabemos su derivada. De esta forma, usamos el método que haga falta.
+
+Ahora, tendremos que que ir despejando el polinomio en las ecuaciones que que que no quedan de esta forma.
+
+\begin{itemize}
+
+\item para $i$ desde $k-1$ hasta $0$, decrementando $i$ en cada paso:
+conocemos $s_i(x)$ así que evaluamos la derivadas en el nodo anterior
+: $s'_{i}(x_{i-1})=d_{i-1}$, por lo tanto, tenemos $y_{i-1}$, $y_i$, y
+ $d_{i-1}$, así que aplicamos el método primero para hallar $s_{i-1}(x)$.
+
+\item para $i$ desde $k+1$ gasta $n$, incrementando $i$ en cada pasos:
+sabemos que $s'_i(x_{i+1})=d_{i+1}$, tenemos $y_{i+1}$ $y_i$, y $d_{i+1}$, así que aplicamos el método segundo para hallar $s_{i+1}(x)$.
+\end{itemize}
 
 ## Método global: cálculo con una base de potencias truncadas
 
