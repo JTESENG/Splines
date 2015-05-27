@@ -37,9 +37,7 @@ La palabra **spline** con el tiempo se usó para referirse a una larga banda fle
 generalmente de metal, que podía usarse para dibujar curvas continuas suaves,
 forzando a la banda a pasar por puntos específicos y trazados a lo largo de la curva.
 
-
 ## Descripción del espacio de splines cuadráticos
-
 
 Partimos de $[a,b]$ un intervalo y $P \in \mathscr{P}([a,b])$. En esta primera sección
 nos centramos en los splines cuadráticos: los pertenecientes a $S_2^1(P)$.
@@ -246,6 +244,7 @@ $X$:vector de coeficientes
 $b$:vector con los valores que queremos interpolar.
 
 De esta forma, deberíamos resolver el sistema $G\ x=b$.
+
 # Splines cúbicos
 
 Uno de los problemas de la interpolación polinomial es que, al ir aumentando el
@@ -255,33 +254,27 @@ Esto conlleva fluctuaciones en los extremos de la interpolación. <!--(1)-->
 Si dividimos el intervalo en una partición podemos interpolar utilizando un
 polinomio en cada intervalo, es decir, utilizando **splines cúbicos**. Como veremos después este método minimiza la cota de error.
 
-<!--(**3)-->
- <!--(#1)-->
+\begin{equation}
+	S(x) =
+	\begin{cases}
+	S_0(x) 			& \text{si } x \in {[t_0,t_1)} \\
+	S_1(x)			& \text{si } x \in {[t_1,t_2)} \\
+	\vdots			& \vdots \\
+	S_{n-1}(x)		& \text{si } x \in {[t_{n-1},t_n)}
+	\end{cases}
+\end{equation}
+ 
+Esta interpolación lineal fragmentaria pasa por los puntos: 
+${ \{ (x_0,f(x_0)),(x_1,f(x_1)),...,(x_n,f(x_n)) \} }$
 
 
-<!--
-
-Creo que poner esto es repetirse con respecto a lo que se dice antes. Si quereis
-lo ponemos en la introducción porque puede escribirse de forma que corresponda a
-splines cúbicos y cuadráticos.
-
-**Propiedades:**
-
-
-Dada una función definida en $[a,b]$, una partición del intervalo $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$:
-
-- $S$ es un polinomio cúbico denotado por $S_j$ en el subintervalo de extremos
-$x_j$ y $x_{j+1}$, para $j=0,1,..n-1$.
-- $S_j(x_j) = f(x_j)$ y $S_j(x_{j+1}) = f(x_{j+1})$
-- $S'_{j+1}(x_{j+1}) = S'_j(x_{j+1})$
-- $S''_{j+1}(x_{j+1}) = S''_j(x_{j+1})$
--->
-
-
-Dentro de los cúbicos encontramos los de clase 1 y 2, denotados por: <!--(#)-->
+Dentro de los cúbicos encontramos los de clase 1 y 2, denotados po $S^{1}_3$ y $S^{2}_3$ (ó $S_3$).
 
 1. Los splines cúbicos de clase 1 son continuos y derivables
-con derivada continua. Forman un espacio vectorial de dimensión $2(n+1)$, cuya base es: <!--(**5)-->.
+con derivada continua. Forman un espacio vectorial de dimensión $2(n+1)$, cuya base es:
+
+${ \{1,x,x^2,x^3, (x-x_1)^{2}_{+},(x-x_1)^{3}_{+},...,(x-x_{n-1})^{2}_{+},(x-x_{n-1})^3_+ \} }$
+
 Estos splines no aseguran derivabilidad en los extremos.
 En un contexto geométrico esto significa que la función no es *suave* en
 los puntos de unión. Generalmente las condiciones físicas necesitan esa suavidad,
@@ -292,14 +285,171 @@ Como sabemos que la dimensión de un spline la dimensión de este espacio es
 $(3-2)n+2+1=n+3$.
 
 Como tenemos $n+1$ variables, tenemos $2$ libertades en la resolución.
-<!--Este dijo que no lo pusieramos.
-Un tipo de spline es el Not-a-knot, requiere que la tercera derivada en los puntos
-x_1 y x_(n-1) sea continua. Esto es S'''_0(x_1)=S'''_1(x_1) y
-S'''_(n-1)(x_(n-1))=S'''_n(x_(n-1)).-->
 
 ## Construcción a partir de los valores de $s''$ en los nodos $\{x_i\}$
 
+Vamos a plantear un método de resolución utilizando las segundas derivadas, denotamos,
+para $i=1, ... n-1$:
 
+- $M_i = S''(x_i)$, que son desconocidos a priori salvo en un spline natural.
+- $h_i = x_i-x_{i-1}$
+
+Como el spline es de clase 2, tenemos para $i=1, ... {n-1}$:
+$$S''(x_i) = S''_i(x_i) = S''_{i+1}(x_i)$$
+
+La restricción a cada intervalo de $S$ es un polinomio $S_i$ de grado 3, por ende, $S''_i$ es lineal, con expresión para $x \in [x_{i-1},x_i]$:
+
+
+$$S''_i(x) = M_{i-1} \frac{x_i-x}{h_i} + M_i\frac{x-x_{i-1}}{h_i}$$
+
+Integramos dos veces usando que $S_i(x_{i-1}) = y_{i-1}$ y $S_i(x_i) = y_i$ para las constantes de integración obteniendo, para ${x \in [x_{i-1},x_i]}$:
+
+$$S_i(x) = M_{i-1}\frac{(x_i-x)^3}{6h_i} + M_i\frac{x-x_{i-1}}{6h_i} + \frac{y_{i-1} - M_{i-1}h^2_i}{6} \cdot \frac{x_i-x}{h_i} + \frac{y_i- M_ih^2_i}{6} \cdot \frac{x-x_{i-1}}{h_i}$$ 
+
+Esta ecuación nos permite calcular $S$ conocidas $M_i$ con $i=0,1,...n$.
+Las condiciones de suavidad en las ligaduras nos permiten igualar $S'_{i+1}(x_i) = S'_i(x_i)$. Derivando una vez, si $x \in {[x_{i-1},x_i]}$:
+
+$$S'_i(x) = -M_{i-1}\frac{(x_i-x)^2}{2h_i} + M_i\frac{(x-x_{i-1})^2}{2h_i} + \frac{y_i-y_{i-1}}{h_i} -(M_i-M_{i-1})\frac{h_i}{6}$$
+
+Si $x \in {[x_{i},x_{i+1}]}$: 
+
+$$S'_{i+1}(x) = -M_i\frac{(x_{i+1}-x)^2}{2h_i} + M_{i+1}\frac{(x-x_i)^2}{2h_{i+1}}
+ + \frac{y_{i+1}-y_i}{h_{i+1}} -(M_{i+1}-M_i)\frac{h_{i+1}}{6}$$
+
+
+Recordando que $h_i = x_i - x_{i-1}$ e igualando $S'_{i+1}(x_i) = S'_i(x_i)$:
+
+$$-M_i\frac{h_{i+1}}{2} + \frac{y_{i+1}-y_i}{h_{i+1}} -(M_{i+1}-M_i)\frac{h_{i+1}}{6}
+=  M_i\frac{h_i}{2} + \frac{y_i-y_{i-1}}{h_i} -(M_i-M_{i-1})\frac{h_i}{6}$$ 
+
+Agrupamos los $M_i$: 
+
+$$-M_i\frac{h_{i+1}}{2} + M_i\frac{h_{i+1}}{6} - M_i\frac{h_i}{2} + M_i\frac{h_i}{6} + \frac{y_{i+1}-y_i}{h_{i+1}} - \frac{y_i-y_{i-1}}{h_i} =  M_{i+1}\frac{h_{i+1}}{6} + M_{i-1}\frac{h_i}{6}$$
+
+Multiplicamos a ambos lados por $6$, sacamos factor común y recordamos que $f[x_i,x_{i+1}] = \frac{y_{i+1}-y_i}{h_{i+1}}$:
+
+$$6M_i\frac{-3h_{i+1}}{6} + \frac{h_{i+1}}{6} - 3\frac{h_i}{6} + \frac{h_i}{6} + 6(f[x_i,x_{i+1}] - f[x_{i-1},x_i]) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
+
+
+Agrupando y multiplicando $M_i$ arriba y abajo por $-2$: 
+
+$$-2M_i\frac{-2h_{i+1}-3h_i+h_i}{-2} + 6(f{[x_i,x_{i+1}]} - f{[x_{i-1},x_i]}) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
+
+Pasamos el $M_i$ a la derecha y dividimos por $(h_{i+1}+h_i)$ en ambos lados:
+
+$$6\frac{f{[x_i,x_{i+1}]} - f{[x_{i-1},x_i]}}{h_{i+1}-h_i} =  M_{i+1}\frac{h_{i+1}}{h_{i+1}+h_i} + M_{i-1}\frac{h_i}{h_{i+1}+h_i} + 2M_i$$
+
+$$6f{[x_{i-1},x_i,x_{i+1}]} = \frac{M_{i+1}h_{i+1} + M_{i-1}h_i}{h_{i+1}+h_i} + 2M_i$$
+
+
+Denotando por $m_i = \frac{h_i}{h_i+h_{i+1}}$, $\lambda_i = \frac{h_{i+1}}{h_i+h_{i+1}}$ y $\gamma_i = 6f[x_{i-1},x_i,x_{i+1}]$:
+
+$$m_iM_{i-1} + 2M_i + \lambda_iM_{i+1} = \gamma_i$$
+
+Con los $M_i$ en las ligaduras tendremos $4(n-1)$ variables, para que el sistema
+sea determinado nos faltan dos condiciones. Hay diferentes condiciones que se nos pueden presentar:
+
+\vspace*{2\baselineskip}
+
+**Spline sujeto**
+ 
+$S'_1(x_0) = f'_0$ y $S'_n(x_n)=f'_n$. De acuerdo con la fórmula de $S^{'}(x)$ obtenemos:
+
+$$f'_0 = -\frac{M_0h_i}{2} + f[x_0,x_1] - \frac{(M_1 - M_0)h_i}{6} \implies  2M_0+M_1=\frac{6(f{[x_0,x_1]} - f^{'}_0)}{h_1} = 6f{[x_0,x_0,x_1]}$$
+
+Equivalentemente para $x_n$:
+
+\begin{multline*}
+S'_n(x_n) = - \frac{M_{n-1}(x_n-x_n)^2}{2h_n} + \frac{M_n(x_n-x_{n-1})^2}{2h_n} + \frac{(y_n-y_{n-1})}{h_n} - \frac{(M_n-M_{n-1})h_n}{6} \\ \implies
+M_{n-1}+2M_n=6f[x_{n-1},x_n,x_n]
+\end{multline*}
+
+Tomando $\mu_i = h_i/(h_i+h_{i+1})$, la matriz del sistema es:
+
+
+$$
+\begin{pmatrix}
+  2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
+  \mu_1  & 2	 		& \lambda_1  &   0       &    \vdots      \\
+  0      & \ddots    & \ddots     &  \ddots   &     0          \\
+  \vdots &     0     & \mu_{n-1}  &    2      & \lambda_{n-1}  \\
+  0      &   \cdots  &     0      &   \mu_n   &     2
+\end{pmatrix}
+\begin{pmatrix}
+  M_0 \\
+  M_1 \\
+  \vdots \\
+  M_{n-1} \\
+  M_n
+\end{pmatrix} =
+\begin{pmatrix}
+  \gamma_0 \\
+  \gamma_1 \\
+  \vdots \\
+  \gamma_{n-1} \\
+  \gamma_n
+\end{pmatrix}$$
+
+\vspace*{2\baselineskip}
+
+**Spline natural** 
+
+En este caso $M_0=0$ y $M_n=0$, por lo que el sistema queda:
+
+$$\begin{pmatrix}
+  2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
+  \mu_1  & 2	 		& \lambda_1  &   0       &    \vdots      \\
+  0      & \ddots    & \ddots     &  \ddots   &     0          \\
+  \vdots &     0     & \mu_{n-1}  &    2      & \lambda_{n-1}  \\
+  0      &   \cdots  &     0      &   \mu_n   &     2
+\end{pmatrix}
+\begin{pmatrix}
+  M_0 \\
+  M_1 \\
+  \vdots \\
+  M_{n-1} \\
+  M_n
+\end{pmatrix}
+\begin{pmatrix}
+  0 \\
+  \gamma_1 \\
+  \vdots \\
+  \gamma_{n-1} \\
+  0
+\end{pmatrix}$$
+
+\vspace*{2\baselineskip}
+
+**Spline periódico**
+
+En este caso $S'_1(x_0) = S'_n(x_n)$ y $S''_1(x_0) = S''_n(x_n)$. El sistema queda:
+
+<!--Falta plantearlo-->
+
+$$
+\begin{pmatrix}
+  2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
+  \mu_1  & 2	 		& \lambda_1  &   0       &    \vdots      \\
+  0      & \ddots    & \ddots     &  \ddots   &     0          \\
+  \vdots &     0     & \mu_{n-1}  &    2      & \lambda_{n-1}  \\
+  0      &   \cdots  &     0      &   \mu_n   &     2
+\end{pmatrix}
+\begin{pmatrix}
+  M_0 \\
+  M_1 \\
+  \vdots \\
+  M_{n-1} \\
+  M_n
+\end{pmatrix} =
+\begin{pmatrix}
+  0 \\
+  \gamma_1 \\
+  \vdots \\
+  \gamma_{n-1} \\
+  0
+\end{pmatrix}$$
+
+**CAMBIAR SISTEMA POR EL QUE ES!!!**
 
 ## Propiedades de minimización
 
@@ -493,13 +643,3 @@ pot = @(x) (x > a) * (x - a)^n
 
 Como Octave tiene tipos dinámicos convertirá `(x > a)` a $1$ si $x > a$ y a $0$
 en otro caso.
-
-
-
-
-
-
-
-${ S^{''}_i(x) = M_{i-1}{(x_i-x)}/h_i + M_i{(x-x_{i-1})/h_i} }$ *for* $x \in {[x_{i-1},x_i]}$
-
-${ S_i(x) = M_{i-1}{(x_i-x)^3/6h_i} + {M_i(x-x_{i-1})/6h_i} +{(y_{i-1}-{(M_{i-1}h^2_i)/6})}{(x_i-x)/h_i} + {(y_i-{(M_ih^2_i)/6}) {(x-x_{i-1})/h_i}} for x \in [x_{i-1},x_i]}$
