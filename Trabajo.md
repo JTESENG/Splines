@@ -37,9 +37,7 @@ La palabra **spline** con el tiempo se usó para referirse a una larga banda fle
 generalmente de metal, que podía usarse para dibujar curvas continuas suaves,
 forzando a la banda a pasar por puntos específicos y trazados a lo largo de la curva.
 
-
 ## Descripción del espacio de splines cuadráticos
-
 
 Partimos de $[a,b]$ un intervalo y $P \in \mathscr{P}([a,b])$. En esta primera sección
 nos centramos en los splines cuadráticos: los pertenecientes a $S_2^1(P)$.
@@ -213,6 +211,7 @@ $X$:vector de coeficientes
 $b$:vector con los valores que queremos interpolar.
 
 De esta forma, deberíamos resolver el sistema $G\ x=b$.
+
 # Splines cúbicos
 
 Uno de los problemas de la interpolación polinomial es que, al ir aumentando el
@@ -222,31 +221,27 @@ Esto conlleva fluctuaciones en los extremos de la interpolación. <!--(1)-->
 Si dividimos el intervalo en una partición podemos interpolar utilizando un
 polinomio en cada intervalo, es decir, utilizando **splines cúbicos**. Como veremos después este método minimiza la cota de error.
 
-<!--(**3)-->
- <!--(#1)-->
+\begin{equation}
+	S(x) =
+	\begin{cases}
+	S_0(x) 			& \text{si } x \in {[t_0,t_1)} \\
+	S_1(x)			& \text{si } x \in {[t_1,t_2)} \\
+	\vdots			& \vdots \\
+	S_{n-1}(x)		& \text{si } x \in {[t_{n-1},t_n)}
+	\end{cases}
+\end{equation}
+ 
+Esta interpolación lineal fragmentaria pasa por los puntos: 
+${ \{ (x_0,f(x_0)),(x_1,f(x_1)),...,(x_n,f(x_n)) \} }$
 
 
-<!--
-
-Creo que poner esto es repetirse con respecto a lo que se dice antes. Si quereis
-lo ponemos en la introducción porque puede escribirse de forma que corresponda a
-splines cúbicos y cuadráticos.
-
-**Propiedades:**
-Dada una función definida en $[a,b]$, una partición del intervalo $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$:
-
-- $S$ es un polinomio cúbico denotado por $S_j$ en el subintervalo de extremos
-$x_j$ y $x_{j+1}$, para $j=0,1,..n-1$.
-- $S_j(x_j) = f(x_j)$ y $S_j(x_{j+1}) = f(x_{j+1})$
-- $S'_{j+1}(x_{j+1}) = S'_j(x_{j+1})$
-- $S''_{j+1}(x_{j+1}) = S''_j(x_{j+1})$
--->
-
-
-Dentro de los cúbicos encontramos los de clase 1 y 2, denotados por: <!--(#)-->
+Dentro de los cúbicos encontramos los de clase 1 y 2, denotados po $S^{1}_3$ y $S^{2}_3$ (ó $S_3$).
 
 1. Los splines cúbicos de clase 1 son continuos y derivables
-con derivada continua. Forman un espacio vectorial de dimensión $2(n+1)$, cuya base es: <!--(**5)-->.
+con derivada continua. Forman un espacio vectorial de dimensión $2(n+1)$, cuya base es:
+
+${ \{1,x,x^2,x^3, (x-x_1)^{2}_{+},(x-x_1)^{3}_{+},...,(x-x_{n-1})^{2}_{+},(x-x_{n-1})^3_+ \} }$
+
 Estos splines no aseguran derivabilidad en los extremos.
 En un contexto geométrico esto significa que la función no es *suave* en
 los puntos de unión. Generalmente las condiciones físicas necesitan esa suavidad,
@@ -257,10 +252,6 @@ Como sabemos que la dimensión de un spline la dimensión de este espacio es
 $(3-2)n+2+1=n+3$.
 
 Como tenemos $n+1$ variables, tenemos $2$ libertades en la resolución.
-<!--Este dijo que no lo pusieramos.
-Un tipo de spline es el Not-a-knot, requiere que la tercera derivada en los puntos
-x_1 y x_(n-1) sea continua. Esto es S'''_0(x_1)=S'''_1(x_1) y
-S'''_(n-1)(x_(n-1))=S'''_n(x_(n-1)).-->
 
 ## Construcción a partir de los valores de $s''$ en los nodos $\{x_i\}$
 
@@ -336,13 +327,13 @@ $S^{'}_1(x_0)=f^{'}_0$ y $S^{'}_n(x_n)=f^{'}_n$
 
 De acuerdo con la fórmula de $S^{'}(x)$ obtenemos:
 
-${ f^{'}_0 = -M_0h_i/2 + f[x_0,x_1] - (M_1-M_0)h_i/6 }$
+${ f^{'}_0 = -\frac{M_0h_i}{2} + f[x_0,x_1] - \frac{(M_1-M_0)h_i}{6} }$
 
-${ \Rightarrow  2M_0+M_1=6/h_1(f{[x_0,x_1]} - f^{'}_0) = 6f{[x_0,x_0,x_1]} }$
+${ \Rightarrow  2M_0+M_1=\frac{6(f{[x_0,x_1]} - f^{'}_0)}{h_1} = 6f{[x_0,x_0,x_1]} }$
 
 Equivalentemente para $x_n$
 
-${ S^{'}_n(x_n) = -M_{n-1}(x_n-x_n)^2/2h_n + M_n(x_n-x_{n-1})^2/2h_n + (y_n-y_{n-1})/h_n -(M_n-M_{n-1})h_n/6}$
+${ S^{'}_n(x_n) = - \frac{M_{n-1}(x_n-x_n)^2}{2h_n} + \frac{M_n(x_n-x_{n-1})^2}{2h_n} + \frac{(y_n-y_{n-1})}{h_n} - \frac{(M_n-M_{n-1})h_n}{6} }$
 
 ${ \Rightarrow M_{n-1}+2M_n=6f{[x_{n-1},x_n,x_n]} }$
 
