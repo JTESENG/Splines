@@ -312,19 +312,19 @@ s(x) =
 # Splines cúbicos
 
 Uno de los problemas de la interpolación polinomial es que, al ir aumentando el
-número de nodos el grado del polinomio necesario para interpolarlos aumenta.
+número de nodos el grado del polinomio requerido para interpolarlos aumenta.
 Esto conlleva fluctuaciones en los extremos de la interpolación. <!--(1)-->
 
 Si dividimos el intervalo en una partición podemos interpolar utilizando un
-polinomio en cada intervalo, es decir, utilizando **splines cúbicos**. Como veremos después este método minimiza la cota de error.
+polinomio S_i(x) de grado 3 en cada intervalo, es decir, utilizando **splines cúbicos**. Como veremos después este método minimiza la cota de error.
 
 \begin{equation}
 	S(x) =
 	\begin{cases}
 	S_0(x) 			& \text{si } x \in {[x_0,x_1)} \\
 	S_1(x)			& \text{si } x \in {[x_1,x_2)} \\
-	\vdots			& \vdots \\
-	S_{n-1}(x)		& \text{si } x \in {[x_{n-1},x_n)}
+	S_i(x)   		& \text{si } x \in {[x_i,x_{i+1})} \\
+	S_{n-1}(x)		& \text{si } x \in {[x_{n-1},x_n]}
 	\end{cases}
 \end{equation}
 
@@ -335,7 +335,7 @@ ${ \{ (x_0,f(x_0)),(x_1,f(x_1)),...,(x_n,f(x_n)) \} }$
 Dentro de los cúbicos encontramos los de clase 1 y 2, denotados por $S^{1}_3$ y $S^{2}_3$ (ó $S_3$).
 
 1. Los splines cúbicos de **clase 1** son continuos y derivables
-con derivada continua. Forman un espacio vectorial de dimensión $2(n+1)$. Una base es:
+con derivada continua. Conforman un espacio vectorial de dimensión $2(n+1)$. Una base es:
 $$\{1,x,x^2,x^3, (x-x_1)^{2}_{+},(x-x_1)^{3}_{+},...,(x-x_{n-1})^{2}_{+},(x-x_{n-1})^3_+ \}$$
 Estos splines no aseguran derivabilidad en los extremos.
 En un contexto geométrico esto significa que la función no es *suave* en
@@ -344,13 +344,13 @@ y es aquí donde intervienen los splines cúbicos de clase 2.
 
 2. Los splines cúbicos de **clase 2** son continuos y 2 veces derivables.
 A partir de la fórmula general, la dimensión de este espacio para una partición
-$\{x_i\}_{i=0..n}$ es $dim S_3^2(P) = (3-2)n+2+1=n+3$. Como tenemos $n+1$ variables, 
+$\{x_i\}_{i=0,...,n}$ es $dim (S_3^2(P)) = (3-2)n+2+1=n+3$. Como tenemos $n+1$ variables, 
 tenemos $2$ libertades en la resolución.
 
 ## Construcción a partir de los valores de $s''$ en los nodos $\{x_i\}$
 
 Vamos a plantear un método de resolución utilizando las segundas derivadas, denotamos,
-para $i=1, ... n-1$:
+para $i=1, ..., n-1$:
 
 - $M_i = S''(x_i)$, que son desconocidos a priori salvo en un spline natural.
 - $h_i = x_i-x_{i-1}$
@@ -363,9 +363,9 @@ La restricción a cada intervalo de $S$ es un polinomio $S_i$ de grado 3, por en
 
 $$S''_i(x) = M_{i-1} \frac{x_i-x}{h_i} + M_i\frac{x-x_{i-1}}{h_i}$$
 
-Integramos dos veces usando que $S_i(x_{i-1}) = y_{i-1}$ y $S_i(x_i) = y_i$ para las constantes de integración obteniendo, para ${x \in [x_{i-1},x_i]}$:
+Integramos dos veces usando que $S_i(x_{i-1}) = y_{i-1}$ y $S_i(x_i) = y_i$ para las constantes de integración, obteniendo, para ${x \in [x_{i-1},x_i]}$:
 
-$$S_i(x) = M_{i-1}\frac{(x_i-x)^3}{6h_i} + M_i\frac{x-x_{i-1}}{6h_i} + \frac{y_{i-1} - M_{i-1}h^2_i}{6} \cdot \frac{x_i-x}{h_i} + \frac{y_i- M_ih^2_i}{6} \cdot \frac{x-x_{i-1}}{h_i}$$
+$$S_i(x) = M_{i-1}\frac{(x_i-x)^3}{6h_i} + M_i\frac{x-x_{i-1}}{6h_i} + (y_{i-1}-\frac{ M_{i-1}h^2_i}{6}) \cdot \frac{x_i-x}{h_i} + (y_i-\frac{ M_ih^2_i}{6}) \cdot \frac{x-x_{i-1}}{h_i}$$
 
 Esta ecuación nos permite calcular $S$ conocidas $M_i$ con $i=0,1,...n$.
 Las condiciones de suavidad en las ligaduras nos permiten igualar $S'_{i+1}(x_i) = S'_i(x_i)$. Derivando una vez, si $x \in {[x_{i-1},x_i]}$:
@@ -403,29 +403,33 @@ $$6\frac{f{[x_i,x_{i+1}]} - f{[x_{i-1},x_i]}}{h_{i+1}-h_i} =  M_{i+1}\frac{h_{i+
 $$6f{[x_{i-1},x_i,x_{i+1}]} = \frac{M_{i+1}h_{i+1} + M_{i-1}h_i}{h_{i+1}+h_i} + 2M_i$$
 
 
-Denotando por $m_i = \frac{h_i}{h_i+h_{i+1}}$, $\lambda_i = \frac{h_{i+1}}{h_i+h_{i+1}}$ y $\gamma_i = 6f[x_{i-1},x_i,x_{i+1}]$:
+- Denotando por $\mu_i = \frac{h_i}{h_i+h_{i+1}}$, $\lambda_i = 1-\mu_i = \frac{h_{i+1}}{h_i+h_{i+1}}$ y $\gamma_i = 6f[x_{i-1},x_i,x_{i+1}]$:
 
-$$m_iM_{i-1} + 2M_i + \lambda_iM_{i+1} = \gamma_i$$
+$$\mu_iM_{i-1} + 2M_i + \lambda_iM_{i+1} = \gamma_i (*)$$
 
 Con los $M_i$ en las ligaduras tendremos $4(n-1)$ variables, para que el sistema
 sea determinado nos faltan dos condiciones. Hay diferentes condiciones que se nos pueden presentar:
 
 \vspace*{2\baselineskip}
 
-**Spline sujeto**
+ - **Spline sujeto**
 
 $S'_1(x_0) = f'_0$ y $S'_n(x_n)=f'_n$. De acuerdo con la fórmula de $S'(x)$ obtenemos:
 
-$$f'_0 = -\frac{M_0h_i}{2} + f[x_0,x_1] - \frac{(M_1 - M_0)h_i}{6} \implies  2M_0+M_1=\frac{6(f{[x_0,x_1]} - f^{'}_0)}{h_1} = 6f{[x_0,x_0,x_1]}$$
+$$f'_0 = -\frac{M_0h_i}{2} + f[x_0,x_1] - \frac{(M_1 - M_0)h_i}{6} 
+
+\implies  2M_0+M_1=\frac{6(f{[x_0,x_1]} - f^{'}_0)}{h_1} = 6f{[x_0,x_0,x_1]} (*)$$
 
 Equivalentemente para $x_n$:
 
 \begin{multline*}
-S'_n(x_n) = - \frac{M_{n-1}(x_n-x_n)^2}{2h_n} + \frac{M_n(x_n-x_{n-1})^2}{2h_n} + \frac{(y_n-y_{n-1})}{h_n} - \frac{(M_n-M_{n-1})h_n}{6} \\ \implies
-M_{n-1}+2M_n=6f[x_{n-1},x_n,x_n]
+S'_n(x_n) = - \frac{M_{n-1}(x_n-x_n)^2}{2h_n} + \frac{M_n(x_n-x_{n-1})^2}{2h_n} + \frac{(y_n-y_{n-1})}{h_n} - \frac{(M_n-M_{n-1})h_n}{6} \\
+
+\implies
+M_{n-1}+2M_n=6f[x_{n-1},x_n,x_n] (*)
 \end{multline*}
 
-Tomando $\mu_i = h_i/(h_i+h_{i+1})$, la matriz del sistema es:
+Usando (*), la matriz del sistema es:
 
 
 $$
@@ -455,7 +459,7 @@ $$
 
 **Spline natural**
 
-En este caso $M_0=0$ y $M_n=0$, por lo que el sistema queda:
+En este caso $M_0=0$ y $M_n=0$, $\lambda_0 = \mu_n = 1$ por lo que el sistema queda:
 
 $$\begin{pmatrix}
   2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
@@ -465,18 +469,18 @@ $$\begin{pmatrix}
   0      &   \cdots  &     0      &   \mu_n   &     2
 \end{pmatrix}
 \begin{pmatrix}
-  M_0 \\
+  0 \\
   M_1 \\
   \vdots \\
   M_{n-1} \\
-  M_n
+  0
 \end{pmatrix}
 \begin{pmatrix}
-  0 \\
+  \gamma_0 \\
   \gamma_1 \\
   \vdots \\
   \gamma_{n-1} \\
-  0
+  \gamma_ {n}
 \end{pmatrix}$$
 
 \vspace*{2\baselineskip}
@@ -500,17 +504,18 @@ $$
   M_1 \\
   \vdots \\
   M_{n-1} \\
-  M_n
+  M_0
 \end{pmatrix} =
 \begin{pmatrix}
-  0 \\
+  \gamma_0 \\
   \gamma_1 \\
   \vdots \\
   \gamma_{n-1} \\
-  0
+  \gamma_n
 \end{pmatrix}$$
 
-**CAMBIAR SISTEMA POR EL QUE ES!!!**
+Una vez calculados estos M_i igualamos S^{'}_1(x)=S^{'}_n(x) para calcular los coeficientes que faltan.
+<!--**CAMBIAR SISTEMA POR EL QUE ES!!!**-->
 
 ## Propiedades de minimización
 
@@ -611,6 +616,69 @@ Se verifica:
 La demostración, así como cotas para las derivadas, puede consultarse en *Optimal Error Bounds for Cubic Spline Interpolation*, Charles Hall y Weston Meyer, (1976).
 
 ## Ejemplos
+
+**Sujeto**:
+
+-Debe pasar por los puntos: ${ (0,0),(1,0.5),(2,2)}$ y ${ (3,1.5) }$
+
+-${ S^{'}(0) = 0.2 }$ y ${ S^{'}(3) = -1 }$
+
+Al estar equiespaciados $h_i=1$ $\forall i$  
+${ \lambda_0 = \mu_3 = 1 }$ y ${ \lambda_1=\lambda_2=\mu_1=\mu_2= \frac{1}{2}}$
+
+Calculamos las diferencias divididas para tener los $\gamma_i$
+
+${ \frac{\gamma_0}{6} = f{[x_0,x_0,x_1]} =  \frac{ f{[x_1,x_0]}-f{[x_0,x_0]} }{ x_1-x_0 } = }$
+${ (\frac{0.5-0}{1-0}-0.2)/1 = 0.3 }$
+
+${ \frac{\gamma_1}{6} = f{[x_0,x_1,x_2]} =  \frac{ f{[x_2,x_1]}-f{[x_1,x_0]} }{ x_2-x_0 } = }$
+${ (\frac{2-0.5}{1-0}-\frac{0.5-0}{1-0})/2 = \frac{1}{2} }$
+
+${ \frac{\gamma_2}{6} = f{[x_1,x_2,x_3]} =  \frac{ f{[x_3,x_2]}-f{[x_2,x_1]} }{ x_3-x_1 } = }$
+${ (\frac{1.5-2}{1-0}-\frac{2-0.5}{1-0})/1 = -1 }$
+
+${ \frac{\gamma_3}{6} = f{[x_2,x_3,x_3]} =  \frac{ f{[x_3,x_3]}-f{[x_2,x_3]} }{ x_3-x_2 } = }$
+${ (-1-\frac{1.5-2}{1-0})/1 = -\frac{1}{2} }$
+
+\begin{equation*}
+\begin{pmatrix}
+	2 & 1 & 0 & 0  \\
+	1/2 & 2 & 1/2 & 0  \\
+	0 & 1/2 & 2 & 1/2  \\
+	0 & 0 & 1 & 1/2 
+\end{pmatrix}
+\begin{pmatrix}
+	M_0  \\
+	M_1  \\
+	M_2  \\
+	M_3
+\end{pmatrix}
+\begin{pmatrix}
+	6\cdot\frac{3}{10}  \\
+	6\cdot\frac{1}{2}  \\
+	6\cdot(-1)  \\
+	6\cdot(-\frac{1}{2})
+\end{pmatrix}
+\end{equation*}
+
+${\Rightarrow M_0=-0.36, M_1=2.52, M_2=-3.72}$ y ${M_3=0.36}$
+
+${ C_1(x)= M_0\frac{(x_1-x)^3}{6} + M_1\frac{(x-x_0)}{6} + (y_0-\frac{M_0}{6})\frac{x_1-x}{1} + (y_1-\frac{M_1}{6})\frac{x-x_0}{1} }$
+${ =0.48x^3 - 0.18x^2 + 0.2x }$
+
+Equivalentemente para $C_2$ y $C_3$:
+
+\begin{equation*}
+ S(x) =
+  \begin{cases}
+   0.48x^3 - 0.18x^2 + 0.2x & 							   \text{si } 0 \leq x \leq 1  \\
+   -1.04x(x-1)^3 + 1.26(x-1)^2 + 1.28(x-1) - 0.5   &  \text{si } 1 < x \leq 2  \\
+   0.68(x-2)^3 - 1.86(x-2)^2 + 0.68(x-2) + 2       &  \text{si } 2 < x \leq 3  \\
+  \end{cases}
+\end{equation*}
+
+
+
 
 \pagebreak
 
