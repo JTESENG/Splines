@@ -349,11 +349,11 @@ $$
   M_n
 \end{pmatrix} =
 \begin{pmatrix}
-  d_0 \\
-  d_1 \\
+  \gamma_0 \\
+  \gamma_1 \\
   \vdots \\
-  d_{n-1} \\
-  d_n
+  \gamma_{n-1} \\
+  \gamma_n
 \end{pmatrix}$$
 
 
@@ -377,9 +377,9 @@ ${ \begin{pmatrix}
 \end{pmatrix} =}$
 ${ \begin{pmatrix}
   0 \\
-  d_1 \\
+  \gamma_1 \\
   \vdots \\
-  d_{n-1} \\
+  \gamma_{n-1} \\
   0
 \end{pmatrix} }$
 
@@ -403,9 +403,9 @@ ${ \begin{pmatrix}
 \end{pmatrix} =}$
 ${ \begin{pmatrix}
   0 \\
-  d_1 \\
+  \gamma_1 \\
   \vdots \\
-  d_{n-1} \\
+  \gamma_{n-1} \\
   0
 \end{pmatrix} }$
 
