@@ -416,15 +416,14 @@ sea determinado nos faltan dos condiciones. Hay diferentes condiciones que se no
 
 $S'_1(x_0) = f'_0$ y $S'_n(x_n)=f'_n$. De acuerdo con la fórmula de $S'(x)$ obtenemos:
 
-$$f'_0 = -\frac{M_0h_i}{2} + f[x_0,x_1] - \frac{(M_1 - M_0)h_i}{6} 
+$$f'_0 = -\frac{M_0h_i}{2} + f[x_0,x_1] - \frac{(M_1 - M_0)h_i}{6} $$
 
-\implies  2M_0+M_1=\frac{6(f{[x_0,x_1]} - f^{'}_0)}{h_1} = 6f{[x_0,x_0,x_1]} (*)$$
+$$\implies  2M_0+M_1=\frac{6(f{[x_0,x_1]} - f^{'}_0)}{h_1} = 6f{[x_0,x_0,x_1]} (*)$$
 
 Equivalentemente para $x_n$:
 
 \begin{multline*}
 S'_n(x_n) = - \frac{M_{n-1}(x_n-x_n)^2}{2h_n} + \frac{M_n(x_n-x_{n-1})^2}{2h_n} + \frac{(y_n-y_{n-1})}{h_n} - \frac{(M_n-M_{n-1})h_n}{6} \\
-
 \implies
 M_{n-1}+2M_n=6f[x_{n-1},x_n,x_n] (*)
 \end{multline*}
