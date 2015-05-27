@@ -194,14 +194,15 @@ Para todo nodo desde $1$ hasta $n$ calculamos la tabla de Diferencias Divididas 
 	\hline
 	$x_{i-1}$ & $y_{i-1}$ & & \\
 	$x_i$ & $y_i$ & $p_i=\frac{y_i-y_{i-1}}{h_i}$ & \\
-	$x_i$ & $y_i$ & $d_i$ & \\
+	$x_i$ & $y_i$ & $d_i$ & $\frac{d_i-p_i}{h_i}$\\
 \hline
 \end{tabular}
-Siendo h_i=x_i-x_{i-1}
+Siendo $h_i=x_i-x_{i-1}$
 
 De esta forma, para cada x_i ya tendríamos una fórmula:
 
 $s_i(x)=y_{i-1}+p_i(x-x_{i-1})+\frac{d_i-p_i}{h_i}(x-x_{i-1})(x-x_i)$
+
 ## Método global: cálculo con una base de potencias truncadas
 
 Para este método usaremos una base del espacio vectorial $S_2(x_0,x_1...,x_n)$.
