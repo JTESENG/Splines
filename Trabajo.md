@@ -74,94 +74,7 @@ Por lo tanto, $dim(S_2(P)) = 3n-(2n-2) = n+2$.
 
 Con el conocimiento de la dimensión del espacio podemos describir
 una base del espacio de splines cuadráticos con el uso de potencias truncadas.
- Una **base del espacio** es: 
-
-$$\{1, x, x^2, (x-x_1)_+^2, ... , (x-x_{n-1})_+^2\}$$.
-
-\pagebreak
-
-## Interpolación con splines cuadráticos
-
-### Método local para la resolución de splines cuadráticos
-
-El problema que debemos resolver es el siguiente:
-
-\begin{problema}
-Sea $[a,b]$ intervalo, $P \in \mathscr{P}([a,b])$ partición. Hallar $s \in S_2(P)$ tal que:
-$$s(x_i)=y_i\ i=0,1,...,n$$
-$$s'(x_k)=d_k$$
-\end{problema}
-
-Es decir, sabemos los valores de la función en todos los nodos, y sabemos el valor de la derivada en el nodo k.
-
-\begin{solucion}
-Vamos calcular para un nodo $i$ el polinomio $s_i(x)$, teniendo la condición $i>0$, y que sabemos la derivada en el punto: $d_i$.
-
-\begin{table}[h]
-\centering
-\begin{tabular}{llll}
-\hline
-x & y & DD1 & DD2\\
-\hline
-$x_{i-1}$ & $y_{i-1}$ & & \\
-$x_i$ & $y_i$ & $p_i=\frac{y_i-y_{i-1}}{h_i}$ & \\
-$x_i$ & $y_i$ & $d_i$ & $\frac{d_i-p_i}{h_i}$\\
-\hline
-\end{tabular}
-\end{table}
-
-Siendo $h_i=x_i-x_{i-1}$.
-De esta forma, para cada $s_i$ ya tendríamos una fórmula:
-
-$$s_i(x)=y_{i-1}+p_k(x-x_{i-1})+\frac{d_k-p_k}{h_i}(x-x_{i-1})(x-x_k)$$
-
-En el caso de que $i<>n$, y que sabiendo la derivada en el punto $d_i$, calculamos la tabla de Diferencias divididas así:
-
-\begin{table}[h]
-\centering
-\begin{tabular}{llll}
-\hline
-x & y & DD1 & DD2\\
-\hline
-$x_i$ & $y_i$ & & \\
-$x_i$ & $y_i$ & $d_i$ & \\
-$x_{i+1}$ & $y_{i+1}$ & $p_{i+1}=\frac{y_{i+1}-y_i}{h_{i+1}}$ & $\frac{p_{i+1}-d_i}{h_i}$ \\
-\hline
-\end{tabular}
-\end{table}
-
-Siendo $s_i$ de la siguiente forma:
-
-$s_i(x)=y_i+d_i(x-x_i)+\frac{p_{i+1}-d_i}{h_{i+1}}(x-x_i)(x-x_{i+1})$
-
-Entonces, cuando empezamos, solo tenemos el nodo $k$, del que sabemos su derivada. De esta forma, usamos el método que haga falta.
-
-Ahora, tendremos que que ir despejando el polinomio en las ecuaciones que que que no quedan de esta forma.
-
-\begin{itemize}
-
-\item para $i$ desde $k-1$ hasta $0$, decrementando $i$ en cada paso:
-conocemos $s_i(x)$ así que evaluamos la derivadas en el nodo anterior
-: $s'_{i}(x_{i-1})=d_{i-1}$, por lo tanto, tenemos $y_{i-1}$, $y_i$, y
- $d_{i-1}$, así que aplicamos el método primero para hallar $s_{i-1}(x)$.
-
-\item para $i$ desde $k+1$ gasta $n$, incrementando $i$ en cada pasos:
-sabemos que $s'_i(x_{i+1})=d_{i+1}$, tenemos $y_{i+1}$ $y_i$, y $d_{i+1}$, así que aplicamos el método segundo para hallar $s_{i+1}(x)$.
-\end{itemize}
-
-\end{solucion}
-
-### Método global: cálculo con una base de potencias truncadas
-
-Para este método usaremos una base del espacio vectorial $S_2(x_0,x_1...,x_n)$.
-
-Tenemos los siguientes matrices y vectores:
-$G$:matriz de Gram de nuestra base, en la cual evaluaríamos los elementos de la base en todos los nodos
-$X$:vector de coeficientes
-$b$:vector con los valores que queremos interpolar.
-
-De esta forma, deberíamos resolver el sistema $G\ x=b$.
-
+ Una **base del espacio** es: $\{1, x, x^2, (x-x_1)_+^2, ... , (x-x_{n-1})_+^2\}$.
 
 ## Error en los splines cuadráticos
 
@@ -255,6 +168,83 @@ s(x) =
 \end{solucion}
 \pagebreak
 
+
+## Interpolación con splines cuadráticos
+
+## Método local para la resolución de splines cuadráticos
+
+El problema que debemos resolver es el siguiente:
+
+
+\begin{tabular}{|c|}
+\hline
+Hallar $s(x)\ \in S_2(x_0,x_1...,x_n)$ tal que:\\
+$s(x_i)=y_i\ i=0,1,...,n$\\
+$s'(x_k)=d_k$\\
+\hline
+\end{tabular}
+
+Es decir, sabemos los valores que toma la función en todos los nodos, y sabemos el valor de la derivada en el nodo k.
+
+Vamos calcular para un nodo $i$ el polinomio $s_i(x)$, teniendo la condición $i>0$, y que sabemos la derivada en el punto: $d_i$
+
+\begin{tabular}{|l |l |l |l |}
+\hline
+X & Y & \text{DD 1} & \text{DD 2}\\
+\hline
+$x_{i-1}$ & $y_{i-1}$ & & \\
+$x_i$ & $y_i$ & $p_i=\frac{y_i-y_{i-1}}{h_i}$ & \\
+$x_i$ & $y_i$ & $d_i$ & $\frac{d_i-p_i}{h_i}$\\
+\hline
+\end{tabular}
+Siendo $h_i=x_i-x_{i-1}$
+
+De esta forma, para cada $s_i$ ya tendríamos una fórmula:
+
+$s_i(x)=y_{i-1}+p_k(x-x_{i-1})+\frac{d_k-p_k}{h_i}(x-x_{i-1})(x-x_k)$
+
+En el caso de que $i<n$, y que sabiendo la derivada en el punto $d_i$, calculamos la tabla de Diferencias divididas así:
+
+\begin{tabular}{|l |l |l |l |}
+\hline
+X & Y & DD 1 & DD 2\\
+\hline
+$x_i$ & $y_i$ & & \\
+$x_i$ & $y_i$ & $d_i$ & \\
+$x_{i+1}$ & $y_{i+1}$ & $p_{i+1}=\frac{y_{i+1}-y_i}{h_{i+1}}$ & $\frac{p_{i+1}-d_i}{h_i}$ \\
+\hline
+\end{tabular}
+
+Siendo $s_i(x)$ de la siguiente forma:
+
+$s_i(x)=y_i+d_i(x-x_i)+\frac{p_{i+1}-d_i}{h_{i+1}}(x-x_i)(x-x_{i+1})$
+
+Entonces, cuando empezamos, solo tenemos el nodo $k$, del que sabemos su derivada. De esta forma, usamos el método que haga falta.
+
+Ahora, tendremos que que ir despejando el polinomio en las ecuaciones que que que no quedan de esta forma.
+
+\begin{itemize}
+
+\item para $i$ desde $k-1$ hasta $0$, decrementando $i$ en cada paso:
+conocemos $s_i(x)$ así que evaluamos la derivadas en el nodo anterior
+: $s'_{i}(x_{i-1})=d_{i-1}$, por lo tanto, tenemos $y_{i-1}$, $y_i$, y
+ $d_{i-1}$, así que aplicamos el método primero para hallar $s_{i-1}(x)$.
+
+\item para $i$ desde $k+1$ gasta $n$, incrementando $i$ en cada pasos:
+sabemos que $s'_i(x_{i+1})=d_{i+1}$, tenemos $y_{i+1}$ $y_i$, y $d_{i+1}$, así que aplicamos el método segundo para hallar $s_{i+1}(x)$.
+\end{itemize}
+
+## Método global: cálculo con una base de potencias truncadas
+
+Para este método usaremos una base del espacio vectorial $S_2(x_0,x_1...,x_n)$.
+
+Tenemos los siguientes matrices y vectores:
+$G$:matriz de Gram de nuestra base, en la cual evaluaríamos los elementos de la base en todos los nodos
+$X$:vector de coeficientes
+$b$:vector con los valores que queremos interpolar.
+
+De esta forma, deberíamos resolver el sistema $G\ x=b$.
+
 # Splines cúbicos
 
 Uno de los problemas de la interpolación polinomial es que, al ir aumentando el
@@ -273,12 +263,12 @@ polinomio en cada intervalo, es decir, utilizando **splines cúbicos**. Como ver
 	S_{n-1}(x)		& \text{si } x \in {[t_{n-1},t_n)}
 	\end{cases}
 \end{equation}
- 
-Esta interpolación lineal fragmentaria pasa por los puntos: 
+
+Esta interpolación lineal fragmentaria pasa por los puntos:
 ${ \{ (x_0,f(x_0)),(x_1,f(x_1)),...,(x_n,f(x_n)) \} }$
 
 
-Dentro de los cúbicos encontramos los de clase 1 y 2, denotados por $S^{1}_3$ y $S^{2}_3$ (ó $S_3$).
+Dentro de los cúbicos encontramos los de clase 1 y 2, denotados po $S^{1}_3$ y $S^{2}_3$ (ó $S_3$).
 
 1. Los splines cúbicos de clase 1 son continuos y derivables
 con derivada continua. Forman un espacio vectorial de dimensión $2(n+1)$, cuya base es:
@@ -314,14 +304,14 @@ $$S''_i(x) = M_{i-1} \frac{x_i-x}{h_i} + M_i\frac{x-x_{i-1}}{h_i}$$
 
 Integramos dos veces usando que $S_i(x_{i-1}) = y_{i-1}$ y $S_i(x_i) = y_i$ para las constantes de integración obteniendo, para ${x \in [x_{i-1},x_i]}$:
 
-$$S_i(x) = M_{i-1}\frac{(x_i-x)^3}{6h_i} + M_i\frac{x-x_{i-1}}{6h_i} + \frac{y_{i-1} - M_{i-1}h^2_i}{6} \cdot \frac{x_i-x}{h_i} + \frac{y_i- M_ih^2_i}{6} \cdot \frac{x-x_{i-1}}{h_i}$$ 
+$$S_i(x) = M_{i-1}\frac{(x_i-x)^3}{6h_i} + M_i\frac{x-x_{i-1}}{6h_i} + \frac{y_{i-1} - M_{i-1}h^2_i}{6} \cdot \frac{x_i-x}{h_i} + \frac{y_i- M_ih^2_i}{6} \cdot \frac{x-x_{i-1}}{h_i}$$
 
 Esta ecuación nos permite calcular $S$ conocidas $M_i$ con $i=0,1,...n$.
 Las condiciones de suavidad en las ligaduras nos permiten igualar $S'_{i+1}(x_i) = S'_i(x_i)$. Derivando una vez, si $x \in {[x_{i-1},x_i]}$:
 
 $$S'_i(x) = -M_{i-1}\frac{(x_i-x)^2}{2h_i} + M_i\frac{(x-x_{i-1})^2}{2h_i} + \frac{y_i-y_{i-1}}{h_i} -(M_i-M_{i-1})\frac{h_i}{6}$$
 
-Si $x \in {[x_{i},x_{i+1}]}$: 
+Si $x \in {[x_{i},x_{i+1}]}$:
 
 $$S'_{i+1}(x) = -M_i\frac{(x_{i+1}-x)^2}{2h_i} + M_{i+1}\frac{(x-x_i)^2}{2h_{i+1}}
  + \frac{y_{i+1}-y_i}{h_{i+1}} -(M_{i+1}-M_i)\frac{h_{i+1}}{6}$$
@@ -330,9 +320,9 @@ $$S'_{i+1}(x) = -M_i\frac{(x_{i+1}-x)^2}{2h_i} + M_{i+1}\frac{(x-x_i)^2}{2h_{i+1
 Recordando que $h_i = x_i - x_{i-1}$ e igualando $S'_{i+1}(x_i) = S'_i(x_i)$:
 
 $$-M_i\frac{h_{i+1}}{2} + \frac{y_{i+1}-y_i}{h_{i+1}} -(M_{i+1}-M_i)\frac{h_{i+1}}{6}
-=  M_i\frac{h_i}{2} + \frac{y_i-y_{i-1}}{h_i} -(M_i-M_{i-1})\frac{h_i}{6}$$ 
+=  M_i\frac{h_i}{2} + \frac{y_i-y_{i-1}}{h_i} -(M_i-M_{i-1})\frac{h_i}{6}$$
 
-Agrupamos los $M_i$: 
+Agrupamos los $M_i$:
 
 $$-M_i\frac{h_{i+1}}{2} + M_i\frac{h_{i+1}}{6} - M_i\frac{h_i}{2} + M_i\frac{h_i}{6} + \frac{y_{i+1}-y_i}{h_{i+1}} - \frac{y_i-y_{i-1}}{h_i} =  M_{i+1}\frac{h_{i+1}}{6} + M_{i-1}\frac{h_i}{6}$$
 
@@ -341,7 +331,7 @@ Multiplicamos a ambos lados por $6$, sacamos factor común y recordamos que $f[x
 $$6M_i\frac{-3h_{i+1}}{6} + \frac{h_{i+1}}{6} - 3\frac{h_i}{6} + \frac{h_i}{6} + 6(f[x_i,x_{i+1}] - f[x_{i-1},x_i]) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
 
 
-Agrupando y multiplicando $M_i$ arriba y abajo por $-2$: 
+Agrupando y multiplicando $M_i$ arriba y abajo por $-2$:
 
 $$-2M_i\frac{-2h_{i+1}-3h_i+h_i}{-2} + 6(f{[x_i,x_{i+1}]} - f{[x_{i-1},x_i]}) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
 
@@ -362,8 +352,8 @@ sea determinado nos faltan dos condiciones. Hay diferentes condiciones que se no
 \vspace*{2\baselineskip}
 
 **Spline sujeto**
- 
-$S'_1(x_0) = f'_0$ y $S'_n(x_n)=f'_n$. De acuerdo con la fórmula de $S'(x)$ obtenemos:
+
+$S'_1(x_0) = f'_0$ y $S'_n(x_n)=f'_n$. De acuerdo con la fórmula de $S^{'}(x)$ obtenemos:
 
 $$f'_0 = -\frac{M_0h_i}{2} + f[x_0,x_1] - \frac{(M_1 - M_0)h_i}{6} \implies  2M_0+M_1=\frac{6(f{[x_0,x_1]} - f^{'}_0)}{h_1} = 6f{[x_0,x_0,x_1]}$$
 
@@ -402,7 +392,7 @@ $$
 
 \vspace*{2\baselineskip}
 
-**Spline natural** 
+**Spline natural**
 
 En este caso $M_0=0$ y $M_n=0$, por lo que el sistema queda:
 
@@ -610,41 +600,6 @@ function s = coefsSplineCuad(x, y, d_k, k)
   s = A \ [y' ; d_k];
 
 end
-```
-Otra implementación posible es calcular el spline a trozos:
-
-```octave
-function z = func (x, y, der, n) 
-	s=zeros(length(x)-1, 3);
-    d=der;
-    
-    #Recorremos todos los nodos de n+1 en adelante:
-    
-    for i=(n+1):length(x)
-		p=(y(i)-y(i-1))/(x(i)-x(i-1));
-        q=(p-d)/(x(i)-x(i-1));
-        v=[x(i-1) x(i-1)];
-        s(i-1,:)=[0 0 y(i-1)]+[0 d -d*x(i-1)]+q*poly(v);
-        d=2*p-d;     
-	endfor
-    d=der;
-    
-    #Recorremos todos los nodos desde n hasta el 1:
-    
-    for i=0:(n-2) 
-    	j=n-i;
-        j-1
-        p=(y(j)-y(j-1))/(x(j)-x(j-1));
-        q=(d-p)/(x(j)-x(j-1));
-        v=[x(j-1) x(j)];
-    	s(j-1,:)=[0 0 y(j-1)]+[0 p -p*x(j-1)]+q*poly(v);               
-    endfor
-    
-    for i=1:length(s)
-    	s(i,:)=polyaffine(s(i,:), [-x(i), 1]);
-    endfor
-    z=mkpp(x, s);
-endfunction
 ```
 
 \pagebreak

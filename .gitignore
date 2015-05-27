@@ -126,3 +126,5 @@ sympy-plots-for-*.tex/
 *.sav
 
 .DS_store
+
+.Trabajo.pdf
