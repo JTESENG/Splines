@@ -456,7 +456,7 @@ $$
 
 \vspace*{2\baselineskip}
 
-**Spline natural**
+ - **Spline natural**
 
 En este caso $M_0=0$ y $M_n=0$, $\lambda_0 = \mu_n = 1$ por lo que el sistema queda:
 
@@ -484,7 +484,7 @@ $$\begin{pmatrix}
 
 \vspace*{2\baselineskip}
 
-**Spline periódico**
+ - **Spline periódico**
 
 En este caso $S'_1(x_0) = S'_n(x_n)$ y $S''_1(x_0) = S''_n(x_n)$. El sistema queda:
 
