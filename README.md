@@ -10,8 +10,8 @@
    	- [ ] Global
 	- [ ] Ejemplos
 - [ ] Splines cúbicos
-	- [ ] [Construcción de splines clásicos a partir de la segunda derivada](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
-   	- [ ] Spline sujeto
+	- [X] [Construcción de splines clásicos a partir de la segunda derivada](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
+   	- [X] Spline sujeto
    	- [ ] Spline natural
    	- [ ] Spline periódico
 	- [X] Propiedades de minimización
