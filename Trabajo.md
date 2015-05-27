@@ -207,7 +207,7 @@ $s_i(x)=y_{i-1}+p_i(x-x_{i-1})+\frac{d_i-p_i}{h_i}(x-x_{i-1})(x-x_i)$
 Para este método usaremos una base del espacio vectorial $S_2(x_0,x_1...,x_n)$.
 
 Tenemos los siguientes matrices y vectores:
-$G$:matriz de Gram de nuestra base,
+$G$:matriz de Gram de nuestra base, en la cual evaluaríamos los elementos de la base en todos los nodos
 $X$:vector de coeficientes
 $b$:vector con los valores que queremos interpolar.
 
