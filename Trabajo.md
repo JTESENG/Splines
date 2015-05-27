@@ -74,7 +74,7 @@ Por lo tanto, $dim(S_2(P)) = 3n-(2n-2) = n+2$.
 
 Con el conocimiento de la dimensión del espacio podemos describir
 una base del espacio de splines cuadráticos con el uso de potencias truncadas.
- Una **base del espacio** es: 
+ Una **base del espacio** es:
 
 $$\{1, x, x^2, (x-x_1)_+^2, ... , (x-x_{n-1})_+^2\}$$.
 
@@ -273,8 +273,8 @@ polinomio en cada intervalo, es decir, utilizando **splines cúbicos**. Como ver
 	S_{n-1}(x)		& \text{si } x \in {[t_{n-1},t_n)}
 	\end{cases}
 \end{equation}
- 
-Esta interpolación lineal fragmentaria pasa por los puntos: 
+
+Esta interpolación lineal fragmentaria pasa por los puntos:
 ${ \{ (x_0,f(x_0)),(x_1,f(x_1)),...,(x_n,f(x_n)) \} }$
 
 
@@ -314,14 +314,14 @@ $$S''_i(x) = M_{i-1} \frac{x_i-x}{h_i} + M_i\frac{x-x_{i-1}}{h_i}$$
 
 Integramos dos veces usando que $S_i(x_{i-1}) = y_{i-1}$ y $S_i(x_i) = y_i$ para las constantes de integración obteniendo, para ${x \in [x_{i-1},x_i]}$:
 
-$$S_i(x) = M_{i-1}\frac{(x_i-x)^3}{6h_i} + M_i\frac{x-x_{i-1}}{6h_i} + \frac{y_{i-1} - M_{i-1}h^2_i}{6} \cdot \frac{x_i-x}{h_i} + \frac{y_i- M_ih^2_i}{6} \cdot \frac{x-x_{i-1}}{h_i}$$ 
+$$S_i(x) = M_{i-1}\frac{(x_i-x)^3}{6h_i} + M_i\frac{x-x_{i-1}}{6h_i} + \frac{y_{i-1} - M_{i-1}h^2_i}{6} \cdot \frac{x_i-x}{h_i} + \frac{y_i- M_ih^2_i}{6} \cdot \frac{x-x_{i-1}}{h_i}$$
 
 Esta ecuación nos permite calcular $S$ conocidas $M_i$ con $i=0,1,...n$.
 Las condiciones de suavidad en las ligaduras nos permiten igualar $S'_{i+1}(x_i) = S'_i(x_i)$. Derivando una vez, si $x \in {[x_{i-1},x_i]}$:
 
 $$S'_i(x) = -M_{i-1}\frac{(x_i-x)^2}{2h_i} + M_i\frac{(x-x_{i-1})^2}{2h_i} + \frac{y_i-y_{i-1}}{h_i} -(M_i-M_{i-1})\frac{h_i}{6}$$
 
-Si $x \in {[x_{i},x_{i+1}]}$: 
+Si $x \in {[x_{i},x_{i+1}]}$:
 
 $$S'_{i+1}(x) = -M_i\frac{(x_{i+1}-x)^2}{2h_i} + M_{i+1}\frac{(x-x_i)^2}{2h_{i+1}}
  + \frac{y_{i+1}-y_i}{h_{i+1}} -(M_{i+1}-M_i)\frac{h_{i+1}}{6}$$
@@ -330,9 +330,9 @@ $$S'_{i+1}(x) = -M_i\frac{(x_{i+1}-x)^2}{2h_i} + M_{i+1}\frac{(x-x_i)^2}{2h_{i+1
 Recordando que $h_i = x_i - x_{i-1}$ e igualando $S'_{i+1}(x_i) = S'_i(x_i)$:
 
 $$-M_i\frac{h_{i+1}}{2} + \frac{y_{i+1}-y_i}{h_{i+1}} -(M_{i+1}-M_i)\frac{h_{i+1}}{6}
-=  M_i\frac{h_i}{2} + \frac{y_i-y_{i-1}}{h_i} -(M_i-M_{i-1})\frac{h_i}{6}$$ 
+=  M_i\frac{h_i}{2} + \frac{y_i-y_{i-1}}{h_i} -(M_i-M_{i-1})\frac{h_i}{6}$$
 
-Agrupamos los $M_i$: 
+Agrupamos los $M_i$:
 
 $$-M_i\frac{h_{i+1}}{2} + M_i\frac{h_{i+1}}{6} - M_i\frac{h_i}{2} + M_i\frac{h_i}{6} + \frac{y_{i+1}-y_i}{h_{i+1}} - \frac{y_i-y_{i-1}}{h_i} =  M_{i+1}\frac{h_{i+1}}{6} + M_{i-1}\frac{h_i}{6}$$
 
@@ -341,7 +341,7 @@ Multiplicamos a ambos lados por $6$, sacamos factor común y recordamos que $f[x
 $$6M_i\frac{-3h_{i+1}}{6} + \frac{h_{i+1}}{6} - 3\frac{h_i}{6} + \frac{h_i}{6} + 6(f[x_i,x_{i+1}] - f[x_{i-1},x_i]) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
 
 
-Agrupando y multiplicando $M_i$ arriba y abajo por $-2$: 
+Agrupando y multiplicando $M_i$ arriba y abajo por $-2$:
 
 $$-2M_i\frac{-2h_{i+1}-3h_i+h_i}{-2} + 6(f{[x_i,x_{i+1}]} - f{[x_{i-1},x_i]}) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
 
@@ -362,7 +362,7 @@ sea determinado nos faltan dos condiciones. Hay diferentes condiciones que se no
 \vspace*{2\baselineskip}
 
 **Spline sujeto**
- 
+
 $S'_1(x_0) = f'_0$ y $S'_n(x_n)=f'_n$. De acuerdo con la fórmula de $S'(x)$ obtenemos:
 
 $$f'_0 = -\frac{M_0h_i}{2} + f[x_0,x_1] - \frac{(M_1 - M_0)h_i}{6} \implies  2M_0+M_1=\frac{6(f{[x_0,x_1]} - f^{'}_0)}{h_1} = 6f{[x_0,x_0,x_1]}$$
@@ -402,7 +402,7 @@ $$
 
 \vspace*{2\baselineskip}
 
-**Spline natural** 
+**Spline natural**
 
 En este caso $M_0=0$ y $M_n=0$, por lo que el sistema queda:
 
@@ -614,32 +614,32 @@ end
 Otra implementación posible es calcular el spline a trozos:
 
 ```octave
-function z = func (x, y, der, n) 
+function z = func (x, y, der, n)
 	s=zeros(length(x)-1, 3);
     d=der;
-    
+
     #Recorremos todos los nodos de n+1 en adelante:
-    
+
     for i=(n+1):length(x)
 		p=(y(i)-y(i-1))/(x(i)-x(i-1));
         q=(p-d)/(x(i)-x(i-1));
         v=[x(i-1) x(i-1)];
         s(i-1,:)=[0 0 y(i-1)]+[0 d -d*x(i-1)]+q*poly(v);
-        d=2*p-d;     
+        d=2*p-d;
 	endfor
     d=der;
-    
+
     #Recorremos todos los nodos desde n hasta el 1:
-    
-    for i=0:(n-2) 
+
+    for i=0:(n-2)
     	j=n-i;
         j-1
         p=(y(j)-y(j-1))/(x(j)-x(j-1));
         q=(d-p)/(x(j)-x(j-1));
         v=[x(j-1) x(j)];
-    	s(j-1,:)=[0 0 y(j-1)]+[0 p -p*x(j-1)]+q*poly(v);               
+    	s(j-1,:)=[0 0 y(j-1)]+[0 p -p*x(j-1)]+q*poly(v);
     endfor
-    
+
     for i=1:length(s)
     	s(i,:)=polyaffine(s(i,:), [-x(i), 1]);
     endfor
