@@ -26,16 +26,20 @@ geometry: margin=1in
 
 ##Introducción a los splines
 
-\begin{definicion}
-Sea $[a,b]$ un intervalo, $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$,
-$k,r \in \mathbb{N}$, $r < k$ <!-->-->. Se dice que $s:[a,b] \to \mathbb{R}$ es un
-spline si $s \in C^r([a,b])$ y para todo $1 \leq i \leq n$,
-$s_{|[x_{i-1},x_i]} \in \mathbb{P}_k$. $S^r_k(P)$ es el espacio de dichas funciones.
-\end{definicion}
 
 La palabra **spline** con el tiempo se usó para referirse a una larga banda flexible
 generalmente de metal, que podía usarse para dibujar curvas continuas suaves,
 forzando a la banda a pasar por puntos específicos y trazados a lo largo de la curva.
+
+La formalización del concepto de función spline, es decir, una curva continua
+que pasa por ciertos puntos se resume en la siguiente definición:
+
+\begin{definicion}
+Sea $[a,b]$ un intervalo, $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$,
+$k,r \in \mathbb{N}$, $r < k$. Se dice que $s:[a,b] \to \mathbb{R}$ es un
+spline si $s \in C^r([a,b])$ y para todo $1 \leq i \leq n$,
+$s_{|[x_{i-1},x_i]} \in \mathbb{P}_k$. $S^r_k(P)$ es el espacio de dichas funciones.
+\end{definicion}
 
 ## Descripción del espacio de splines cuadráticos
 
@@ -76,7 +80,7 @@ Con el conocimiento de la dimensión del espacio podemos describir
 una base del espacio de splines cuadráticos con el uso de potencias truncadas.
  Una **base del espacio** es: 
 
-$$\{1, x, x^2, (x-x_1)_+^2, ... , (x-x_{n-1})_+^2\}$$.
+$$\{1, x, x^2, (x-x_1)_+^2, ... , (x-x_{n-1})_+^2\}$$
 
 \pagebreak
 
@@ -92,75 +96,98 @@ $$s(x_i)=y_i\ i=0,1,...,n$$
 $$s'(x_k)=d_k$$
 \end{problema}
 
-Es decir, sabemos los valores de la función en todos los nodos, y sabemos el valor de la derivada en el nodo k.
+Es decir, sabemos los valores de la función en todos los nodos y el valor de la derivada en el nodo $k$.
+
+\vspace*{2\baselineskip}
 
 \begin{solucion}
-Vamos calcular para un nodo $i$ el polinomio $s_i(x)$, teniendo la condición $i>0$, y que sabemos la derivada en el punto: $d_i$.
+Si $k > 0$, para calcular $s_k$ podemos calcular la tabla de diferencias divididas:
+
+\vspace*{2\baselineskip}
 
 \begin{table}[h]
 \centering
 \begin{tabular}{llll}
-\hline
 x & y & DD1 & DD2\\
 \hline
-$x_{i-1}$ & $y_{i-1}$ & & \\
-$x_i$ & $y_i$ & $p_i=\frac{y_i-y_{i-1}}{h_i}$ & \\
-$x_i$ & $y_i$ & $d_i$ & $\frac{d_i-p_i}{h_i}$\\
+$x_{k-1}$ & $y_{k-1}$ & & \\
+$x_k$ & $y_k$ & $p_k$ & \\
+$x_k$ & $y_k$ & $d_k$ & $\frac{d_k-p_k}{h_k}$\\
 \hline
 \end{tabular}
 \end{table}
 
-Siendo $h_i=x_i-x_{i-1}$.
-De esta forma, para cada $s_i$ ya tendríamos una fórmula:
+\vspace*{2\baselineskip}
 
-$$s_i(x)=y_{i-1}+p_k(x-x_{i-1})+\frac{d_k-p_k}{h_i}(x-x_{i-1})(x-x_k)$$
+De esta forma, $s_k$ queda, para $x \in [x_{k-1}, x_k]$:
 
-En el caso de que $i<>n$, y que sabiendo la derivada en el punto $d_i$, calculamos la tabla de Diferencias divididas así:
+\begin{equation} \label{eq:sk}
+s_k(x)=y_{k-1}+p_k(x-x_{k-1})+\frac{d_k-p_k}{h_k}(x-x_{k-1})(x-x_k)
+\end{equation}
+
+Conocida la expresión de $s_k$ podemos calcular $d_{k-1} = s'_k(x_{k-1})$, y repetir
+este proceso para calcular $s_{k-1}$, hasta llegar a $k = 0$.
+
+
+Si $k < n$, debemos calcular $s_{k+1}$. Como sabemos la derivada $d_k$, calculamos la tabla de diferencias divididas:
+
+\vspace*{2\baselineskip}
 
 \begin{table}[h]
 \centering
 \begin{tabular}{llll}
-\hline
 x & y & DD1 & DD2\\
 \hline
-$x_i$ & $y_i$ & & \\
-$x_i$ & $y_i$ & $d_i$ & \\
-$x_{i+1}$ & $y_{i+1}$ & $p_{i+1}=\frac{y_{i+1}-y_i}{h_{i+1}}$ & $\frac{p_{i+1}-d_i}{h_i}$ \\
+$x_k$ & $y_k$ & & \\
+$x_k$ & $y_k$ & $d_k$ & \\
+$x_{k+1}$ & $y_{k+1}$ & $p_{k+1}$ & $\frac{p_{k+1}-d_k}{h_k}$ \\
 \hline
 \end{tabular}
 \end{table}
 
-Siendo $s_i$ de la siguiente forma:
+\vspace*{2\baselineskip}
 
-$s_i(x)=y_i+d_i(x-x_i)+\frac{p_{i+1}-d_i}{h_{i+1}}(x-x_i)(x-x_{i+1})$
+De esta forma, $s_k+1$ queda para $x \in [x_k, x_{k+1}]$ de la siguiente forma:
 
-Entonces, cuando empezamos, solo tenemos el nodo $k$, del que sabemos su derivada. De esta forma, usamos el método que haga falta.
+\begin{equation} \label{eq:skmas}
+s_{k+1}(x)=y_k+d_k(x-x_k)+\frac{p_{k+1}-d_k}{h_{k+1}}(x-x_k)(x-x_{k+1})
+\end{equation}
 
-Ahora, tendremos que que ir despejando el polinomio en las ecuaciones que que que no quedan de esta forma.
 
-\begin{itemize}
+El método queda entonces de la siguiente forma:
 
-\item para $i$ desde $k-1$ hasta $0$, decrementando $i$ en cada paso:
-conocemos $s_i(x)$ así que evaluamos la derivadas en el nodo anterior
-: $s'_{i}(x_{i-1})=d_{i-1}$, por lo tanto, tenemos $y_{i-1}$, $y_i$, y
- $d_{i-1}$, así que aplicamos el método primero para hallar $s_{i-1}(x)$.
+\begin{enumerate}
 
-\item para $i$ desde $k+1$ gasta $n$, incrementando $i$ en cada pasos:
-sabemos que $s'_i(x_{i+1})=d_{i+1}$, tenemos $y_{i+1}$ $y_i$, y $d_{i+1}$, así que aplicamos el método segundo para hallar $s_{i+1}(x)$.
-\end{itemize}
+\item Para $i$ desde $k$ hasta $0$:
+\begin{enumerate}
+\item Calculamos $d_i$, (conocida en el primer caso) haciendo $d_i = s'_{i+1}(x_i)$.
+\item Aplicamos la fórmula (\ref{eq:sk}) para calcular $s_i$.
+\end{enumerate}
+
+\item Para $i$ desde $k+1$ hasta $n$:
+\begin{enumerate}
+\item Calculamos $d_i$ haciendo $d_i = s'_{i-1}(x_{i})$
+\item Aplicamos la fórmula (\ref{eq:skmas}) para calcular $s_i$.
+\end{enumerate}
+\end{enumerate}
+
 
 \end{solucion}
 
 ### Método global: cálculo con una base de potencias truncadas
 
-Para este método usaremos una base del espacio vectorial $S_2(x_0,x_1...,x_n)$.
+Para este método usaremos esta base del espacio vectorial $S_2(P)$:
+
+$$\{1, x, x^2, (x-x_1)_+^2, ... , (x-x_{n-1})_+^2\}$$
 
 Tenemos los siguientes matrices y vectores:
-$G$:matriz de Gram de nuestra base, en la cual evaluaríamos los elementos de la base en todos los nodos
-$X$:vector de coeficientes
-$b$:vector con los valores que queremos interpolar.
 
-De esta forma, deberíamos resolver el sistema $G\ x=b$.
+- $G$: matriz de Gram. Evaluamos los elementos de la base en todos los nodos.
+- $X$: vector de coeficientes
+- $b$: vector con los valores que queremos interpolar.
+
+De esta forma, deberíamos resolver el sistema $GX=b$.
+El sistema queda:
 
 
 ## Error en los splines cuadráticos
@@ -267,10 +294,10 @@ polinomio en cada intervalo, es decir, utilizando **splines cúbicos**. Como ver
 \begin{equation}
 	S(x) =
 	\begin{cases}
-	S_0(x) 			& \text{si } x \in {[t_0,t_1)} \\
-	S_1(x)			& \text{si } x \in {[t_1,t_2)} \\
+	S_0(x) 			& \text{si } x \in {[x_0,x_1)} \\
+	S_1(x)			& \text{si } x \in {[x_1,x_2)} \\
 	\vdots			& \vdots \\
-	S_{n-1}(x)		& \text{si } x \in {[t_{n-1},t_n)}
+	S_{n-1}(x)		& \text{si } x \in {[x_{n-1},x_n)}
 	\end{cases}
 \end{equation}
  
@@ -280,21 +307,18 @@ ${ \{ (x_0,f(x_0)),(x_1,f(x_1)),...,(x_n,f(x_n)) \} }$
 
 Dentro de los cúbicos encontramos los de clase 1 y 2, denotados por $S^{1}_3$ y $S^{2}_3$ (ó $S_3$).
 
-1. Los splines cúbicos de clase 1 son continuos y derivables
-con derivada continua. Forman un espacio vectorial de dimensión $2(n+1)$, cuya base es:
-
-${ \{1,x,x^2,x^3, (x-x_1)^{2}_{+},(x-x_1)^{3}_{+},...,(x-x_{n-1})^{2}_{+},(x-x_{n-1})^3_+ \} }$
-
+1. Los splines cúbicos de **clase 1** son continuos y derivables
+con derivada continua. Forman un espacio vectorial de dimensión $2(n+1)$. Una base es:
+$$\{1,x,x^2,x^3, (x-x_1)^{2}_{+},(x-x_1)^{3}_{+},...,(x-x_{n-1})^{2}_{+},(x-x_{n-1})^3_+ \}$$
 Estos splines no aseguran derivabilidad en los extremos.
 En un contexto geométrico esto significa que la función no es *suave* en
 los puntos de unión. Generalmente las condiciones físicas necesitan esa suavidad,
 y es aquí donde intervienen los splines cúbicos de clase 2.
 
-2. Los splines cúbicos de clase 2 son continuos y 2 veces derivables.
-Como sabemos que la dimensión de un spline la dimensión de este espacio es
-$(3-2)n+2+1=n+3$.
-
-Como tenemos $n+1$ variables, tenemos $2$ libertades en la resolución.
+2. Los splines cúbicos de **clase 2** son continuos y 2 veces derivables.
+A partir de la fórmula general, la dimensión de este espacio para una partición
+$\{x_i\}_{i=0..n}$ es $dim S_3^2(P) = (3-2)n+2+1=n+3$. Como tenemos $n+1$ variables, 
+tenemos $2$ libertades en la resolución.
 
 ## Construcción a partir de los valores de $s''$ en los nodos $\{x_i\}$
 
@@ -576,7 +600,10 @@ Hemos implementado las siguientes funciones en Octave:
 
 ## Spline Lineal
 
-La función que nos permite calcular un spline lineal es muy
+La implementación de la función que nos permite calcular un spline lineal es muy
+sencilla. Esta función nos permite calcular la derivada segunda de un spline 
+cúbico conocidas las derivadas segundas en los nodos:
+
 ```octave
 function s = SplineLineal(x,y)
   p = diff(y)./diff(x);
@@ -587,11 +614,11 @@ end
 
 ## Splines cuadráticos
 
-Utilizando el sistema que vimos anteriormente, podemos definir fácilmente una
-función que calcule los coeficientes de un spline cuadrático de clase 1:
+Utilizando el **método global**, podemos definir fácilmente una
+función que calcule un spline cuadrático de clase 1:
 
 ```octave
-function s = coefsSplineCuad(x, y, d_k, k)
+function s = SplineCuad(x, y, d_k, k)
   # Número de intervalos
   n = length(x) - 1;
 
@@ -602,49 +629,59 @@ function s = coefsSplineCuad(x, y, d_k, k)
 
   # Potencias truncadas
   for j = 4 : n + 2
-    pot    =  @(t) (t > x(j-2)) .* (t - x(j-2));
-    A(:,j) = [pot(x').^2; 2.*pot(x(k+1))];
+    t       =  @(s) (s > x(j-2)) .* (s - x(j-2));
+    A(:, j) = [t(x').^2; 2.*t(x(k+1))];
   end
 
   # Resolución del sistema
-  s = A \ [y' ; d_k];
+  sol = A \ [y' ; d_k];
 
+  for k = 1:n
+    p = sol(3:-1:1);
+
+    for l = 2:k
+      p += sol(l+2).*[1, -2.*x(l), x(l).^2];
+    end
+
+    B(k, :) = polyaffine(p,[-x(k) 1]);
+  end
+
+  s = mkpp(x,B);
 end
 ```
-Otra implementación posible es calcular el spline a trozos:
+Otra implementación posible es calcular el spline **a trozos**:
 
 ```octave
-function z = func (x, y, der, n) 
-	s=zeros(length(x)-1, 3);
-    d=der;
+function z = SplineCuadLocal(x, y, d_k, k) 
+	s = zeros(length(x)-1, 3);
+   d = d_k;
     
     #Recorremos todos los nodos de n+1 en adelante:
     
-    for i=(n+1):length(x)
-		p=(y(i)-y(i-1))/(x(i)-x(i-1));
-        q=(p-d)/(x(i)-x(i-1));
-        v=[x(i-1) x(i-1)];
-        s(i-1,:)=[0 0 y(i-1)]+[0 d -d*x(i-1)]+q*poly(v);
-        d=2*p-d;     
-	endfor
-    d=der;
+    for i = (k+1):length(x)
+		p = (y(i)-y(i-1))/(x(i)-x(i-1));
+		q = (p-d)/(x(i)-x(i-1));
+		v = [x(i-1) x(i-1)];
+		s(i-1,:) = [0 0 y(i-1)]+[0 d -d*x(i-1)]+q*poly(v);
+		d = 2*p-d;     
+	end
+    d = d_k;
     
     #Recorremos todos los nodos desde n hasta el 1:
     
-    for i=0:(n-2) 
-    	j=n-i;
-        j-1
-        p=(y(j)-y(j-1))/(x(j)-x(j-1));
-        q=(d-p)/(x(j)-x(j-1));
-        v=[x(j-1) x(j)];
-    	s(j-1,:)=[0 0 y(j-1)]+[0 p -p*x(j-1)]+q*poly(v);               
-    endfor
+    for i = 0:(k-2) 
+		j = k-i;
+		p = (y(j)-y(j-1))/(x(j)-x(j-1));
+		q = (d-p)/(x(j)-x(j-1));
+		v = [x(j-1) x(j)];
+		s(j-1,:) = [0 0 y(j-1)]+[0 p -p*x(j-1)]+q*poly(v);               
+    end
     
-    for i=1:length(s)
-    	s(i,:)=polyaffine(s(i,:), [-x(i), 1]);
-    endfor
-    z=mkpp(x, s);
-endfunction
+    for i = 1:length(s)
+    	s(i,:) = polyaffine(s(i,:), [-x(i), 1]);
+    end
+    z = mkpp(x, s);
+end
 ```
 
 \pagebreak
@@ -688,3 +725,13 @@ pot = @(x) (x > a) * (x - a)^n
 
 Como Octave tiene tipos dinámicos convertirá `(x > a)` a $1$ si $x > a$ y a $0$
 en otro caso.
+
+\begin{definicion}
+Dado un intervalo $[a,b]$ y una partición $\{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$,
+se definen, para $1 \leq i \leq n$:
+
+\begin{itemize}
+\item $\displaystyle h_i = x_i - x_{i-1}$ 
+\item $\displaystyle p_i = \frac{y_i-y_{i-1}}{h_i}$
+\end{itemize}
+\end{definicion}

@@ -1,4 +1,4 @@
-function B = SplineCuad(x, y, d_k, k)
+function s = SplineCuad(x, y, d_k, k)
   # Número de intervalos
   n = length(x) - 1;
 
