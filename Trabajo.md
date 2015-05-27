@@ -247,7 +247,7 @@ W. Kammerer, G. Reddien y R.S. Varga, (1973).
 
 \begin{problema}
 Dados los datos de la tabla, halla mediante el método global el spline
-cuadrático que interpole los nodos y cuya derivada en $x_1$ sea $4$.
+cuadrático que interpole los nodos $x_i$ con $i=0,...,3$ y cuya derivada en $x_1$ sea $4$.
 \begin{table}[h]
 \centering
 \begin{tabular}{@{}l|lllll@{}}
@@ -300,9 +300,9 @@ Es decir:
 \[
 s(x) =
 \begin{cases}
- 3x^2 - 20x + 35  & x \in [2,4) \\
--2x^2 + 20x - 45 & x \in [4,5) \\
- 5  & x \in [5,8] \\
+ 3x^2 - 20x + 35  & x \in [2,4] \\
+-2x^2 + 20x - 45 & x \in (4,5] \\
+ 5  & x \in (5,8] \\
 \end{cases}
 \]
 
