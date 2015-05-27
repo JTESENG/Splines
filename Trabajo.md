@@ -233,8 +233,6 @@ lo ponemos en la introducción porque puede escribirse de forma que corresponda 
 splines cúbicos y cuadráticos.
 
 **Propiedades:**
-
-
 Dada una función definida en $[a,b]$, una partición del intervalo $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$:
 
 - $S$ es un polinomio cúbico denotado por $S_j$ en el subintervalo de extremos
@@ -265,6 +263,168 @@ x_1 y x_(n-1) sea continua. Esto es S'''_0(x_1)=S'''_1(x_1) y
 S'''_(n-1)(x_(n-1))=S'''_n(x_(n-1)).-->
 
 ## Construcción a partir de los valores de $s''$ en los nodos $\{x_i\}$
+
+Vamos a plantear un método de resolución utilizando las segundas derivadas, denotamos por $M_i = S^{''}(x_i)$ y $h_i=x_i-x_{i-1}$ con $i=1, ... n.$
+
+${ S^{''}(x_i) = S^{''}_i(x_i) = S^{''}_{i+1}(x_i) }$ con $i=1, ... {n-1}$, ${ S^{''}(x_0) = M_0 }$ y ${ S^{''}(x_n) = M_n }$
+
+$M_i$ son desconocidos a priori, salvo en un spline natural.
+
+Por las características de suavidad de los splines cúbicos de clase 2, cada intervalo es un polinomio $S_i$ de grado 3, por ende, $S^{''}_i$ es lineal.
+
+${ S^{''}_i(x) = M_{i-1}{(x_i-x)}/h_i + M_i{(x-x_{i-1})/h_i} }$ para $x \in {[x_{i-1},x_i]}$
+
+Integramos dos veces y usamos que $S_i(x_{i-1}) = y_{i-1}$ y $S_i(x_i) = y_i$ para las constantes de integración.
+
+${ S_i(x) = M_{i-1}{(x_i-x)^3/6h_i} + {M_i(x-x_{i-1})/6h_i} +{(y_{i-1}-{(M_{i-1}h^2_i)/6})}{(x_i-x)/h_i} }$ 
+${ + {(y_i-{(M_ih^2_i)/6}) {(x-x_{i-1})/h_i}} }$ para ${x \in [x_{i-1},x_i]}$
+
+Esta ecuación nos permite calcular $S(x)$ si conocemos $M_i$ con $i=0,1,...n$ 
+Las condiciones de suavidad en las ligaduras nos permiten igualar:  ${ S^{'}_{i+1}(x_i) = S^{'}_{i}(x_i) }$ 
+
+Derivando una vez, si $x \in {[x_{i-1},x_i]}$
+
+${ S^{'}_i(x) = -M_{i-1}(x_i-x)^2/2h_i + M_i(x-x_{i-1})^2/2h_i + (y_i-y_{i-1})/h_i -(M_i-M_{i-1})h_i/6 }$
+
+Si $x \in {[x_{i},x_{i+1}]}$ : 
+
+${ S^{'}_{i+1}(x) = -M_i(x_{i+1}-x)^2/2h_i + M_{i+1}(x-x_i)^2/2h_{i+1} + (y_{i+1}-y_i)/h_{i+1} -(M_{i+1}-M_i)h_{i+1}/6 }$
+
+
+Recordando que $h_i=x_i-x_{i-1}$ e igualando ${S^{'}_{i+1}(x_i) = S^{'}_i(x_i)}$:
+
+${ -M_i(h_{i+1})/2 + (y_{i+1}-y_i)/h_{i+1} -(M_{i+1}-M_i)h_{i+1}/6 }$
+
+${ =  M_ih_i/2 + (y_i-y_{i-1})/h_i -(M_i-M_{i-1})h_i/6 }$ 
+
+Agrupamos los $M_i$: 
+
+${ -M_i(h_{i+1})/2 + M_ih_{i+1}/6 - M_ih_i/2 + M_ih_i/6 + (y_{i+1}-y_i)/h_{i+1} - (y_i-y_{i-1})/h_i }$
+
+${ =  M_{i+1}h_{i+1}/6 + M_{i-1}h_i/6  }$
+
+Multiplicamos a ambos lados por $6$, sacamos factor común y recordamos que ${ f{[x_i,x_{i+1}]} = (y_{i+1}-y_i)/h_{i+1} }$ 
+
+${ 6M_i(-3h_{i+1}/6 + h_{i+1}/6 - 3h_i/6 + h_i/6) + 6(f{[x_i,x_{i+1}]} - f{[x_{i-1},x_i]}) }$
+
+${ =  M_{i+1}h_{i+1} + M_{i-1}h_i  }$
+
+
+Agrupando y multiplicando $M_i$ arriba y abajo por $-2$: 
+
+${ -2M_i(-2h_{i+1}-3h_i+h_i)/(-2) + 6(f{[x_i,x_{i+1}]} - f{[x_{i-1},x_i]}) }$
+
+${ =  M_{i+1}h_{i+1} + M_{i-1}h_i  }$
+
+Pasamos el $M_i$ a la derecha y dividimos por $(h_{i+1}+h_i)$ en ambos lados.
+
+${ 6(f{[x_i,x_{i+1}]} - f{[x_{i-1},x_i]})/(h_{i+1}-h_i) }$
+${ =  M_{i+1}h_{i+1}/(h_{i+1}+h_i) + M_{i-1}h_i/(h_{i+1}+h_i) + 2M_i  }$
+
+${ 6f{[x_{i-1},x_i,x_{i+1}]} = (M_{i+1}h_{i+1} + M_{i-1}h_i)/(h_{i+1}+h_i) + 2M_i  }$
+
+Denotando por ${ m_i=h_i/(h_i+h_{i+1}) }$, ${ \lambda_i = h_{i+1}/(h_i+h_{i+1}) }$ y ${ \gamma_i = 6f{[x_{i-1},x_i,x_{i+1}]} }$:
+
+${ m_iM_{i-1} + 2M_i + \lambda_iM_{i+1} = \gamma_i }$
+
+Con los $M_i$ en las ligaduras tendremos $4(n-1)$ variables, hasta llegar a las $4n$ que necesitamos nos faltan dos condiciones.
+
+Hay diferentes condiciones que se nos pueden presentar:
+
+-**Spline sujeto** 
+$S^{'}_1(x_0)=f^{'}_0$ y $S^{'}_n(x_n)=f^{'}_n$
+
+De acuerdo con la fórmula de $S^{'}(x)$ obtenemos:
+
+${ f^{'}_0 = -M_0h_i/2 + f[x_0,x_1] - (M_1-M_0)h_i/6 }$
+
+${ \Rightarrow  2M_0+M_1=6/h_1(f{[x_0,x_1]} - f^{'}_0) = 6f{[x_0,x_0,x_1]} }$
+
+Equivalentemente para $x_n$
+
+${ S^{'}_n(x_n) = -M_{n-1}(x_n-x_n)^2/2h_n + M_n(x_n-x_{n-1})^2/2h_n + (y_n-y_{n-1})/h_n -(M_n-M_{n-1})h_n/6}$
+
+${ \Rightarrow M_{n-1}+2M_n=6f{[x_{n-1},x_n,x_n]} }$
+
+Tomando ${ \mu_i = h_i/(h_i+h_{i+1}) }$, la matriz del sistema es:
+
+${ \begin{pmatrix}
+  2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
+  \mu_1  & 2	 		& \lambda_1  &   0       &    \vdots      \\
+  0      & \ddots    & \ddots     &  \ddots   &     0          \\
+  \vdots &     0     & \mu_{n-1}  &    2      & \lambda_{n-1}  \\
+  0      &   \cdots  &     0      &   \mu_n   &     2
+\end{pmatrix} }$
+${ \begin{pmatrix}
+  M_0 \\
+  M_1 \\
+  \vdots \\
+  M_{n-1} \\
+  M_n
+\end{pmatrix} =}$
+${ \begin{pmatrix}
+  d_0 \\
+  d_1 \\
+  \vdots \\
+  d_{n-1} \\
+  d_n
+\end{pmatrix} }$
+
+
+-**Spline natural** 
+
+$M_0=0$ y $M_n=0$
+
+${ \begin{pmatrix}
+  2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
+  \mu_1  & 2	 		& \lambda_1  &   0       &    \vdots      \\
+  0      & \ddots    & \ddots     &  \ddots   &     0          \\
+  \vdots &     0     & \mu_{n-1}  &    2      & \lambda_{n-1}  \\
+  0      &   \cdots  &     0      &   \mu_n   &     2
+\end{pmatrix} }$
+${ \begin{pmatrix}
+  M_0 \\
+  M_1 \\
+  \vdots \\
+  M_{n-1} \\
+  M_n
+\end{pmatrix} =}$
+${ \begin{pmatrix}
+  0 \\
+  d_1 \\
+  \vdots \\
+  d_{n-1} \\
+  0
+\end{pmatrix} }$
+
+-**Spline periódico**
+
+${ S^{'}_1(x_0) = S^{'}_n(x_n) }$ y ${ S^{''}_1(x_0) = S^{''}_n(x_n) }$
+<!--Falta plantearlo-->
+${ \begin{pmatrix}
+  2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
+  \mu_1  & 2	 		& \lambda_1  &   0       &    \vdots      \\
+  0      & \ddots    & \ddots     &  \ddots   &     0          \\
+  \vdots &     0     & \mu_{n-1}  &    2      & \lambda_{n-1}  \\
+  0      &   \cdots  &     0      &   \mu_n   &     2
+\end{pmatrix} }$
+${ \begin{pmatrix}
+  M_0 \\
+  M_1 \\
+  \vdots \\
+  M_{n-1} \\
+  M_n
+\end{pmatrix} =}$
+${ \begin{pmatrix}
+  0 \\
+  d_1 \\
+  \vdots \\
+  d_{n-1} \\
+  0
+\end{pmatrix} }$
+
+
+
 
 
 
@@ -460,13 +620,3 @@ pot = @(x) (x > a) * (x - a)^n
 
 Como Octave tiene tipos dinámicos convertirá `(x > a)` a $1$ si $x > a$ y a $0$
 en otro caso.
-
-
-
-
-
-
-
-${ S^{''}_i(x) = M_{i-1}{(x_i-x)}/h_i + M_i{(x-x_{i-1})/h_i} }$ *for* $x \in {[x_{i-1},x_i]}$
-
-${ S_i(x) = M_{i-1}{(x_i-x)^3/6h_i} + {M_i(x-x_{i-1})/6h_i} +{(y_{i-1}-{(M_{i-1}h^2_i)/6})}{(x_i-x)/h_i} + {(y_i-{(M_ih^2_i)/6}) {(x-x_{i-1})/h_i}} for x \in [x_{i-1},x_i]}$
