@@ -316,6 +316,7 @@ $$m_iM_{i-1} + 2M_i + \lambda_iM_{i+1} = \gamma_i$$
 Con los $M_i$ en las ligaduras tendremos $4(n-1)$ variables, para que el sistema
 sea determinado nos faltan dos condiciones. Hay diferentes condiciones que se nos pueden presentar:
 
+\vspace*{2\baselineskip}
 
 **Spline sujeto**
  
@@ -356,63 +357,66 @@ $$
   \gamma_n
 \end{pmatrix}$$
 
+\vspace*{2\baselineskip}
 
--**Spline natural** 
+**Spline natural** 
 
-$M_0=0$ y $M_n=0$
+En este caso $M_0=0$ y $M_n=0$, por lo que el sistema queda:
 
-${ \begin{pmatrix}
+$$\begin{pmatrix}
   2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
   \mu_1  & 2	 		& \lambda_1  &   0       &    \vdots      \\
   0      & \ddots    & \ddots     &  \ddots   &     0          \\
   \vdots &     0     & \mu_{n-1}  &    2      & \lambda_{n-1}  \\
   0      &   \cdots  &     0      &   \mu_n   &     2
-\end{pmatrix} }$
-${ \begin{pmatrix}
+\end{pmatrix}
+\begin{pmatrix}
   M_0 \\
   M_1 \\
   \vdots \\
   M_{n-1} \\
   M_n
-\end{pmatrix} =}$
-${ \begin{pmatrix}
+\end{pmatrix}
+\begin{pmatrix}
   0 \\
   \gamma_1 \\
   \vdots \\
   \gamma_{n-1} \\
   0
-\end{pmatrix} }$
+\end{pmatrix}$$
 
--**Spline periódico**
+\vspace*{2\baselineskip}
 
-${ S^{'}_1(x_0) = S^{'}_n(x_n) }$ y ${ S^{''}_1(x_0) = S^{''}_n(x_n) }$
+**Spline periódico**
+
+En este caso $S'_1(x_0) = S'_n(x_n)$ y $S''_1(x_0) = S''_n(x_n)$. El sistema queda:
+
 <!--Falta plantearlo-->
-${ \begin{pmatrix}
+
+$$
+\begin{pmatrix}
   2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
   \mu_1  & 2	 		& \lambda_1  &   0       &    \vdots      \\
   0      & \ddots    & \ddots     &  \ddots   &     0          \\
   \vdots &     0     & \mu_{n-1}  &    2      & \lambda_{n-1}  \\
   0      &   \cdots  &     0      &   \mu_n   &     2
-\end{pmatrix} }$
-${ \begin{pmatrix}
+\end{pmatrix}
+\begin{pmatrix}
   M_0 \\
   M_1 \\
   \vdots \\
   M_{n-1} \\
   M_n
-\end{pmatrix} =}$
-${ \begin{pmatrix}
+\end{pmatrix} =
+\begin{pmatrix}
   0 \\
   \gamma_1 \\
   \vdots \\
   \gamma_{n-1} \\
   0
-\end{pmatrix} }$
+\end{pmatrix}$$
 
-
-
-
-
+**CAMBIAR SISTEMA POR EL QUE ES!!!**
 
 ## Propiedades de minimización
 
