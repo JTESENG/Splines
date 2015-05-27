@@ -191,25 +191,28 @@ El sistema queda:
 \begin{pmatrix}
 1 & x_0 & x_0^2  & \cdots & (x_0-x_1)_{+}^2 & \cdots & (x_0-x_{n-1})_{+}^2\\
 1 & x_1 & x_1^2  & \cdots & (x_1-x_1)_{+}^2 & \cdots & (x_1-x_{n-1})_{+}^2\\
-\vdots  &
-\vdots  &
+\vdots  &        &        &                 &        & \vdots \\
+\vdots  &        &        &                 &        & \vdots \\
+\vdots  &        &        &                 &        & \vdots \\
 1 & x_n & x_n^2  & \cdots & (x_n-x_1)_{+}^2 & \cdots & (x_n-x_{n-1})_{+}^2\\
 0 &   1 &  2x^{*}  & \cdots & 2(x^{*}-x_1)_{+} & \cdots & 2(x^{*}-x_{n-1})_{+}         
 \end{pmatrix}
 \begin{pmatrix}
 a 		 \\
-b 		 \\
-c 		 \\
+\vdots 		 \\
+z		 \\
 \alpha \\
-\beta
+\beta \\
+\vdots \\
+\omega
 \end{pmatrix}
 =
 \begin{pmatrix}
-7\\
-3\\
-5\\
-5\\
-4
+y_0\\
+\vdots\\
+\vdots\\
+y_n\\
+d(x^{*})\\
 \end{pmatrix}
 \]
 
