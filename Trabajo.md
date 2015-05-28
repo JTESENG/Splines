@@ -532,7 +532,9 @@ $$6\frac{p_{i+1}-p_i}{h_{i+1}+h_i} =  M_{i+1}\frac{h_{i+1}}{h_{i+1}+h_i} + M_{i-
 
 Denotando por $\displaystyle\mu_i = \frac{h_i}{h_i+h_{i+1}}$, $\displaystyle\lambda_i = 1-\mu_i = \frac{h_{i+1}}{h_i+h_{i+1}}$ y $\displaystyle\gamma_i = 6\frac{p_{i+1}-p_i}{h_{i+1}+h_i}$:
 
-$$\mu_iM_{i-1} + 2M_i + \lambda_iM_{i+1} = \gamma_i (*)$$
+\begin{equation} \label{eq:ast}
+\mu_iM_{i-1} + 2M_i + \lambda_iM_{i+1} = \gamma_i
+\end{equation}
 
 Con los $M_i$ en las ligaduras tendremos $4(n-1)$ variables, para que el sistema
 sea determinado nos faltan dos condiciones. Hay diferentes condiciones que se nos pueden presentar:
@@ -545,9 +547,9 @@ $S'_1(x_0) = f'_0$ y $S'_n(x_n)=f'_n$. De acuerdo con la fórmula de $S'(x)$ obt
 
 $$f'_0 = -\frac{M_0h_i}{2} + f[x_0,x_1] - \frac{(M_1 - M_0)h_i}{6} $$
 
-$$\implies  2M_0+M_1=\frac{6(f{[x_0,x_1]} - f^{'}_0)}{h_1} = 6f{[x_0,x_0,x_1]} (*)$$
+$$\implies  2M_0+M_1=\frac{6(f{[x_0,x_1]} - f^{'}_0)}{h_1} = 6f{[x_0,x_0,x_1]}$$
 
-Equivalentemente para $x_n$:
+Donde el último paso se deduce de (\ref{eq:ast}). Equivalentemente para $x_n$:
 
 \begin{multline*}
 S'_n(x_n) = - \frac{M_{n-1}(x_n-x_n)^2}{2h_n} + \frac{M_n(x_n-x_{n-1})^2}{2h_n} + \frac{(y_n-y_{n-1})}{h_n} - \frac{(M_n-M_{n-1})h_n}{6} \\
