@@ -32,7 +32,9 @@ La palabra **spline** con el tiempo se usó para referirse a una larga banda fle
 generalmente de metal, que podía usarse para dibujar curvas continuas suaves,
 forzando a la banda a pasar por puntos específicos y trazados a lo largo de dicha curva.
 
-\includegraphics[scale=0.25]{spline.png}\centering
+\begin{center}
+\includegraphics[scale=0.25]{spline.png}
+\end{center}
 
 La formalización del concepto de función spline, es decir, una curva continua
 que pasa por ciertos puntos se resume en la siguiente definición:
@@ -442,7 +444,9 @@ Uno de los problemas de la interpolación polinomial es que, al ir aumentando el
 número de nodos el grado del polinomio requerido para interpolarlos aumenta.
 Esto conlleva fluctuaciones en los extremos de la interpolación. <!--(1)-->
 
-\includegraphics[scale=0.65]{problema.png}\centering
+\begin{center}
+\includegraphics[scale=0.65]{problema.png}
+\end{center}
 
 Si dividimos el intervalo en una partición podemos interpolar utilizando un
 polinomio S_i(x) de grado 3 en cada intervalo, es decir, utilizando **splines cúbicos**. Como veremos después este método minimiza la cota de error.
