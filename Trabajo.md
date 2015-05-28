@@ -150,7 +150,7 @@ $x_{k+1}$ & $y_{k+1}$ & $p_{k+1}$ & $\frac{p_{k+1}-d_k}{h_k}$ \\
 De esta forma, $s_{k+1}$ queda para $x \in [x_k, x_{k+1}]$ de la siguiente forma:
 
 \begin{equation} \label{eq:skmas}
-s_{k+1}(x)=y_k+d_k(x-x_k)+\frac{p_{k+1}-d_k}{h_{k+1}}(x-x_k)(x-x_{k+1})
+s_{k+1}(x)=y_k+d_k(x-x_k)+\frac{p_{k+1}-d_k}{h_{k+1}}(x-x_k)(x-x_k)
 \end{equation}
 
 

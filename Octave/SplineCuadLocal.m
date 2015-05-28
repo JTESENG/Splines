@@ -1,13 +1,12 @@
 function z = SplineCuadLocal(x, y, d_k, k)
 	s = zeros(length(x)-1, 3);
   d = d_k;
-
   #Recorremos todos los nodos de n+1 en adelante:
 
   for i = (k+1):length(x)
 		p = (y(i)-y(i-1))/(x(i)-x(i-1));
 		q = (p-d)/(x(i)-x(i-1));
-		v = [x(i-1) x(i-1)];
+		v = [1 x(i-1)];
 		s(i-1,:) = [0 0 y(i-1)]+[0 d -d*x(i-1)]+q*poly(v);
 		d = 2*p-d;
 	end
