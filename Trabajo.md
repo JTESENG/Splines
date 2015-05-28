@@ -516,7 +516,9 @@ $$
   \gamma_n
 \end{pmatrix}$$
 
-Una vez calculados estos M_i igualamos S^{'}_1(x)=S^{'}_n(x) para calcular los coeficientes que faltan.
+En este caso añadimos:
+
+${ S^{'}_1(x_0)= -M_0 \cdot \frac{h_1}{2}+ f{[x_o,x_1]} - \frac{M_1-M_0}{6} \cdot h_1 }$
 <!--**CAMBIAR SISTEMA POR EL QUE ES!!!**-->
 
 ## Propiedades de minimización
