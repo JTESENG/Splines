@@ -461,25 +461,21 @@ $$
 En este caso $M_0=0$ y $M_n=0$, $\lambda_0 = \mu_n = 1$ por lo que el sistema queda:
 
 $$\begin{pmatrix}
-  2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
-  \mu_1  & 2	 		& \lambda_1  &   0       &    \vdots      \\
-  0      & \ddots    & \ddots     &  \ddots   &     0          \\
-  \vdots &     0     & \mu_{n-1}  &    2      & \lambda_{n-1}  \\
-  0      &   \cdots  &     0      &   \mu_n   &     2
+   2        & \lambda_1  &   0       &    \cdots     & 0 \\
+  \mu_2     & 2          &  \lambda_2   &     0         & \vdots\\
+  0         & \ddots     &  \ddots   &     \ddots    & 0 \\
+  \vdots    &    0       & \mu_{n-2} &     2         &  \lambda_{n-2}\\
+  0         &  \cdots    &    0      &    \mu_{n-1}  & 2
 \end{pmatrix}
 \begin{pmatrix}
-  0 \\
   M_1 \\
   \vdots \\
   M_{n-1} \\
-  0
 \end{pmatrix}
 \begin{pmatrix}
-  \gamma_0 \\
   \gamma_1 \\
   \vdots \\
   \gamma_{n-1} \\
-  \gamma_ {n}
 \end{pmatrix}$$
 
 \vspace*{2\baselineskip}
