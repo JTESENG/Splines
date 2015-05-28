@@ -372,7 +372,7 @@ $s_1$ queda en su intervalo:
 
 $$s_1(x)=1+\frac{3}{2}(x+1)+\frac{-5}{4}(x+1)(x-1)$$
 
-Ahora que hemos calculado la expresión de $s$ para todos lo intervalos a la izquierda de la derivada, calculamos la función para todos los valores a la derecha de la 
+Ahora que hemos calculado la expresión de $s$ para todos lo intervalos a la izquierda de la derivada, calculamos la función para todos los valores a la derecha de la
 derivada.
 
 Calculamos las diferencias divididas para nodos 3 y 6:
@@ -426,7 +426,7 @@ $$s(x)=
 s_1(x)=1+\frac{3}{2}(x+1)+\frac{-5}{4}(x+1)(x-1)   & \text{si } x\in {[-1,1)}\\
 s_2(x)=4+2(x-1)+\frac{3}{2}(x-1)(x-3)             & \text{si } x\in {[1,3)}\\
 s_3(x)=8+5(x-3)- \frac{7}{3} (x-3)(x-3)           & \text{si } x\in {[3,6)}\\
-s_4(x)=2 -9(x-6)+16(x-6)(x-6) & \text{si } x\in {[6,7)} \\
+s_4(x)=2 -9(x-6)+16(x-6)(x-6) & \text{si } x\in {[6,7])} \\
 \end{cases}
 $$
 \end{solucion}
@@ -905,7 +905,7 @@ end
 ## Splines cúbicos
 
 Para el cálculo de splines cúbicos por medio de la segunda derivada nos hemos
-valido de la interpolación de splines lineales y de la función `ppint`, que 
+valido de la interpolación de splines lineales y de la función `ppint`, que
 realiza la integración de un spline.
 
 ### Spline sujeto
