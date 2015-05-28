@@ -700,7 +700,7 @@ ya que $u, s \in H$.
 En cuanto a la segunda, $s'''|_{[x_i, x_{i+1}]}$ es constante, por lo
 que podemos sacarlo de la integral:
 \[
-\sum_{1}^{n-1} s_i\int_a^be'(x) = \sum_{1}^{n-1}  s_i(e(b) - e(a)) = 0
+\sum_{1}^{n-1} s_i\int_a^be' = \sum_{1}^{n-1}  s_i(e(b) - e(a)) = 0
 \]
 
 Es decir, $<e'',s''> = 0$. Por tanto:
