@@ -820,14 +820,17 @@ Equivalentemente para $C_2$ y $C_3$, obtenemos la solución:
 
 **Natural**:
 
+\begin{problema}
 Hallar spline natural tal que:
 \begin{enumerate}
 \item Pasa por los puntos: $\{(1,3),(2,6),(3,4), (4,0)\}$
 \item $S^{'}(0) = S^{'}(3)$ y $S{''}(0) = S^{''}(3)$
 \end{enumerate}
+\end{problema}
 
 \vspace*{\baselineskip}
 
+\begin{solucion}
 Como los nodos están equiespaciados $h_i=1$ $\forall i \in \{1..n\}$
 
 $$ \mu_2 = \lambda_1 =\frac{1}{2} $$
@@ -875,8 +878,7 @@ Equivalentemente para $S_2$ y $S_3$, obtenemos la solución:
    \frac{6}{5}x^3-\frac{72}{5}x^2+\frac{267}{5}x-60  &  \text{si } 3 < x \leq 4  \\
   \end{cases}
 \end{equation*}
-
-
+\end{solucion}
 
 
 
