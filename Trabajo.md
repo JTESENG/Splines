@@ -87,7 +87,6 @@ una base del espacio de splines cuadráticos con el uso de potencias truncadas.
 
 $$\{1, x, x^2, (x-x_1)_+^2, ... , (x-x_{n-1})_+^2\}$$
 
-\pagebreak
 
 ## Interpolación con splines cuadráticos
 
@@ -879,37 +878,34 @@ Otra implementación posible es calcular el spline **a trozos**:
 ```octave
 function z = SplineCuadLocal(x, y, d_k, k)
 	s = zeros(length(x)-1, 3);
-   d = d_k;
+  d = d_k;
+  #Recorremos todos los nodos de n+1 en adelante:
 
-    #Recorremos todos los nodos de n+1 en adelante:
-
-    for i = (k+1):length(x)
-		p = (y(i)-y(i-1))/(x(i)-x(i-1));
-		q = (p-d)/(x(i)-x(i-1));
-		v = [x(i-1) x(i-1)];
-		s(i-1,:) = [0 0 y(i-1)]+[0 d -d*x(i-1)]+q*poly(v);
-		d = 2*p-d;
+  for i = (k+1):(length(x)-1)
+		p = (y(i+1)-y(i))/(x(i+1)-x(i));
+		q = (p-d)/(x(i+1)-x(i));
+		v = [x(i) x(i)];
+		s(i,:) = [0, 0, y(i)]+[0, d, -d*x(i)]+q*poly(v);
+		d = polyval(polyder(s(i,:)),x(i+1));
 	end
     d = d_k;
 
-    #Recorremos todos los nodos desde n hasta el 1:
+  #Recorremos todos los nodos desde n hasta el 1:
 
-    for i = 0:(k-2)
-		j = k-i;
-		p = (y(j)-y(j-1))/(x(j)-x(j-1));
-		q = (d-p)/(x(j)-x(j-1));
-		v = [x(j-1) x(j)];
-		s(j-1,:) = [0 0 y(j-1)]+[0 p -p*x(j-1)]+q*poly(v);
-    end
+  for j = k:-1:1
+		p = (y(j+1)-y(j))/(x(j+1)-x(j))
+		q = (d-p)/(x(j+1)-x(j))
+		v = [x(j) x(j+1)]
+		s(j,:) = [0 0 y(j)]+[0 p -p*x(j)]+q*poly(v);
+		d = polyval(polyder(s(j,:)), x(j))
+  end
 
-    for i = 1:length(s)
-    	s(i,:) = polyaffine(s(i,:), [-x(i), 1]);
-    end
+  for i = 1:length(s)
+    s(i,:) = polyaffine(s(i,:), [-x(i), 1]);
+  end
     z = mkpp(x, s);
 end
 ```
-
-\pagebreak
 
 ## Splines cúbicos
 
@@ -946,7 +942,6 @@ function s = SplineSuj (x, y, d_1, d_n)
 end
 ```
 
-\pagebreak
 
 ### Spline natural
 
@@ -975,7 +970,50 @@ function s = SplineNat(x, y)
   s = ppint(ppint(SplineLineal(x, [0 m' 0])));
 end
 ```
+### Spline periódico
 
+La función del **spline periódico** queda:
+
+```octave
+function z = SplinePer (x, y)
+        n=length(x);
+        twoes=2*ones(1,n);
+        h=diff(x);
+        lambda=[1];
+        for i=1:(n-2)
+                lambda(i+1)=h(i+1)/(h(i+1)+h(i));
+        endfor
+        mu=[];
+        for i=1:(n-2)
+                mu(i)=h(i)/(h(i+1)+h(i));
+        endfor
+        mu(n-1)=1;
+        A=diag(mu,-1)+diag(twoes,0)+diag(lambda,1);
+        dd1=zeros(n-1,1);
+        for i=1:(n-1)
+                dd1(i)=(y(i+1)-y(i))/(x(i+1)-x(i));
+        endfor
+        dd2=zeros(n-2,1);
+        for i=1:(n-2)
+                dd2(i)=(dd1(i+1)-dd1(i))/(x(i+2)-x(i));
+        endfor
+   A(1,:)=h(1)*A(1,:);
+   A(1,1)=A(1,1)-h(1)/3;
+   A(1,2)=A(1,2)+h(1)/6;
+   A(n,:)=h(n-1)*A(1,:);
+
+   A(n,1)=A(1,1)+h(1)/3;
+   A(n,2)=A(1,2)-h(1)/6;
+   gamma=zeros(n,1);
+        gamma(1)=h(1)-dd1(1);
+   gamma(n)=-h(n-1)+dd1(1);
+        for i=1:(n-2)
+                gamma(i+1)=6*dd2(i);
+        endfor
+   m=A\gamma;
+	s = ppint(ppint(SplineLineal(x, m)));
+end
+```
 \pagebreak
 \appendix
 
@@ -1030,6 +1068,9 @@ se definen, para $1 \leq i \leq n$:
 
 
 #Bibliografía
-- [Quadratic Interpolatory Splines W.J.Kammerer, G. W. Reddien, and R.S. Varga](www.math.kent.edu/~varga/pub/paper_85.pdf)
-- [Cubic Spline Interpolation  - Wikiversity](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
+- [Quadratic Interpolatory Splines W.J.Kammerer, G. W. Reddien, and R.S. Varga](http://www.math.kent.edu/~varga/pub/paper_85.pdf)
+- [Cubic Spline Interpolation](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
 - Análisis numérico (Novena Edición) Richard L. Burden y J. Douglas Faires
+- *Analysis of Numerical Methods* - Eugene Isaacson, Herbert Bishop Keller
+- *Spline Approximation of Functions and Data* - Universidad de Oslo
+- *Optimal Error Bounds for Cubic Spline Interpolation* - Charles A. Hall
