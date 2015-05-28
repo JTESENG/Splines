@@ -31,6 +31,8 @@ La palabra **spline** con el tiempo se usó para referirse a una larga banda fle
 generalmente de metal, que podía usarse para dibujar curvas continuas suaves,
 forzando a la banda a pasar por puntos específicos y trazados a lo largo de dicha curva.
 
+<!-- ![Banda de metal]{./spline} -->
+
 La formalización del concepto de función spline, es decir, una curva continua
 que pasa por ciertos puntos se resume en la siguiente definición:
 
@@ -437,6 +439,8 @@ Uno de los problemas de la interpolación polinomial es que, al ir aumentando el
 número de nodos el grado del polinomio requerido para interpolarlos aumenta.
 Esto conlleva fluctuaciones en los extremos de la interpolación. <!--(1)-->
 
+<!-- La imagen podría ir aquí -->
+
 Si dividimos el intervalo en una partición podemos interpolar utilizando un
 polinomio S_i(x) de grado 3 en cada intervalo, es decir, utilizando **splines cúbicos**. Como veremos después este método minimiza la cota de error.
 
@@ -607,13 +611,12 @@ $$\begin{pmatrix}
 En este caso $S'_1(x_0) = S'_n(x_n)$ y $S''_1(x_0) = S''_n(x_n)$. El sistema queda:
 
 <!--Falta plantearlo-->
-
 $$
 \begin{pmatrix}
-  2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
-  \mu_1  & 2	 		& \lambda_1  &   0       &    \vdots      \\
-  0      & \ddots    & \ddots     &  \ddots   &     0          \\
-  \vdots &     0     & \mu_{n-1}  &    2      & \lambda_{n-1}
+  2+2 	   & \lambda_0 &    0       &   \cdots      \\
+  \mu_1  & 2	 		& \ddots  &   0       &          \\
+  0      & \ddots    & \ddots     &  \lambda_{n-2}          \\
+  \lambda_{n-1} &     0     & \mu_{n-1}  &    2     
 \end{pmatrix}
 \begin{pmatrix}
   M_0 \\
@@ -623,14 +626,14 @@ $$
   M_{n-1}
 \end{pmatrix} =
 \begin{pmatrix}
-  \gamma_0=h_1-S^{'}_(x_0) \\
+  \gamma_0+\gamma_n=\frac{h_1-S^{'}_1(x_0)}{hn}+\frac{S^{'}_1(x_o)-h_n}{h_n} \\
   \gamma_1 \\
   \vdots \\
   \gamma_{n-2} \\
   \gamma_{n-1}
 \end{pmatrix}$$
 
-En este caso añadimos:
+En este caso hemos tenido en cuenta que:
 
 ${ S^{'}_1(x_0)= -M_0 \cdot \frac{h_1}{2}+ f{[x_o,x_1]} - \frac{M_1-M_0}{6} \cdot h_1 }$
 <!--**CAMBIAR SISTEMA POR EL QUE ES!!!**-->
