@@ -476,12 +476,16 @@ $$\begin{pmatrix}
 \end{pmatrix}
 \begin{pmatrix}
   M_1 \\
+  M_2 \\
   \vdots \\
+  M_{n-2}
   M_{n-1} \\
 \end{pmatrix}
 \begin{pmatrix}
   \gamma_1 \\
+  \gamma_2 \\
   \vdots \\
+  \gamma_{n-2} \\
   \gamma_{n-1} \\
 \end{pmatrix}$$
 
@@ -498,22 +502,21 @@ $$
   2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
   \mu_1  & 2	 		& \lambda_1  &   0       &    \vdots      \\
   0      & \ddots    & \ddots     &  \ddots   &     0          \\
-  \vdots &     0     & \mu_{n-1}  &    2      & \lambda_{n-1}  \\
-  0      &   \cdots  &     0      &   \mu_n   &     2
+  \vdots &     0     & \mu_{n-1}  &    2      & \lambda_{n-1}
 \end{pmatrix}
 \begin{pmatrix}
   M_0 \\
   M_1 \\
   \vdots \\
-  M_{n-1} \\
-  M_0
+  M_{n-2} \\
+  M_{n-1}
 \end{pmatrix} =
 \begin{pmatrix}
-  \gamma_0 \\
+  \gamma_0=h_1-S^{'}_(x_0) \\
   \gamma_1 \\
   \vdots \\
-  \gamma_{n-1} \\
-  \gamma_n
+  \gamma_{n-2} \\
+  \gamma_{n-1}
 \end{pmatrix}$$
 
 En este caso añadimos:
