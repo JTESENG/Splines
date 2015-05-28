@@ -7,6 +7,7 @@ header-includes:
 	\usepackage{amsthm}
 	\usepackage{booktabs}
 	\usepackage{caption}
+	\usepackage{xfrac}
 	\newtheorem*{proposicion}{Proposición}
 	\newtheorem*{teorema}{Teorema}
 	\theoremstyle{definition}
@@ -174,95 +175,6 @@ El método queda entonces de la siguiente forma:
 
 \vspace*{2\baselineskip}
 
-#### Ejemplo
-Tenemos los siguientes datos:
-\begin{tabular}{ c c c c c}
-	$-1$ & $1$ & $3$ & $6$ & $7$ \\
-	$ 1$ & $4$ & $8$ & $2$ & $9$ \\
-	     &		 & $5$ &		 &     \\
-\end{tabular}
-
-Nos dan la derivada en el nodo 3, procedemos a calcular las Diferencias Divididas en los nodos 1 y 3 para hallar $s_2(x)$
-
-\begin{tabular}{llll}
-\hline
-x & y & DD1 & DD2\\
-\hline
-$1$ & $4$ &     & \\
-$3$ & $8$ & $2$ & \\
-$3$ & $8$ & $5$ & $\frac{3}{2}$ \\
-\hline
-\end{tabular}
-
-$$s_2(x)=4+2(x-1)+\frac{3}{2}(x-1)(x-3)$$
-
-Ahora estimamos la derivada en el nodo 1:
-
-$$s_2'(x)=2(x-1)+\frac{3}{2}((x-3)+(x-1))=2(x-1)+\frac{3}{2}(2x-4)$$
-
-$$s_2'(1)=-\frac{3}{2}2=-3$$
-
-\begin{tabular}{llll}
-\hline
-x & y & DD1 & DD2\\
-\hline
-$-1$ & $1$  &                & \\
-$1$  & $4$  & $\frac{3}{2}$  & \\
-$1$  & $4$  & $-3$           & $\frac{9}{4}$ \\
-\hline
-\end{tabular}
-
-$$s_1(x)=1+\frac{3}{2}(x-1)+\frac{9}{4}(x-1)(x-1)$$
-
-Ahora que hemos calculado $s(x)$ para todos lo valores a la izquierda de 3, calculamos la función para todos los valores a la derecha de 3.
-
-Calculamos DD para nodos 3 y 6
-
-\begin{tabular}{llll}
-\hline
-x & y & DD1 & DD2\\
-\hline
-$3$  & $8$  &      & \\
-$3$  & $8$  & $5$  & \\
-$6$  & $2$  & $-2$ & $\frac{7}{4}$ \\
-\hline
-\end{tabular}
-
-$$s_3(x)=8+5(x-3)+ \frac{7}{4} (x-3)(x-6)$$
-
-$$s_3'(x)=5+\frac{7}{4}(x-6+x-3)=5+\frac{7}{4}(2x-9)$$
-
-Estimamos la derivada del nodo 6:
-$$s_3'(6)=5+\frac{7}{4}3=\frac{41}{4}$$
-
-Finalmente, calculamos $s_4(x)$:
-
-\begin{tabular}{llll}
-\hline
-x & y & DD1 & DD2\\
-\hline
-$6$ & $2$  &                 & \\
-$6$ & $2$  & $\frac{41}{4}$  & \\
-$7$ & $4$  & $2$             & $\frac{33}{4}$ \\
-\hline
-\end{tabular}
-
-De esta forma, tenemos la expresión de $s_4$ sería:
-
-$$s_4(x)=2+\frac{41}{4}(x-6)+\frac{33}{4}(x-6)(x-7)$$
-
-Por lo tanto, nuestra solución sería:
-
-
-$$s(x)=
-\begin{cases}
-s_1(x)=1+\frac{3}{2}(x-1)+\frac{9}{4}(x-1)(x-1)   & \text{si } x\in {[-1,1)}\\
-s_2(x)=4+2(x-1)+\frac{3}{2}(x-1)(x-3)             & \text{si } x\in {[1,3)}\\
-s_3(x)=8+5(x-3)+ \frac{7}{4} (x-3)(x-6)           & \text{si } x\in {[3,6)}\\
-s_4(x)=2+\frac{41}{4}(x-6)+\frac{33}{4}(x-6)(x-7) & \text{si } x\in {[6,7)} \\
-\end{cases}
-$$
-
 ### Método global: cálculo con una base de potencias truncadas
 
 Para este método usaremos esta base del espacio vectorial $S_2(P)$:
@@ -403,6 +315,120 @@ s(x) =
 \]
 
 \end{solucion}
+
+\begin{problema}
+Dados los siguientes dados, calcula el spline cuadrático que los interpola:
+\begin{table}[h]
+\centering
+\begin{tabular}{l|lllll}
+$x_i$ & $-1$& $1$ & $3$ & $6$ & $7$ \\
+$y_i$ & $1$ & $4$ & $8$ & $2$ & $9$ \\
+$d_i$	&     &	   & $5$ &		&     \\
+\end{tabular}
+\end{table}
+\end{problema}
+
+\begin{solucion}
+Nos dan la derivada en el nodo 3, procedemos a calcular las diferencias divididas en los nodos 1 y 3 para hallar $s_2$:
+
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llll}
+x & y & DD1 & DD2\\
+\hline
+$1$ & $4$ &     & \\
+$3$ & $8$ & $2$ & \\
+$3$ & $8$ & $5$ & $\sfrac{3}{2}$ \\
+\hline
+\end{tabular}
+\end{table}
+
+$s_2$ queda en su intervalo:
+
+$$s_2(x)=4+2(x-1)+\frac{3}{2}(x-1)(x-3)$$
+
+Ahora estimamos la derivada en el nodo 1:
+
+$$s_2'(x)=2(x-1)+\frac{3}{2}((x-3)+(x-1))=2(x-1)+\frac{3}{2}(2x-4)$$
+
+$$s_2'(1)=-\frac{3}{2}2=-3$$
+
+Realizamos de nuevo la tabla de diferencias divididas:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llll}
+x & y & DD1 & DD2\\
+\hline
+$-1$ & $1$  &                & \\
+$1$  & $4$  & $\sfrac{3}{2}$  & \\
+$1$  & $4$  & $-3$           & $\sfrac{9}{4}$ \\
+\hline
+\end{tabular}
+\end{table}
+
+$s_1$ queda en su intervalo:
+
+$$s_1(x)=1+\frac{3}{2}(x-1)+\frac{9}{4}(x-1)(x-1)$$
+
+Ahora que hemos calculado la expresión de $s$ para todos lo intervalos a la izquierda de la derivada, calculamos la función para todos los valores a la derecha de la 
+derivada.
+
+Calculamos las diferencias divididas para nodos 3 y 6:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llll}
+x & y & DD1 & DD2\\
+\hline
+$3$  & $8$  &      & \\
+$3$  & $8$  & $5$  & \\
+$6$  & $2$  & $-2$ & $\sfrac{7}{4}$ \\
+\hline
+\end{tabular}
+\end{table}
+
+
+$s_3$ y su derivada quedan en su intervalo:
+$$s_3(x)=8+5(x-3)+ \frac{7}{4} (x-3)(x-6)$$
+
+$$s_3'(x)=5+\frac{7}{4}(x-6+x-3)=5+\frac{7}{4}(2x-9)$$
+
+Estimamos la derivada del nodo 6:
+$$s_3'(6)=5+\frac{7}{4}3=\frac{41}{4}$$
+
+Finalmente, calculamos $s_4$:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llll}
+x & y & DD1 & DD2\\
+\hline
+$6$ & $2$  &                 & \\
+$6$ & $2$  & $\sfrac{41}{4}$  & \\
+$7$ & $4$  & $2$             & $\sfrac{33}{4}$ \\
+\hline
+\end{tabular}
+\end{table}
+
+De esta forma, la expresión de $s_4$ sería:
+
+$$s_4(x)=2+\frac{41}{4}(x-6)+\frac{33}{4}(x-6)(x-7)$$
+
+Por lo tanto, nuestra solución sería:
+
+
+$$s(x)=
+\begin{cases}
+s_1(x)=1+\frac{3}{2}(x-1)+\frac{9}{4}(x-1)(x-1)   & \text{si } x\in {[-1,1)}\\
+s_2(x)=4+2(x-1)+\frac{3}{2}(x-1)(x-3)             & \text{si } x\in {[1,3)}\\
+s_3(x)=8+5(x-3)+ \frac{7}{4} (x-3)(x-6)           & \text{si } x\in {[3,6)}\\
+s_4(x)=2+\frac{41}{4}(x-6)+\frac{33}{4}(x-6)(x-7) & \text{si } x\in {[6,7)} \\
+\end{cases}
+$$
+\end{solucion}
+
 \pagebreak
 
 # Splines cúbicos
@@ -791,20 +817,10 @@ Equivalentemente para $C_2$ y $C_3$, obtenemos la solución:
 
 # Implementación en ordenador: Octave
 
-Hemos implementado las siguientes funciones en Octave:
-
-1. `SplineLineal`: Calcula spline **lineal**. *(Usado en los splines cúbicos)*
-1. `Spline31` : Calcula spline de **clase 1**.
-1. `SplineNat`: Calcula spline **natural**.
-2. `SplinePer`: Calcula spline **periódico**.
-3. `SplineSuj`: Calcula spline **sujeto**.
-8. `SplineCuad`: Calcula spline **cuadrático** de clase 1.
-
 ## Spline Lineal
 
 La implementación de la función que nos permite calcular un spline lineal es muy
-sencilla. Esta función nos permite calcular la derivada segunda de un spline
-cúbico conocidas las derivadas segundas en los nodos:
+sencilla:
 
 ```octave
 function s = SplineLineal(x,y)
@@ -883,6 +899,73 @@ function z = SplineCuadLocal(x, y, d_k, k)
     	s(i,:) = polyaffine(s(i,:), [-x(i), 1]);
     end
     z = mkpp(x, s);
+end
+```
+
+\pagebreak
+
+## Splines cúbicos
+
+Para el cálculo de splines cúbicos por medio de la segunda derivada nos hemos
+valido de la interpolación de splines lineales y de la función `ppint`, que 
+realiza la integración de un spline.
+
+### Spline sujeto
+
+La función para el cálculo del **spline sujeto** queda:
+
+```octave
+function s = SplineSuj (x, y, d_1, d_n)
+  n     = length(x) - 1;
+  twoes = 2*ones(1,n+1);
+  h     = diff(x);
+
+  mu     = [(h(1:end-1)./(h(1:end-1) + h(2:end))) 1];
+  lambda = ones(1,n) - [0 mu(1:end-1)];
+
+  A = diag(mu,-1) + diag(twoes,0) + diag(lambda,1);
+
+  dd1 = diff(y)./h;
+  for i=1:(n-1)
+          dd2(i)=(dd1(i+1)-dd1(i))/(x(i+2)-x(i));
+  end
+
+  gamma(1)   = 6*(dd2(1)-d_1)/(x(2)-x(1));
+  gamma(2:n) = 6*dd2(1:n-1);
+  gamma(n+1) = 6*(d_n-dd2(n-1))/(x(n+1)-x(n));
+
+  m = A\gamma';
+  s = ppint(ppint(SplineLineal(x, m')));
+end
+```
+
+\pagebreak
+
+### Spline natural
+
+Para el **spline natural** calculamos la matriz, resolvemos el sistema e integramos
+añadiendo los datos de las derivadas segundas en los extremos:
+
+```octave
+function s = SplineNat(x, y)
+  n = length(x) - 1;
+
+  h = diff(x);     #h_i
+  p = diff(y)./h;  #p_i
+
+  twoes  = 2*ones(1,n-1);
+  mu     = (h(1:end-1)./(h(1:end-1) + h(2:end)));
+  lambda = ones(1,n-1) - mu;
+  gamma  = diff(p)./(h(1:end-1) + h(2:end));
+
+  if(n < 3)
+    A = 2;
+  else
+    A = diag(twoes) + diag(lambda(1:end-1),1) + diag(mu(2:end),-1);
+  end
+
+  m = A \ gamma';
+  s = ppint(ppint(SplineLineal(x, [0 m' 0])));
 end
 ```
 
