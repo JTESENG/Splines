@@ -607,12 +607,11 @@ $$\begin{pmatrix}
 En este caso $S'_1(x_0) = S'_n(x_n)$ y $S''_1(x_0) = S''_n(x_n)$. El sistema queda:
 
 <!--Falta plantearlo-->
-
 $$
 \begin{pmatrix}
-  2+2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
-  \mu_1  & 2	 		& \lambda_1  &   0       &    \vdots      \\
-  0      & \ddots    & \ddots     &  \ddots          \\
+  2+2 	   & \lambda_0 &    0       &   \cdots      \\
+  \mu_1  & 2	 		& \ddots  &   0       &          \\
+  0      & \ddots    & \ddots     &  \lambda_{n-2}          \\
   \lambda_{n-1} &     0     & \mu_{n-1}  &    2     
 \end{pmatrix}
 \begin{pmatrix}
@@ -623,14 +622,14 @@ $$
   M_{n-1}
 \end{pmatrix} =
 \begin{pmatrix}
-  \gamma_0=h_1-S^{'}_(x_0) \\
+  \gamma_0+\gamma_n=\frac{h_1-S^{'}_1(x_0)}{hn}+\frac{S^{'}_1(x_o)-h_n}{h_n} \\
   \gamma_1 \\
   \vdots \\
   \gamma_{n-2} \\
   \gamma_{n-1}
 \end{pmatrix}$$
 
-En este caso añadimos:
+En este caso hemos tenido en cuenta que:
 
 ${ S^{'}_1(x_0)= -M_0 \cdot \frac{h_1}{2}+ f{[x_o,x_1]} - \frac{M_1-M_0}{6} \cdot h_1 }$
 <!--**CAMBIAR SISTEMA POR EL QUE ES!!!**-->
