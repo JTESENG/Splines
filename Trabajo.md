@@ -86,7 +86,7 @@ $$\{1, x, x^2, (x-x_1)_+^2, ... , (x-x_{n-1})_+^2\}$$
 
 ## Interpolación con splines cuadráticos
 
-### Método local para la resolución de splines cuadráticos
+### Método local: cálculo trozo a trozo
 
 El problema que debemos resolver es el siguiente:
 
@@ -472,10 +472,7 @@ tenemos $2$ libertades en la resolución.
 ## Construcción a partir de los valores de $s''$ en los nodos $\{x_i\}$
 
 Vamos a plantear un método de resolución utilizando las segundas derivadas, denotamos,
-para $i=1, ..., n-1$:
-
-- $M_i = S''(x_i)$, que son desconocidos a priori salvo en un spline natural.
-- $h_i = x_i-x_{i-1}$
+para $i=1, ..., n-1$: $M_i = S''(x_i)$, que son desconocidos a priori salvo en un spline natural.
 
 Como el spline es de clase 2, tenemos para $i=1, ... {n-1}$:
 $$S''(x_i) = S''_i(x_i) = S''_{i+1}(x_i)$$
@@ -509,23 +506,21 @@ Agrupamos los $M_i$:
 
 $$-M_i\frac{h_{i+1}}{2} + M_i\frac{h_{i+1}}{6} - M_i\frac{h_i}{2} + M_i\frac{h_i}{6} + \frac{y_{i+1}-y_i}{h_{i+1}} - \frac{y_i-y_{i-1}}{h_i} =  M_{i+1}\frac{h_{i+1}}{6} + M_{i-1}\frac{h_i}{6}$$
 
-Multiplicamos a ambos lados por $6$, sacamos factor común y recordamos que $f[x_i,x_{i+1}] = \frac{y_{i+1}-y_i}{h_{i+1}}$:
+Multiplicamos a ambos lados por $6$, sacamos factor común y recordamos que $p_{i+1} = \frac{y_{i+1}-y_i}{h_{i+1}}$:
 
-$$6M_i\frac{-3h_{i+1}}{6} + \frac{h_{i+1}}{6} - 3\frac{h_i}{6} + \frac{h_i}{6} + 6(f[x_i,x_{i+1}] - f[x_{i-1},x_i]) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
+$$6M_i\frac{-3h_{i+1}}{6} + \frac{h_{i+1}}{6} - 3\frac{h_i}{6} + \frac{h_i}{6} + 6(p_{i+1} - p_i) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
 
 
 Agrupando y multiplicando $M_i$ arriba y abajo por $-2$:
 
-$$-2M_i\frac{-2h_{i+1}-3h_i+h_i}{-2} + 6(f{[x_i,x_{i+1}]} - f{[x_{i-1},x_i]}) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
+$$-2M_i\frac{-2h_{i+1}-3h_i+h_i}{-2} + 6(p_{i+1} - p_i) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
 
 Pasamos el $M_i$ a la derecha y dividimos por $(h_{i+1}+h_i)$ en ambos lados:
 
-$$6\frac{f{[x_i,x_{i+1}]} - f{[x_{i-1},x_i]}}{h_{i+1}-h_i} =  M_{i+1}\frac{h_{i+1}}{h_{i+1}+h_i} + M_{i-1}\frac{h_i}{h_{i+1}+h_i} + 2M_i$$
-
-$$6f{[x_{i-1},x_i,x_{i+1}]} = \frac{M_{i+1}h_{i+1} + M_{i-1}h_i}{h_{i+1}+h_i} + 2M_i$$
+$$6\frac{p_{i+1}-p_i}{h_{i+1}+h_i} =  M_{i+1}\frac{h_{i+1}}{h_{i+1}+h_i} + M_{i-1}\frac{h_i}{h_{i+1}+h_i} + 2M_i$$
 
 
-- Denotando por $\mu_i = \frac{h_i}{h_i+h_{i+1}}$, $\lambda_i = 1-\mu_i = \frac{h_{i+1}}{h_i+h_{i+1}}$ y $\gamma_i = 6f[x_{i-1},x_i,x_{i+1}]$:
+Denotando por $\displaystyle\mu_i = \frac{h_i}{h_i+h_{i+1}}$, $\displaystyle\lambda_i = 1-\mu_i = \frac{h_{i+1}}{h_i+h_{i+1}}$ y $\displaystyle\gamma_i = 6\frac{p_{i+1}-p_i}{h_{i+1}+h_i}$:
 
 $$\mu_iM_{i-1} + 2M_i + \lambda_iM_{i+1} = \gamma_i (*)$$
 
@@ -593,9 +588,10 @@ $$\begin{pmatrix}
   M_1 \\
   M_2 \\
   \vdots \\
-  M_{n-2}
+  M_{n-2} \\
   M_{n-1} \\
 \end{pmatrix}
+=
 \begin{pmatrix}
   \gamma_1 \\
   \gamma_2 \\
@@ -722,7 +718,7 @@ asociado a una función $f$ tiene la menor norma de su segunda derivada
 de entre las que interpolan a $f$ en una partición dada, por lo que
 resuelve nuestro problema.
 
-### Cota de error en los splines cúbicos
+## Error en los splines cúbicos
 
 \begin{teorema}
 Sea $f \in C^4([a,b])$, $n \in \mathbb{N}$, $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$ y  $s \in S_3^1(P)$ spline para $f$. Además, sean $h = max\{x_i - x_{i-1}\}_{i = 1...n}$, $M > 0$ cota superior de $|f^{iv)}|$ en $[a,b]$ y $E = f - s$, $x \in [a,b]$.
