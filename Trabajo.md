@@ -31,6 +31,8 @@ La palabra **spline** con el tiempo se usó para referirse a una larga banda fle
 generalmente de metal, que podía usarse para dibujar curvas continuas suaves,
 forzando a la banda a pasar por puntos específicos y trazados a lo largo de dicha curva.
 
+<!-- ![Banda de metal]{./spline} -->
+
 La formalización del concepto de función spline, es decir, una curva continua
 que pasa por ciertos puntos se resume en la siguiente definición:
 
