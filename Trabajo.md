@@ -172,6 +172,95 @@ El método queda entonces de la siguiente forma:
 
 \end{solucion}
 
+#### Ejemplo
+Tenemos los siguientes datos:
+\begin{tabular}{ c c c c c}
+	$-1$ & $1$ & $3$ & $6$ & $7$ \\
+	$ 1$ & $4$ & $8$ & $2$ & $9$ \\
+	     &		 & $5$ &		 &     \\
+\end{tabular}
+
+Nos dan la derivada en el nodo 3, procedemos a calcular las Diferencias Divididas en los nodos 1 y 3 para hallar $s_2(x)$
+
+\begin{tabular}{llll}
+\hline
+x & y & DD1 & DD2\\
+\hline
+$1$ & $4$ &     & \\
+$3$ & $8$ & $2$ & \\
+$3$ & $8$ & $5$ & $\frac{3}{2}$ \\
+\hline
+\end{tabular}
+
+$s_2(x)=4+2(x-1)+\frac{3}{2}(x-1)(x-3)$
+
+Ahora estimamos la derivada en el nodo 1:
+
+$s_2'(x)=2(x-1)+\frac{3}{2}((x-3)+(x-1))=2(x-1)+\frac{3}{2}(2x-4)$
+
+$s_2'(1)=-\frac{3}{2}2=-3$
+
+\begin{tabular}{llll}
+\hline
+x & y & DD1 & DD2\\
+\hline
+$-1$ & $1$  &                & \\
+$1$  & $4$  & $\frac{3}{2}$  & \\
+$1$  & $4$  & $-3$           & $\frac{9}{4}$ \\
+\hline
+\end{tabular}
+
+$s_1(x)=1+\frac{3}{2}(x-1)+\frac{9}{4}(x-1)(x-1)$
+
+Ahora que hemos calculado $s(x)$ para todos lo valores a la izquierda de 3, calculamos la función para todos los valores a la derecha de 3.
+
+Calculamos DD para nodos 3 y 6
+
+\begin{tabular}{llll}
+\hline
+x & y & DD1 & DD2\\
+\hline
+$3$  & $8$  &      & \\
+$3$  & $8$  & $5$  & \\
+$6$  & $2$  & $-2$ & $\frac{7}{4}$ \\
+\hline
+\end{tabular}
+
+$s_3(x)=8+5(x-3)+ \frac{7}{4} (x-3)(x-6)$
+
+$s_3'(x)=5+\frac{7}{4}(x-6+x-3)=5+\frac{7}{4}(2x-9)$
+
+Estimamos la derivada del nodo 6:
+$s_3'(6)=5+\frac{7}{4}3=\frac{41}{4}$
+
+Finalmente, calculamos $s_4(x)$:
+
+\begin{tabular}{llll}
+\hline
+x & y & DD1 & DD2\\
+\hline
+$6$ & $2$  &                 & \\
+$6$ & $2$  & $\frac{41}{4}$  & \\
+$7$ & $4$  & $2$             & $\frac{33}{4}$ \\
+\hline
+\end{tabular}
+
+De esta forma, tenemos la expresión de $s_4$ sería:
+
+$s_4(x)=2+\frac{41}{4}(x-6)+\frac{33}{4}(x-6)(x-7)$
+
+Por lo tanto, nuestra solución sería:
+
+
+$$s(x)=
+\begin{cases}
+s_1(x)=1+\frac{3}{2}(x-1)+\frac{9}{4}(x-1)(x-1)   & \text{si } -1\leqslant x < 1\\
+s_2(x)=4+2(x-1)+\frac{3}{2}(x-1)(x-3)             & \text{si } 3\leqslant x < 6\\
+s_3(x)=8+5(x-3)+ \frac{7}{4} (x-3)(x-6)           & \text{si } 6\leqslant x < 7\\
+s_4(x)=2+\frac{41}{4}(x-6)+\frac{33}{4}(x-6)(x-7) & \text{si } 6\leqslant x \leqslant 7 \\
+\end{cases}
+$$
+
 ### Método global: cálculo con una base de potencias truncadas
 
 Para este método usaremos esta base del espacio vectorial $S_2(P)$:
@@ -195,7 +284,7 @@ Sea $x^{*}$ el punto en el que conocemos la derivada y d(x^{*}) la derivada en s
 	\vdots& & \vdots  & \vdots          & \cdots & \vdots \\
 	\vdots& & \vdots  & \vdots          & \cdots & \vdots \\
 	1 & x_n & x_n^2   & (x_n-x_1)_{+}^2 & \cdots & (x_n-x_{n-1})_{+}^2\\
-	0 &   1 &  2x^{*} & 2(x^{*}-x_1)_{+} & \cdots & 2(x^{*}-x_{n-1})_{+}         
+	0 &   1 &  2x^{*} & 2(x^{*}-x_1)_{+} & \cdots & 2(x^{*}-x_{n-1})_{+}
 \end{pmatrix}
 \begin{pmatrix}
 	a 		 \\
@@ -344,7 +433,7 @@ y es aquí donde intervienen los splines cúbicos de clase 2.
 
 2. Los splines cúbicos de **clase 2** son continuos y 2 veces derivables.
 A partir de la fórmula general, la dimensión de este espacio para una partición
-$\{x_i\}_{i=0,...,n}$ es $dim (S_3^2(P)) = (3-2)n+2+1=n+3$. Como tenemos $n+1$ variables, 
+$\{x_i\}_{i=0,...,n}$ es $dim (S_3^2(P)) = (3-2)n+2+1=n+3$. Como tenemos $n+1$ variables,
 tenemos $2$ libertades en la resolución.
 
 ## Construcción a partir de los valores de $s''$ en los nodos $\{x_i\}$
@@ -640,7 +729,7 @@ ${ (-1-\frac{1.5-2}{1-0})/1 = -\frac{1}{2} }$
 	2 & 1 & 0 & 0  \\
 	1/2 & 2 & 1/2 & 0  \\
 	0 & 1/2 & 2 & 1/2  \\
-	0 & 0 & 1 & 1/2 
+	0 & 0 & 1 & 1/2
 \end{pmatrix}
 \begin{pmatrix}
 	M_0  \\
@@ -691,7 +780,7 @@ Hemos implementado las siguientes funciones en Octave:
 ## Spline Lineal
 
 La implementación de la función que nos permite calcular un spline lineal es muy
-sencilla. Esta función nos permite calcular la derivada segunda de un spline 
+sencilla. Esta función nos permite calcular la derivada segunda de un spline
 cúbico conocidas las derivadas segundas en los nodos:
 
 ```octave
@@ -742,31 +831,31 @@ end
 Otra implementación posible es calcular el spline **a trozos**:
 
 ```octave
-function z = SplineCuadLocal(x, y, d_k, k) 
+function z = SplineCuadLocal(x, y, d_k, k)
 	s = zeros(length(x)-1, 3);
    d = d_k;
-    
+
     #Recorremos todos los nodos de n+1 en adelante:
-    
+
     for i = (k+1):length(x)
 		p = (y(i)-y(i-1))/(x(i)-x(i-1));
 		q = (p-d)/(x(i)-x(i-1));
 		v = [x(i-1) x(i-1)];
 		s(i-1,:) = [0 0 y(i-1)]+[0 d -d*x(i-1)]+q*poly(v);
-		d = 2*p-d;     
+		d = 2*p-d;
 	end
     d = d_k;
-    
+
     #Recorremos todos los nodos desde n hasta el 1:
-    
-    for i = 0:(k-2) 
+
+    for i = 0:(k-2)
 		j = k-i;
 		p = (y(j)-y(j-1))/(x(j)-x(j-1));
 		q = (d-p)/(x(j)-x(j-1));
 		v = [x(j-1) x(j)];
-		s(j-1,:) = [0 0 y(j-1)]+[0 p -p*x(j-1)]+q*poly(v);               
+		s(j-1,:) = [0 0 y(j-1)]+[0 p -p*x(j-1)]+q*poly(v);
     end
-    
+
     for i = 1:length(s)
     	s(i,:) = polyaffine(s(i,:), [-x(i), 1]);
     end
@@ -821,7 +910,7 @@ Dado un intervalo $[a,b]$ y una partición $\{x_i\}_{i = 0...n} \in \mathscr{P}(
 se definen, para $1 \leq i \leq n$:
 
 \begin{itemize}
-\item $\displaystyle h_i = x_i - x_{i-1}$ 
+\item $\displaystyle h_i = x_i - x_{i-1}$
 \item $\displaystyle p_i = \frac{y_i-y_{i-1}}{h_i}$
 \end{itemize}
 \end{definicion}
