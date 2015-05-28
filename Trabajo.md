@@ -172,6 +172,8 @@ El método queda entonces de la siguiente forma:
 
 \end{solucion}
 
+\vspace*{2\baselineskip}
+
 ### Método global: cálculo con una base de potencias truncadas
 
 Para este método usaremos esta base del espacio vectorial $S_2(P)$:
@@ -186,21 +188,22 @@ Tenemos los siguientes matrices y vectores:
 
 De esta forma, deberíamos resolver el sistema $GX=b$.
 
-Sea $x^{*}$ el punto en el que conocemos la derivada y d(x^{*}) la derivada en sí, el sistema queda:
+Si notamos por $x_k$ el nodo en el que conocemos la derivada y $d_k$ la derivada
+en el nodo, el sistema queda:
 
 \begin{equation*}
 \begin{pmatrix}
-	1 & x_0 & x_0^2   & (x_0-x_1)_{+}^2 & \cdots & (x_0-x_{n-1})_{+}^2\\
-	1 & x_1 & x_1^2   & (x_1-x_1)_{+}^2 & \cdots & (x_1-x_{n-1})_{+}^2\\
+	1 & x_0 & x_0^2   & 0 & \cdots & 0\\
+	1 & x_1 & x_1^2   & (x_1-x_1)_{+}^2 & \cdots & 0\\
 	\vdots& & \vdots  & \vdots          & \cdots & \vdots \\
 	\vdots& & \vdots  & \vdots          & \cdots & \vdots \\
 	1 & x_n & x_n^2   & (x_n-x_1)_{+}^2 & \cdots & (x_n-x_{n-1})_{+}^2\\
-	0 &   1 &  2x^{*} & 2(x^{*}-x_1)_{+} & \cdots & 2(x^{*}-x_{n-1})_{+}         
+	0 &   1 &  2x_k & 2(x_k-x_1)_{+} & \cdots & 2(x_k-x_{n-1})_{+}         
 \end{pmatrix}
 \begin{pmatrix}
-	a 		 \\
-	\vdots 		 \\
-	z		 \\
+	a \\
+	b \\
+	c \\
 	\alpha \\
 	\vdots \\
 	\omega
@@ -208,14 +211,18 @@ Sea $x^{*}$ el punto en el que conocemos la derivada y d(x^{*}) la derivada en s
 =
 \begin{pmatrix}
 	y_0\\
+	y_1\\
 	\vdots\\
 	\vdots\\
 	y_n\\
-	d(x^{*})\\
+	d_k\\
 \end{pmatrix}
 \end{equation*}
 
+Es una matriz escalonada ya que las potencias truncadas serán $0$ antes del nodo
+que las define. Finalmente la solución sería, para $x \in [a,b]$:
 
+$$s(x) = a + bx + cx^2 + \alpha(x-x_1)_+^2 + \cdots + \omega(x-x_{n-1})_+^2$$
 
 ## Error en los splines cuadráticos
 
@@ -618,26 +625,36 @@ La demostración, así como cotas para las derivadas, puede consultarse en *Opti
 
 **Sujeto**:
 
--Debe pasar por los puntos: ${ (0,0),(1,0.5),(2,2)}$ y ${ (3,1.5) }$
+\begin{problema}
 
--${ S^{'}(0) = 0.2 }$ y ${ S^{'}(3) = -1 }$
+Hallar spline sujeto tal que:
+\begin{enumerate}
+\item Pasa por los puntos: $\{(0,0),(1,0.5),(2,2), (3,1.5)\}$
+\item $S'(0) = 0.2$ y $S'(3) = -1$
+\end{enumerate}
+\end{problema}
 
-Al estar equiespaciados $h_i=1$ $\forall i$  
-${ \lambda_0 = \mu_3 = 1 }$ y ${ \lambda_1=\lambda_2=\mu_1=\mu_2= \frac{1}{2}}$
+\vspace*{\baselineskip}
 
-Calculamos las diferencias divididas para tener los $\gamma_i$
+\begin{solucion}
+Como los nodos están equiespaciados $h_i=1$ $\forall i \in \{1..n\}$
 
-${ \frac{\gamma_0}{6} = f{[x_0,x_0,x_1]} =  \frac{ f{[x_1,x_0]}-f{[x_0,x_0]} }{ x_1-x_0 } = }$
-${ (\frac{0.5-0}{1-0}-0.2)/1 = 0.3 }$
+$$\lambda_0 = \mu_3 = 1 \; \text{ y } \; \lambda_1=\lambda_2=\mu_1=\mu_2= \frac{1}{2}$$
 
-${ \frac{\gamma_1}{6} = f{[x_0,x_1,x_2]} =  \frac{ f{[x_2,x_1]}-f{[x_1,x_0]} }{ x_2-x_0 } = }$
-${ (\frac{2-0.5}{1-0}-\frac{0.5-0}{1-0})/2 = \frac{1}{2} }$
+Calculamos las diferencias divididas para obtener los $\gamma_i$
 
-${ \frac{\gamma_2}{6} = f{[x_1,x_2,x_3]} =  \frac{ f{[x_3,x_2]}-f{[x_2,x_1]} }{ x_3-x_1 } = }$
-${ (\frac{1.5-2}{1-0}-\frac{2-0.5}{1-0})/1 = -1 }$
+\begin{itemize}
 
-${ \frac{\gamma_3}{6} = f{[x_2,x_3,x_3]} =  \frac{ f{[x_3,x_3]}-f{[x_2,x_3]} }{ x_3-x_2 } = }$
-${ (-1-\frac{1.5-2}{1-0})/1 = -\frac{1}{2} }$
+\item $\displaystyle\frac{\gamma_0}{6} = f[x_0,x_0,x_1] =  \frac{f[x_1,x_0]-f[x_0,x_0]}{x_1-x_0} = \left(\frac{0.5-0}{1-0}-0.2\right)/1 = 0.3$
+
+\item $\displaystyle\frac{\gamma_1}{6} = f{[x_0,x_1,x_2]} =  \frac{f{[x_2,x_1]}-f{[x_1,x_0]} }{ x_2-x_0 } = \left(\frac{2-0.5}{1-0}-\frac{0.5-0}{1-0}\right)/2 = \frac{1}{2}$
+
+\item $\displaystyle\frac{\gamma_2}{6} = f{[x_1,x_2,x_3]} =  \frac{ f{[x_3,x_2]}-f{[x_2,x_1]} }{ x_3-x_1 } = \left(\frac{1.5-2}{1-0}-\frac{2-0.5}{1-0}\right)/1 = -1$
+
+\item $\displaystyle\frac{\gamma_3}{6} = f{[x_2,x_3,x_3]} =  \frac{ f{[x_3,x_3]}-f{[x_2,x_3]} }{ x_3-x_2 } = \left(-1-\frac{1.5-2}{1-0}\right)/1 = -\frac{1}{2}$
+\end{itemize}
+
+El sistem queda:
 
 \begin{equation*}
 \begin{pmatrix}
@@ -652,6 +669,7 @@ ${ (-1-\frac{1.5-2}{1-0})/1 = -\frac{1}{2} }$
 	M_2  \\
 	M_3
 \end{pmatrix}
+= 
 \begin{pmatrix}
 	6\cdot\frac{3}{10}  \\
 	6\cdot\frac{1}{2}  \\
@@ -660,12 +678,12 @@ ${ (-1-\frac{1.5-2}{1-0})/1 = -\frac{1}{2} }$
 \end{pmatrix}
 \end{equation*}
 
-${\Rightarrow M_0=-0.36, M_1=2.52, M_2=-3.72}$ y ${M_3=0.36}$
+Del que obtenemos la solución $M_0=-0.36, M_1=2.52, M_2=-3.72 \text{ y } M_3=0.36$.
+Calculamos los trozos finalmente aplicando la fórmula:
 
-${ C_1(x)= M_0\frac{(x_1-x)^3}{6} + M_1\frac{(x-x_0)}{6} + (y_0-\frac{M_0}{6})\frac{x_1-x}{1} + (y_1-\frac{M_1}{6})\frac{x-x_0}{1} }$
-${ =0.48x^3 - 0.18x^2 + 0.2x }$
+$$C_1(x)= M_0\frac{(x_1-x)^3}{6} + M_1\frac{(x-x_0)}{6} + (y_0-\frac{M_0}{6})\frac{x_1-x}{1} + (y_1-\frac{M_1}{6})\frac{x-x_0}{1} = 0.48x^3 - 0.18x^2 + 0.2x$$
 
-Equivalentemente para $C_2$ y $C_3$:
+Equivalentemente para $C_2$ y $C_3$, obtenemos la solución:
 
 \begin{equation*}
  S(x) =
@@ -675,7 +693,7 @@ Equivalentemente para $C_2$ y $C_3$:
    0.68(x-2)^3 - 1.86(x-2)^2 + 0.68(x-2) + 2       &  \text{si } 2 < x \leq 3  \\
   \end{cases}
 \end{equation*}
-
+\end{solucion}
 
 
 
