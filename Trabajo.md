@@ -818,6 +818,68 @@ Equivalentemente para $C_2$ y $C_3$, obtenemos la solución:
 \end{solucion}
 
 
+**Natural**:
+
+Hallar spline natural tal que:
+\begin{enumerate}
+\item Pasa por los puntos: $\{(1,3),(2,6),(3,4), (4,0)\}$
+\item $S^{'}(0) = S^{'}(3)$ y $S{''}(0) = S^{''}(3)$
+\end{enumerate}
+
+\vspace*{\baselineskip}
+
+Como los nodos están equiespaciados $h_i=1$ $\forall i \in \{1..n\}$
+
+$$ \mu_2 = \lambda_1 =\frac{1}{2} $$
+
+Calculamos las diferencias divididas para obtener los $\gamma_i$
+
+\begin{itemize}
+
+\item $\displaystyle\frac{\gamma_1}{6}=f{[x_0,x_1,x_2]}=\frac{f{[x_2,x_1]}-f{[x_1,x_0]} }{ x_2-x_0 }=\left(\frac{4-6}{3-2}-\frac{6-3}{2-1}\right)/2=-\frac{5}{2}$
+
+\item $\displaystyle\frac{\gamma_2}{6}=f{[x_1,x_2,x_3]}=\frac{ f{[x_3,x_2]}-f{[x_2,x_1]} }{ x_3-x_1 }=\left(\frac{0-4}{4-3}-\frac{4-6}{3-2}\right)/2=-1$
+
+\end{itemize}
+
+El sistem queda:
+
+\begin{equation*}
+\begin{pmatrix}
+	2 & 1/2 \\
+	1/2 & 2 
+\end{pmatrix}
+\begin{pmatrix}
+	M_1  \\
+	M_2  
+\end{pmatrix}
+=
+\begin{pmatrix}
+	6\cdot(-\frac{5}{2})  \\
+	6\cdot(-1) 
+\end{pmatrix}
+\end{equation*}
+
+Del que obtenemos la solución $M_1=-\frac{36}{5}$, $M_2= -\frac{6}{5}$.
+Calculamos los trozos finalmente aplicando la fórmula:
+
+$$S_1(x)= M_0\frac{(x_1-x)^3}{6} + M_1\frac{(x-x_0)^3}{6} + (y_0-\frac{M_0}{6})\cdot\frac{x_1-x}{1} + (y_1-\frac{M_1}{6})\cdot\frac{x-x_0}{1} = 0.48x^3 - 0.18x^2 + 0.2x$$
+
+Equivalentemente para $S_2$ y $S_3$, obtenemos la solución:
+
+\begin{equation*}
+ S(x) =
+  \begin{cases}
+   1.2x^3 + 3.6x^2 + \frac{3}{5}x & 							   \text{si } 1 \leq x \leq 2  \\
+   x^3-\frac{48}{5}x^2+\frac{159}{5}x -32   &  \text{si } 2 < x \leq 3  \\
+   \frac{6}{5}x^3-\frac{72}{5}x^2+\frac{267}{5}x-60  &  \text{si } 3 < x \leq 4  \\
+  \end{cases}
+\end{equation*}
+
+
+
+
+
 
 \pagebreak
 
