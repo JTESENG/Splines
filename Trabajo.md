@@ -610,10 +610,10 @@ En este caso $S'_1(x_0) = S'_n(x_n)$ y $S''_1(x_0) = S''_n(x_n)$. El sistema que
 
 $$
 \begin{pmatrix}
-  2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
+  2+2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
   \mu_1  & 2	 		& \lambda_1  &   0       &    \vdots      \\
-  0      & \ddots    & \ddots     &  \ddots   &     0          \\
-  \vdots &     0     & \mu_{n-1}  &    2      & \lambda_{n-1}
+  0      & \ddots    & \ddots     &  \ddots          \\
+  \lambda_{n-1} &     0     & \mu_{n-1}  &    2     
 \end{pmatrix}
 \begin{pmatrix}
   M_0 \\
