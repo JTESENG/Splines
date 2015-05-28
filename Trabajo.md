@@ -746,7 +746,7 @@ La demostración, así como cotas para las derivadas, puede consultarse en *Opti
 
 ## Ejemplos
 
-**Sujeto**:
+### **Sujeto**:
 
 \begin{problema}
 
@@ -819,7 +819,7 @@ Equivalentemente para $S_2$ y $S_3$, obtenemos la solución:
 \end{solucion}
 
 
-**Natural**:
+### **Natural**:
 
 \begin{problema}
 Hallar spline natural tal que:
