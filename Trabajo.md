@@ -8,6 +8,7 @@ header-includes:
 	\usepackage{booktabs}
 	\usepackage{caption}
 	\usepackage{xfrac}
+	\usepackage{graphicx}
 	\newtheorem*{proposicion}{Proposición}
 	\newtheorem*{teorema}{Teorema}
 	\theoremstyle{definition}
@@ -30,6 +31,8 @@ geometry: margin=1in
 La palabra **spline** con el tiempo se usó para referirse a una larga banda flexible
 generalmente de metal, que podía usarse para dibujar curvas continuas suaves,
 forzando a la banda a pasar por puntos específicos y trazados a lo largo de dicha curva.
+
+\includegraphics[scale=0.25]{spline.png}\centering
 
 La formalización del concepto de función spline, es decir, una curva continua
 que pasa por ciertos puntos se resume en la siguiente definición:
@@ -438,6 +441,8 @@ $$
 Uno de los problemas de la interpolación polinomial es que, al ir aumentando el
 número de nodos el grado del polinomio requerido para interpolarlos aumenta.
 Esto conlleva fluctuaciones en los extremos de la interpolación. <!--(1)-->
+
+\includegraphics[scale=0.65]{problema.png}\centering
 
 Si dividimos el intervalo en una partición podemos interpolar utilizando un
 polinomio S_i(x) de grado 3 en cada intervalo, es decir, utilizando **splines cúbicos**. Como veremos después este método minimiza la cota de error.
@@ -1018,3 +1023,9 @@ se definen, para $1 \leq i \leq n$:
 \item $\displaystyle p_i = \frac{y_i-y_{i-1}}{h_i}$
 \end{itemize}
 \end{definicion}
+
+
+#Bibliografía
+- [Quadratic Interpolatory Splines W.J.Kammerer, G. W. Reddien, and R.S. Varga](www.math.kent.edu/~varga/pub/paper_85.pdf)
+- [Cubic Spline Interpolation  - Wikiversity](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
+- Análisis numérico (Novena Edición) Richard L. Burden y J. Douglas Faires
