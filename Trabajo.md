@@ -172,7 +172,8 @@ El método queda entonces de la siguiente forma:
 
 \end{solucion}
 
-<<<<<<< HEAD
+\vspace*{2\baselineskip}
+
 #### Ejemplo
 Tenemos los siguientes datos:
 \begin{tabular}{ c c c c c}
@@ -261,9 +262,6 @@ s_3(x)=8+5(x-3)+ \frac{7}{4} (x-3)(x-6)           & \text{si } 6\leqslant x < 7\
 s_4(x)=2+\frac{41}{4}(x-6)+\frac{33}{4}(x-6)(x-7) & \text{si } 6\leqslant x \leqslant 7 \\
 \end{cases}
 $$
-=======
-\vspace*{2\baselineskip}
->>>>>>> 5297d899b99b4c3e178644b44b89d1b7f3d96f3b
 
 ### Método global: cálculo con una base de potencias truncadas
 
