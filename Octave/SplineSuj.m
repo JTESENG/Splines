@@ -17,6 +17,6 @@ function s = SplineSuj (x, y, d_1, d_n)
   gamma(2:n) = 6*dd2(1:n-1);
   gamma(n+1) = 6*(d_n-dd2(n-1))/(x(n+1)-x(n));
 
-  m = A\gamma';
+  m = A \ gamma';
   s = ppint(ppint(SplineLineal(x, m')));
 end
