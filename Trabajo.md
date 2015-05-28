@@ -194,13 +194,13 @@ $3$ & $8$ & $5$ & $\frac{3}{2}$ \\
 \hline
 \end{tabular}
 
-$s_2(x)=4+2(x-1)+\frac{3}{2}(x-1)(x-3)$
+$$s_2(x)=4+2(x-1)+\frac{3}{2}(x-1)(x-3)$$
 
 Ahora estimamos la derivada en el nodo 1:
 
-$s_2'(x)=2(x-1)+\frac{3}{2}((x-3)+(x-1))=2(x-1)+\frac{3}{2}(2x-4)$
+$$s_2'(x)=2(x-1)+\frac{3}{2}((x-3)+(x-1))=2(x-1)+\frac{3}{2}(2x-4)$$
 
-$s_2'(1)=-\frac{3}{2}2=-3$
+$$s_2'(1)=-\frac{3}{2}2=-3$$
 
 \begin{tabular}{llll}
 \hline
@@ -212,7 +212,7 @@ $1$  & $4$  & $-3$           & $\frac{9}{4}$ \\
 \hline
 \end{tabular}
 
-$s_1(x)=1+\frac{3}{2}(x-1)+\frac{9}{4}(x-1)(x-1)$
+$$s_1(x)=1+\frac{3}{2}(x-1)+\frac{9}{4}(x-1)(x-1)$$
 
 Ahora que hemos calculado $s(x)$ para todos lo valores a la izquierda de 3, calculamos la función para todos los valores a la derecha de 3.
 
@@ -228,12 +228,12 @@ $6$  & $2$  & $-2$ & $\frac{7}{4}$ \\
 \hline
 \end{tabular}
 
-$s_3(x)=8+5(x-3)+ \frac{7}{4} (x-3)(x-6)$
+$$s_3(x)=8+5(x-3)+ \frac{7}{4} (x-3)(x-6)$$
 
-$s_3'(x)=5+\frac{7}{4}(x-6+x-3)=5+\frac{7}{4}(2x-9)$
+$$s_3'(x)=5+\frac{7}{4}(x-6+x-3)=5+\frac{7}{4}(2x-9)$$
 
 Estimamos la derivada del nodo 6:
-$s_3'(6)=5+\frac{7}{4}3=\frac{41}{4}$
+$$s_3'(6)=5+\frac{7}{4}3=\frac{41}{4}$$
 
 Finalmente, calculamos $s_4(x)$:
 
@@ -249,7 +249,7 @@ $7$ & $4$  & $2$             & $\frac{33}{4}$ \\
 
 De esta forma, tenemos la expresión de $s_4$ sería:
 
-$s_4(x)=2+\frac{41}{4}(x-6)+\frac{33}{4}(x-6)(x-7)$
+$$s_4(x)=2+\frac{41}{4}(x-6)+\frac{33}{4}(x-6)(x-7)$$
 
 Por lo tanto, nuestra solución sería:
 
