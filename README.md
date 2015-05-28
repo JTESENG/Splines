@@ -12,16 +12,16 @@
 - [ ] Splines cúbicos
 	- [X] [Construcción de splines clásicos a partir de la segunda derivada](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
    	- [X] Spline sujeto
-   	- [ ] Spline natural
+   	- [X] Spline natural
    	- [ ] Spline periódico
 	- [X] Propiedades de minimización
 	- [ ] Ejemplos
 - [ ] Implementación en ordenador
-	- [ ] Splines cuadráticos
-      - [ ] A trozos
+	- [X] Splines cuadráticos
+      - [X] A trozos
       - [X] Global
-	- [ ] Splines sujeto
-	- [ ] Spline natural
+	- [X] Splines sujeto
+	- [X] Spline natural
 	- [ ] Spline periódico
 
 
