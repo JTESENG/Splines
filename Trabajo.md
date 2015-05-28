@@ -153,7 +153,7 @@ $x_{k+1}$ & $y_{k+1}$ & $p_{k+1}$ & $\frac{p_{k+1}-d_k}{h_k}$ \\
 De esta forma, $s_{k+1}$ queda para $x \in [x_k, x_{k+1}]$ de la siguiente forma:
 
 \begin{equation} \label{eq:skmas}
-s_{k+1}(x)=y_k+d_k(x-x_k)+\frac{p_{k+1}-d_k}{h_{k+1}}(x-x_k)(x-x_{k+1})
+s_{k+1}(x)=y_k+d_k(x-x_k)+\frac{p_{k+1}-d_k}{h_{k+1}}(x-x_k)(x-x_k)
 \end{equation}
 
 
@@ -353,9 +353,9 @@ $$s_2(x)=4+2(x-1)+\frac{3}{2}(x-1)(x-3)$$
 
 Ahora estimamos la derivada en el nodo 1:
 
-$$s_2'(x)=2(x-1)+\frac{3}{2}((x-3)+(x-1))=2(x-1)+\frac{3}{2}(2x-4)$$
+$$s_2'(x)=2+\frac{3}{2}((x-3)+(x-1))=3x - 4$$
 
-$$s_2'(1)=-\frac{3}{2}2=-3$$
+$$s_2'(1)= 3 \cdot 1 - 4 = -1$$
 
 Realizamos de nuevo la tabla de diferencias divididas:
 
@@ -366,14 +366,14 @@ x & y & DD1 & DD2\\
 \hline
 $-1$ & $1$  &                & \\
 $1$  & $4$  & $\sfrac{3}{2}$  & \\
-$1$  & $4$  & $-3$           & $\sfrac{9}{4}$ \\
+$1$  & $4$  & $-1$           & $\sfrac{-5}{4}$ \\
 \hline
 \end{tabular}
 \end{table}
 
 $s_1$ queda en su intervalo:
 
-$$s_1(x)=1+\frac{3}{2}(x-1)+\frac{9}{4}(x-1)(x-1)$$
+$$s_1(x)=1+\frac{3}{2}(x+1)+\frac{-5}{4}(x+1)(x-1)$$
 
 Ahora que hemos calculado la expresión de $s$ para todos lo intervalos a la izquierda de la derivada, calculamos la función para todos los valores a la derecha de la
 derivada.
@@ -387,19 +387,21 @@ x & y & DD1 & DD2\\
 \hline
 $3$  & $8$  &      & \\
 $3$  & $8$  & $5$  & \\
-$6$  & $2$  & $-2$ & $\sfrac{7}{4}$ \\
+$6$  & $2$  & $-2$ & $\sfrac{-7}{3}$ \\
 \hline
 \end{tabular}
 \end{table}
 
 
-$s_3$ y su derivada quedan en su intervalo:
-$$s_3(x)=8+5(x-3)+ \frac{7}{4} (x-3)(x-6)$$
 
-$$s_3'(x)=5+\frac{7}{4}(x-6+x-3)=5+\frac{7}{4}(2x-9)$$
+
+$s_3$ y su derivada quedan en su intervalo:
+$$s_3(x)=8+5(x-3)- \frac{7}{3} (x-3)(x-3)$$
+
+$$s_3'(x)=5-\frac{7}{3}2(x-3)=5-\frac{7}{3}(2x-9)$$
 
 Estimamos la derivada del nodo 6:
-$$s_3'(6)=5+\frac{7}{4}3=\frac{41}{4}$$
+$$s_3'(6)=5-\frac{7}{3}3 = -2$$
 
 Finalmente, calculamos $s_4$:
 
@@ -408,26 +410,26 @@ Finalmente, calculamos $s_4$:
 \begin{tabular}{llll}
 x & y & DD1 & DD2\\
 \hline
-$6$ & $2$  &                 & \\
-$6$ & $2$  & $\sfrac{41}{4}$  & \\
-$7$ & $4$  & $2$             & $\sfrac{33}{4}$ \\
+$6$ & $2$  &       & \\
+$6$ & $2$  & $-9$  & \\
+$7$ & $9$  & $7$   & $16$ \\
 \hline
 \end{tabular}
 \end{table}
 
 De esta forma, la expresión de $s_4$ sería:
 
-$$s_4(x)=2+\frac{41}{4}(x-6)+\frac{33}{4}(x-6)(x-7)$$
+$$s_4(x)=2 -9(x-6)+16(x-6)(x-6)$$
 
 Por lo tanto, nuestra solución sería:
 
 
 $$s(x)=
 \begin{cases}
-s_1(x)=1+\frac{3}{2}(x+1)+\frac{9}{4}(x-1)(x+1)   & \text{si } x\in {[-1,1)}\\
+s_1(x)=1+\frac{3}{2}(x+1)+\frac{-5}{4}(x+1)(x-1)   & \text{si } x\in {[-1,1)}\\
 s_2(x)=4+2(x-1)+\frac{3}{2}(x-1)(x-3)             & \text{si } x\in {[1,3)}\\
-s_3(x)=8+5(x-3)+ \frac{7}{4} (x-3)(x-6)           & \text{si } x\in {[3,6)}\\
-s_4(x)=2+\frac{41}{4}(x-6)+\frac{33}{4}(x-6)(x-7) & \text{si } x\in {[6,7)} \\
+s_3(x)=8+5(x-3)- \frac{7}{3} (x-3)(x-3)           & \text{si } x\in {[3,6)}\\
+s_4(x)=2 -9(x-6)+16(x-6)(x-6) & \text{si } x\in {[6,7])} \\
 \end{cases}
 $$
 \end{solucion}
@@ -1021,3 +1023,9 @@ se definen, para $1 \leq i \leq n$:
 \item $\displaystyle p_i = \frac{y_i-y_{i-1}}{h_i}$
 \end{itemize}
 \end{definicion}
+
+
+#Bibliografía
+- [Quadratic Interpolatory Splines W.J.Kammerer, G. W. Reddien, and R.S. Varga](www.math.kent.edu/~varga/pub/paper_85.pdf)
+- [Cubic Spline Interpolation  - Wikiversity](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
+- Análisis numérico (Novena Edición) Richard L. Burden y J. Douglas Faires

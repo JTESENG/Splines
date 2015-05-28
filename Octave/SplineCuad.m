@@ -17,7 +17,7 @@ function s = SplineCuad(x, y, d_k, k)
   sol = A \ [y' ; d_k];
 
   for k = 1:n
-    p = sol(3:-1:1);
+    p = sol(3:-1:1)';
 
     for l = 2:k
       p += sol(l+2).*[1, -2.*x(l), x(l).^2];
