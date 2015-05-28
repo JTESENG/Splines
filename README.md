@@ -2,13 +2,13 @@
 
 ## A Hacer
 
-- [ ] Splines cuadráticos
+- [X] Splines cuadráticos
 	- [X] Introducción
 	- [X] Descripción del espacio de splines cuadráticos
-	- [ ] Interpolación con splines cuadráticos
-   	- [ ] A trozos
+	- [X] Interpolación con splines cuadráticos
+   	- [X] A trozos
    	- [X] Global
-	- [ ] Ejemplos
+	- [X] Ejemplos
 - [ ] Splines cúbicos
 	- [X] [Construcción de splines clásicos a partir de la segunda derivada](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
    	- [X] Spline sujeto
