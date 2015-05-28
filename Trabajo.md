@@ -1018,3 +1018,9 @@ se definen, para $1 \leq i \leq n$:
 \item $\displaystyle p_i = \frac{y_i-y_{i-1}}{h_i}$
 \end{itemize}
 \end{definicion}
+
+
+#Bibliografía
+- [Quadratic Interpolatory Splines W.J.Kammerer, G. W. Reddien, and R.S. Varga](www.math.kent.edu/~varga/pub/paper_85.pdf)
+- [Cubic Spline Interpolation  - Wikiversity](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
+- Análisis numérico (Novena Edición) Richard L. Burden y J. Douglas Faires
