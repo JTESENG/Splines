@@ -3,23 +3,23 @@ function z = SplineCuadLocal(x, y, d_k, k)
   d = d_k;
   #Recorremos todos los nodos de n+1 en adelante:
 
-  for i = (k+1):length(x)
-		p = (y(i)-y(i-1))/(x(i)-x(i-1));
-		q = (p-d)/(x(i)-x(i-1));
-		v = [1 x(i-1)];
-		s(i-1,:) = [0 0 y(i-1)]+[0 d -d*x(i-1)]+q*poly(v);
-		d = 2*p-d;
+  for i = (k+1):(length(x)-1)
+		p = (y(i+1)-y(i))/(x(i+1)-x(i));
+		q = (p-d)/(x(i+1)-x(i));
+		v = [x(i) x(i)];
+		s(i,:) = [0, 0, y(i)]+[0, d, -d*x(i)]+q*poly(v);
+		d = polyval(polyder(s(i,:)),x(i+1));
 	end
     d = d_k;
 
   #Recorremos todos los nodos desde n hasta el 1:
 
-  for i = 0:(k-2)
-		j = k-i;
-		p = (y(j)-y(j-1))/(x(j)-x(j-1));
-		q = (d-p)/(x(j)-x(j-1));
-		v = [x(j-1) x(j)];
-		s(j-1,:) = [0 0 y(j-1)]+[0 p -p*x(j-1)]+q*poly(v);
+  for j = k:-1:1
+		p = (y(j+1)-y(j))/(x(j+1)-x(j))
+		q = (d-p)/(x(j+1)-x(j))
+		v = [x(j) x(j+1)]
+		s(j,:) = [0 0 y(j)]+[0 p -p*x(j)]+q*poly(v);
+		d = polyval(polyder(s(j,:)), x(j))
   end
 
   for i = 1:length(s)
