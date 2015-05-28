@@ -9,6 +9,7 @@ header-includes:
 	\usepackage{caption}
 	\usepackage{xfrac}
 	\usepackage{graphicx}
+	\usepackage{color}
 	\newtheorem*{proposicion}{Proposición}
 	\newtheorem*{teorema}{Teorema}
 	\theoremstyle{definition}
@@ -23,6 +24,9 @@ geometry: margin=1in
 ---
 
 \pagebreak
+\textcolor[rgb]{0,0,0}{.}
+\pagebreak
+
 
 # Splines cuadráticos
 
@@ -36,27 +40,26 @@ forzando a la banda a pasar por puntos específicos y trazados a lo largo de dic
 \includegraphics[scale=0.25]{spline.png}
 \end{center}
 
-La formalización del concepto de función spline, es decir, una curva continua
+La formalización del concepto de *función spline*, es decir, una curva continua
 que pasa por ciertos puntos se resume en la siguiente definición:
 
 \begin{definicion}
 Sea $[a,b]$ un intervalo, $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$,
-$k,r \in \mathbb{N}$, $r < k$. Se dice que $s:[a,b] \to \mathbb{R}$ es un
+$k,r\in \mathbb{N}$, $r < k$. Se dice que $s:[a,b] \to \mathbb{R}$ es un
 spline si $s \in C^r([a,b])$ y para todo $1 \leq i \leq n$,
 $s_{|[x_{i-1},x_i]} \in \mathbb{P}_k$. $S^r_k(P)$ es el espacio de dichas funciones.
 \end{definicion}
-
+\vspace*{2\baselineskip}
 ## Descripción del espacio de splines cuadráticos
 
 Partimos de $[a,b]$ un intervalo y $P \in \mathscr{P}([a,b])$. En esta primera sección
-nos centramos en los splines cuadráticos: los pertenecientes a $S_2^1(P)$.
+nos centramos en los splines cuadráticos, los pertenecientes a $S_2^1(P)$.
 
 Sus trozos son polinomios de grado menor o igual que $2$ de la forma
 $ax^2 + bx + c$. Además son funciones de clase $1$ (derivables en $[a,b]$
 con derivada continua), lo que proporciona unas condiciones interesantes
 para resolver problemas de interpolantes.
 
-Veamos algunas propiedades:
 
 \begin{proposicion}
 Sea $[a,b]$ intervalo, $P = \{x_i\}_{i=0...n} \in \mathscr{P}([a,b])$, entonces $dim(S_2(P)) = n+2$.
@@ -68,28 +71,29 @@ Sea $s \in S_2(P)$.
 
 - Para cada intervalo $[x_{i-1}, x_i]$ $ s|_{[x_{i-1}, x_i]}(x) = ax^2 + bx + c$ para ciertos $a,b,c \in \mathbb{R}$. Por lo tanto cada trozo está determinado por 3 parámetros. Con $n$ trozos tenemos $3n$ parámetros en total.
 
+\pagebreak
+
 - Si imponemos la continuidad y derivabilidad en los extremos tenemos que
 
 \[
 s_i(x_i)=s_{i+1}(x_i) \qquad s_i'(x_i)=s_{i+1}'(x_i)
 \]
 
-para todo $i=1...n-1$. De cada condición se obtienen $n-1$ ecuaciones, por
+para todo $i=1,...,n-1$. De cada condición se obtienen $n-1$ ecuaciones, por
 lo tanto obtendremos: $n-1 + n-1 = 2n-2$ ecuaciones linealmente
 independientes.
 
 Por lo tanto, $dim(S_2(P)) = 3n-(2n-2) = n+2$.
 \end{proof}
 
-Con el conocimiento de la dimensión del espacio podemos describir
+Conociendo  la dimensión del espacio podremos establecer
 una base del espacio de splines cuadráticos con el uso de potencias truncadas.
- Una **base del espacio** es:
+ Una *base del espacio* es:
 
 $$\{1, x, x^2, (x-x_1)_+^2, ... , (x-x_{n-1})_+^2\}$$
 
-
+\vspace*{2\baselineskip}
 ## Interpolación con splines cuadráticos
-
 ### Método local: cálculo trozo a trozo
 
 El problema que debemos resolver es el siguiente:
@@ -106,9 +110,6 @@ Es decir, sabemos los valores de la función en todos los nodos y el valor de la
 
 \begin{solucion}
 Si $k > 0$, para calcular $s_k$ podemos calcular la tabla de diferencias divididas:
-
-\vspace*{2\baselineskip}
-
 \begin{table}[h]
 \centering
 \begin{tabular}{llll}
@@ -122,7 +123,6 @@ $x_k$ & $y_k$ & $d_k$ & $\frac{d_k-p_k}{h_k}$\\
 \end{table}
 
 \vspace*{2\baselineskip}
-
 De esta forma, $s_k$ queda, para $x \in [x_{k-1}, x_k]$
 
 \begin{equation} \label{eq:sk}
@@ -339,11 +339,11 @@ Nos dan la derivada en el nodo 3, procedemos a calcular las diferencias dividida
 \begin{table}[h]
 \centering
 \begin{tabular}{llll}
-x & y & DD1 & DD2\\
+x & y & DD1 &DD2\\
 \hline
 $1$ & $4$ &     & \\
-$3$ & $8$ & $2$ & \\
-$3$ & $8$ & $5$ & $\sfrac{3}{2}$ \\
+$3$ & $8$ & $\ \ 2$ & \\
+$3$ & $8$ & $\ \ 5$ & $\ \sfrac{3}{2}$ \\
 \hline
 \end{tabular}
 \end{table}
@@ -354,7 +354,7 @@ $$s_2(x)=4+2(x-1)+\frac{3}{2}(x-1)(x-3)$$
 
 Ahora estimamos la derivada en el nodo 1:
 
-$$s_2'(x)=2+\frac{3}{2}((x-3)+(x-1))=3x - 4$$
+$$s_2'(x)=2+\frac{3}{2}\cdot[(x-3)+(x-1)]=3x - 4$$
 
 $$s_2'(1)= 3 \cdot 1 - 4 = -1$$
 
@@ -366,15 +366,15 @@ Realizamos de nuevo la tabla de diferencias divididas:
 x & y & DD1 & DD2\\
 \hline
 $-1$ & $1$  &                & \\
-$1$  & $4$  & $\sfrac{3}{2}$  & \\
-$1$  & $4$  & $-1$           & $\sfrac{-5}{4}$ \\
+$1$  & $4$  & $\ \sfrac{3}{2}$  & \\
+$1$  & $4$  & $\ -1$           & $\sfrac{-5}{4}$ \\
 \hline
 \end{tabular}
 \end{table}
 
 $s_1$ queda en su intervalo:
 
-$$s_1(x)=1+\frac{3}{2}(x+1)+\frac{-5}{4}(x+1)(x-1)$$
+$$s_1(x)=1+\frac{3}{2}(x+1)-\frac{5}{4}(x+1)(x-1)$$
 
 Ahora que hemos calculado la expresión de $s$ para todos lo intervalos a la izquierda de la derivada, calculamos la función para todos los valores a la derecha de la
 derivada.
@@ -479,7 +479,7 @@ A partir de la fórmula general, la dimensión de este espacio para una partici�
 $\{x_i\}_{i=0,...,n}$ es $dim (S_3^2(P)) = (3-2)n+2+1=n+3$. Como tenemos $n+1$ variables,
 tenemos $2$ libertades en la resolución.
 
-## Construcción a partir de los valores de $s''$ en los nodos $\{x_i\}$
+## Construcción a partir de los valores de $S''(x)$ en los nodos $\{x_i\}$
 
 Vamos a plantear un método de resolución utilizando las segundas derivadas, denotamos,
 para $i=1, ..., n-1$: $M_i = S''(x_i)$, que son desconocidos a priori salvo en un spline natural.
@@ -746,7 +746,7 @@ La demostración, así como cotas para las derivadas, puede consultarse en *Opti
 
 ## Ejemplos
 
-### **Sujeto**:
+**Sujeto**:
 
 \begin{problema}
 
@@ -819,7 +819,7 @@ Equivalentemente para $S_2$ y $S_3$, obtenemos la solución:
 \end{solucion}
 
 
-### **Natural**:
+**Natural**:
 
 \begin{problema}
 Hallar spline natural tal que:
@@ -888,7 +888,7 @@ Equivalentemente para $S_2$ y $S_3$, obtenemos la solución:
 
 # Implementación en ordenador: Octave
 
-## Spline Lineal
+## Spline lineal
 
 La implementación de la función que nos permite calcular un spline lineal es muy
 sencilla:
@@ -1133,9 +1133,10 @@ se definen, para $1 \leq i \leq n$:
 
 
 #Bibliografía
-- [Quadratic Interpolatory Splines W.J.Kammerer, G. W. Reddien, and R.S. Varga](http://www.math.kent.edu/~varga/pub/paper_85.pdf)
-- [Cubic Spline Interpolation](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
-- Análisis numérico (Novena Edición) Richard L. Burden y J. Douglas Faires
+- [*Quadratic Interpolatory Splines* - W.J.Kammerer, G. W. Reddien, and R.S. Varga](http://www.math.kent.edu/~varga/pub/paper_85.pdf)
+- [*Cubic Spline Interpolation*](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
+(https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
+- *Análisis numérico (Novena Edición)* - Richard L. Burden y J. Douglas Faires
 - *Analysis of Numerical Methods* - Eugene Isaacson, Herbert Bishop Keller
 - *Spline Approximation of Functions and Data* - Universidad de Oslo
 - *Optimal Error Bounds for Cubic Spline Interpolation* - Charles A. Hall
