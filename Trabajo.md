@@ -439,6 +439,8 @@ Uno de los problemas de la interpolación polinomial es que, al ir aumentando el
 número de nodos el grado del polinomio requerido para interpolarlos aumenta.
 Esto conlleva fluctuaciones en los extremos de la interpolación. <!--(1)-->
 
+<!-- La imagen podría ir aquí -->
+
 Si dividimos el intervalo en una partición podemos interpolar utilizando un
 polinomio S_i(x) de grado 3 en cada intervalo, es decir, utilizando **splines cúbicos**. Como veremos después este método minimiza la cota de error.
 
