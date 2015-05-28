@@ -771,7 +771,7 @@ El sistem queda:
 Del que obtenemos la solución $M_0=-0.36, M_1=2.52, M_2=-3.72 \text{ y } M_3=0.36$.
 Calculamos los trozos finalmente aplicando la fórmula:
 
-$$C_1(x)= M_0\frac{(x_1-x)^3}{6} + M_1\frac{(x-x_0)}{6} + (y_0-\frac{M_0}{6})\frac{x_1-x}{1} + (y_1-\frac{M_1}{6})\frac{x-x_0}{1} = 0.48x^3 - 0.18x^2 + 0.2x$$
+$$S_1(x)= M_0\frac{(x_1-x)^3}{6} + M_1\frac{(x-x_0)}{6} + (y_0-\frac{M_0}{6})\frac{x_1-x}{1} + (y_1-\frac{M_1}{6})\frac{x-x_0}{1} = 0.48x^3 - 0.18x^2 + 0.2x$$
 
 Equivalentemente para $C_2$ y $C_3$, obtenemos la solución:
 
