@@ -421,7 +421,7 @@ Por lo tanto, nuestra solución sería:
 
 $$s(x)=
 \begin{cases}
-s_1(x)=1+\frac{3}{2}(x-1)+\frac{9}{4}(x-1)(x+1)   & \text{si } x\in {[-1,1)}\\
+s_1(x)=1+\frac{3}{2}(x+1)+\frac{9}{4}(x-1)(x+1)   & \text{si } x\in {[-1,1)}\\
 s_2(x)=4+2(x-1)+\frac{3}{2}(x-1)(x-3)             & \text{si } x\in {[1,3)}\\
 s_3(x)=8+5(x-3)+ \frac{7}{4} (x-3)(x-6)           & \text{si } x\in {[3,6)}\\
 s_4(x)=2+\frac{41}{4}(x-6)+\frac{33}{4}(x-6)(x-7) & \text{si } x\in {[6,7)} \\
