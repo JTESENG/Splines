@@ -229,6 +229,8 @@ que las define. Finalmente la solución sería, para $x \in [a,b]$:
 
 $$s(x) = a + bx + cx^2 + \alpha(x-x_1)_+^2 + \cdots + \omega(x-x_{n-1})_+^2$$
 
+\vspace*{2\baselineskip}
+
 ## Error en los splines cuadráticos
 
 \begin{teorema}
@@ -254,6 +256,8 @@ La demostración, así como cotas para las derivadas y cotas más precisas en
 función de la localización de $x$ puede encontrarse en
 *Quadratic Interpolatory Splines*,
 W. Kammerer, G. Reddien y R.S. Varga, (1973).
+
+\vspace*{2\baselineskip}
 
 ## Ejemplos
 
@@ -321,7 +325,7 @@ s(x) =
 \end{solucion}
 
 \begin{problema}
-Dados los siguientes dados, calcula el spline cuadrático que los interpola:
+Dados los siguientes dados, calcula el spline cuadrático que los interpola utilizando el método local:
 \begin{table}[h]
 \centering
 \begin{tabular}{l|lllll}
@@ -359,15 +363,15 @@ $$s_2'(x)=2+\frac{3}{2}\cdot[(x-3)+(x-1)]=3x - 4$$
 $$s_2'(1)= 3 \cdot 1 - 4 = -1$$
 
 Realizamos de nuevo la tabla de diferencias divididas:
-
+\vspace*{2\baselineskip}
 \begin{table}[h]
 \centering
 \begin{tabular}{llll}
-x & y & DD1 & DD2\\
+\ x & y & DD1 & DD2\\
 \hline
 $-1$ & $1$  &                & \\
-$1$  & $4$  & $\ \sfrac{3}{2}$  & \\
-$1$  & $4$  & $\ -1$           & $\sfrac{-5}{4}$ \\
+$\ 1$  & $4$  & $\ \ \sfrac{3}{2}$  & \\
+$\ 1$  & $4$  & $\ -1$           & $\sfrac{-5}{4}$ \\
 \hline
 \end{tabular}
 \end{table}
@@ -387,7 +391,7 @@ Calculamos las diferencias divididas para nodos 3 y 6:
 x & y & DD1 & DD2\\
 \hline
 $3$  & $8$  &      & \\
-$3$  & $8$  & $5$  & \\
+$3$  & $8$  & $\ \ 5$  & \\
 $6$  & $2$  & $-2$ & $\sfrac{-7}{3}$ \\
 \hline
 \end{tabular}
@@ -396,13 +400,13 @@ $6$  & $2$  & $-2$ & $\sfrac{-7}{3}$ \\
 
 
 
-$s_3$ y su derivada quedan en su intervalo:
+$s_3$ y su derivada se ajustan a su intervalo:
 $$s_3(x)=8+5(x-3)- \frac{7}{3} (x-3)(x-3)$$
 
 $$s_3'(x)=5-\frac{7}{3}2(x-3)=5-\frac{7}{3}(2x-9)$$
 
 Estimamos la derivada del nodo 6:
-$$s_3'(6)=5-\frac{7}{3}3 = -2$$
+$$s_3'(6)=5-\frac{7}{3}\cdot3 = -2$$
 
 Finalmente, calculamos $s_4$:
 
@@ -413,7 +417,7 @@ x & y & DD1 & DD2\\
 \hline
 $6$ & $2$  &       & \\
 $6$ & $2$  & $-9$  & \\
-$7$ & $9$  & $7$   & $16$ \\
+$7$ & $9$  & $\ \ 7$   & $16$ \\
 \hline
 \end{tabular}
 \end{table}
@@ -422,15 +426,15 @@ De esta forma, la expresión de $s_4$ sería:
 
 $$s_4(x)=2 -9(x-6)+16(x-6)(x-6)$$
 
-Por lo tanto, nuestra solución sería:
+Por lo tanto, el spline buscado es:
 
 
 $$s(x)=
 \begin{cases}
-s_1(x)=1+\frac{3}{2}(x+1)+\frac{-5}{4}(x+1)(x-1)   & \text{si } x\in {[-1,1)}\\
-s_2(x)=4+2(x-1)+\frac{3}{2}(x-1)(x-3)             & \text{si } x\in {[1,3)}\\
-s_3(x)=8+5(x-3)- \frac{7}{3} (x-3)(x-3)           & \text{si } x\in {[3,6)}\\
-s_4(x)=2 -9(x-6)+16(x-6)(x-6) & \text{si } x\in {[6,7])} \\
+s_1(x)=1+\frac{3}{2}(x+1)-\frac{5}{4}(x+1)(x-1)   & \text{si } x\in {[-1,1]}\\
+s_2(x)=4+2(x-1)+\frac{3}{2}(x-1)(x-3)             & \text{si } x\in {(1,3]}\\
+s_3(x)=8+5(x-3)- \frac{7}{3} (x-3)(x-3)           & \text{si } x\in {(3,6]}\\
+s_4(x)=2 -9(x-6)+16(x-6)(x-6) & \text{si } x\in {(6,7]} \\
 \end{cases}
 $$
 \end{solucion}
@@ -453,15 +457,17 @@ polinomio S_i(x) de grado 3 en cada intervalo, es decir, utilizando **splines c�
 \begin{equation}
 	S(x) =
 	\begin{cases}
-	S_0(x) 			& \text{si } x \in {[x_0,x_1)} \\
-	S_1(x)			& \text{si } x \in {[x_1,x_2)} \\
-	S_i(x)   		& \text{si } x \in {[x_i,x_{i+1})} \\
-	S_{n-1}(x)		& \text{si } x \in {[x_{n-1},x_n]}
+	S_0(x) 			& \text{si } x \in {[x_0,x_1]} \\
+	S_1(x)			& \text{si } x \in {(x_1,x_2]} \\
+
+	S_i(x)   		& \text{si } x \in {(x_i,x_{i+1}]} \\
+
+	S_{n-1}(x)		& \text{si } x \in {(x_{n-1},x_n]}
 	\end{cases}
 \end{equation}
 
 Esta interpolación lineal fragmentaria pasa por los puntos:
-${ \{ (x_0,f(x_0)),(x_1,f(x_1)),...,(x_n,f(x_n)) \} }$
+${ \{ (x_0,f(x_0)),(x_1,f(x_1)),..., (x_n,f(x_n)) \} }$
 
 
 Dentro de los cúbicos encontramos los de clase 1 y 2, denotados por $S^{1}_3$ y $S^{2}_3$ (ó $S_3$).
@@ -521,7 +527,7 @@ Multiplicamos a ambos lados por $6$, sacamos factor común y recordamos que $p_{
 $$6M_i\frac{-3h_{i+1}}{6} + \frac{h_{i+1}}{6} - 3\frac{h_i}{6} + \frac{h_i}{6} + 6(p_{i+1} - p_i) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
 
 
-Agrupando y multiplicando $M_i$ arriba y abajo por $-2$:
+Agrupando y multiplicando $M_i$ arriba y abajo por $(-2)$:
 
 $$-2M_i\frac{-2h_{i+1}-3h_i+h_i}{-2} + 6(p_{i+1} - p_i) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
 
@@ -547,17 +553,26 @@ $S'_1(x_0) = f'_0$ y $S'_n(x_n)=f'_n$. De acuerdo con la fórmula de $S'(x)$ obt
 
 $$f'_0 = -\frac{M_0h_i}{2} + f[x_0,x_1] - \frac{(M_1 - M_0)h_i}{6} $$
 
-$$\implies  2M_0+M_1=\frac{6(f{[x_0,x_1]} - f^{'}_0)}{h_1} = 6f{[x_0,x_0,x_1]}$$
+\begin{equation} \label{eq:ast2}
+\implies2M_0+M_1=\frac{6(f{[x_0,x_1]} - f^{'}_0)}{h_1} = 6f{[x_0,x_0,x_1]}
+\end{equation}
 
-Donde el último paso se deduce de (\ref{eq:ast}). Equivalentemente para $x_n$:
+Donde el último paso se deduce de (\ref{eq:ast})
 
-\begin{multline*}
+Equivalentemente para $x_n$:
+
+<!--\begin{multline*}-->
+$$
 S'_n(x_n) = - \frac{M_{n-1}(x_n-x_n)^2}{2h_n} + \frac{M_n(x_n-x_{n-1})^2}{2h_n} + \frac{(y_n-y_{n-1})}{h_n} - \frac{(M_n-M_{n-1})h_n}{6} \\
-\implies
-M_{n-1}+2M_n=6f[x_{n-1},x_n,x_n] (*)
-\end{multline*}
+$$
+\begin{equation} \label{eq:ast3}
+\implies M_{n-1}+2M_n=6f[x_{n-1},x_n,x_n] 
+\end{equation}
 
-Usando (*), la matriz del sistema es:
+
+<!--\end{multline*}-->
+
+Usando (\ref{eq:ast}), (\ref{eq:ast2}) y (\ref{eq:ast3}) la matriz del sistema es:
 
 
 $$
@@ -612,20 +627,20 @@ $$\begin{pmatrix}
   \gamma_{n-1} \\
 \end{pmatrix}$$
 
+A partir del valor de los $M_i$ se obtienen los polinomios $S_i(x)$ en cada intervalo.
 \vspace*{2\baselineskip}
 
  - **Spline periódico**
 
 En este caso $S'_1(x_0) = S'_n(x_n)$ y $S''_1(x_0) = S''_n(x_n)$. El sistema queda:
 
-<!--Falta plantearlo-->
 
 $$
 \begin{pmatrix}
-  2 	   & \lambda_0 &    0       &   \cdots  &     0	         \\
-  \mu_1  & 2	 		& \lambda_1  &   0       &    \vdots      \\
-  0      & \ddots    & \ddots     &  \ddots   &     0          \\
-  \vdots &     0     & \mu_{n-1}  &    2      & \lambda_{n-1}
+  2+2 	   & \lambda_0 &    0       &   0         \\
+  \mu_1  & 2	 		& \ddots  &   0                \\
+  0      & \ddots    & \ddots     &  \lambda_{n-2}            \\
+  \lambda_{n-1} &     0     & \mu_{n-1}  &    2     
 \end{pmatrix}
 \begin{pmatrix}
   M_0 \\
@@ -635,17 +650,20 @@ $$
   M_{n-1}
 \end{pmatrix} =
 \begin{pmatrix}
-  \gamma_0=h_1-S^{'}_(x_0) \\
+  \gamma_0+\gamma_n= \sfrac{h_1-S^{'}_1(x_0)}{h_1}+\sfrac{S^{'}_1(x_0)-h_n}{h_n} \\
   \gamma_1 \\
   \vdots \\
   \gamma_{n-2} \\
   \gamma_{n-1}
 \end{pmatrix}$$
 
-En este caso añadimos:
+En este caso tenemos en cuenta que:
 
 ${ S^{'}_1(x_0)= -M_0 \cdot \frac{h_1}{2}+ f{[x_o,x_1]} - \frac{M_1-M_0}{6} \cdot h_1 }$
 
+A partir del valor de los $M_i$ se obtienen los polinomios $S_i(x)$ en cada intervalo.
+
+\vspace*{2\baselineskip}
 ## Propiedades de minimización
 
 Comenzamos planteando un problema de minimización sobre el espacio euclídeo
@@ -744,9 +762,10 @@ Se verifica:
 
 La demostración, así como cotas para las derivadas, puede consultarse en *Optimal Error Bounds for Cubic Spline Interpolation*, Charles Hall y Weston Meyer, (1976).
 
+\vspace*{2\baselineskip}
 ## Ejemplos
 
-**Sujeto**:
+ - **Sujeto**
 
 \begin{problema}
 
@@ -760,7 +779,7 @@ Hallar spline sujeto tal que:
 \vspace*{\baselineskip}
 
 \begin{solucion}
-Como los nodos están equiespaciados $h_i=1$ $\forall i \in \{1..n\}$
+Como los nodos están equiespaciados $h_i=1$ $\forall i \in \{1,...,n\}$
 
 $$\lambda_0 = \mu_3 = 1 \; \text{ y } \; \lambda_1=\lambda_2=\mu_1=\mu_2= \frac{1}{2}$$
 
@@ -777,7 +796,7 @@ Calculamos las diferencias divididas para obtener los $\gamma_i$
 \item $\displaystyle\frac{\gamma_3}{6} = f{[x_2,x_3,x_3]} =  \frac{ f{[x_3,x_3]}-f{[x_2,x_3]} }{ x_3-x_2 } = \left(-1-\frac{1.5-2}{1-0}\right)/1 = -\frac{1}{2}$
 \end{itemize}
 
-El sistem queda:
+El sistema queda:
 
 \begin{equation*}
 \begin{pmatrix}
@@ -816,10 +835,11 @@ Equivalentemente para $S_2$ y $S_3$, obtenemos la solución:
    0.68(x-2)^3 - 1.86(x-2)^2 + 0.68(x-2) + 2       &  \text{si } 2 < x \leq 3  \\
   \end{cases}
 \end{equation*}
+
 \end{solucion}
 
-
-**Natural**:
+\vspace*{2\baselineskip}
+ - **Natural**
 
 \begin{problema}
 Hallar spline natural tal que:
@@ -846,7 +866,7 @@ Calculamos las diferencias divididas para obtener los $\gamma_i$
 
 \end{itemize}
 
-El sistem queda:
+El sistema queda:
 
 \begin{equation*}
 \begin{pmatrix}
@@ -855,7 +875,7 @@ El sistem queda:
 \end{pmatrix}
 \begin{pmatrix}
 	M_1  \\
-	M_2  
+	M_2
 \end{pmatrix}
 =
 \begin{pmatrix}
@@ -879,6 +899,8 @@ Equivalentemente para $S_2$ y $S_3$, obtenemos la solución:
    \frac{6}{5}x^3-\frac{72}{5}x^2+\frac{267}{5}x-60  &  \text{si } 3 < x \leq 4  \\
   \end{cases}
 \end{equation*}
+
+(una vez descentrados, ver uso de polyaffine() )
 \end{solucion}
 
 
@@ -905,10 +927,9 @@ end
 
 Utilizando el **método global**, podemos definir fácilmente una
 función que calcule un spline cuadrático de clase 1:
-
 ```octave
 function s = SplineCuad(x, y, d_k, k)
-  # Número de intervalos
+  # Cantidad de intervalos
   n = length(x) - 1;
 
   # 1, x, x^2
@@ -922,12 +943,11 @@ function s = SplineCuad(x, y, d_k, k)
     A(:, j) = [t(x').^2; 2.*t(x(k+1))];
   end
 
-  # Resolución del sistema
+  # Resolver el sistema
   sol = A \ [y' ; d_k];
 
   for k = 1:n
     p = sol(3:-1:1);
-
     for l = 2:k
       p += sol(l+2).*[1, -2.*x(l), x(l).^2];
     end
@@ -942,10 +962,10 @@ Otra implementación posible es calcular el spline **a trozos**:
 
 ```octave
 function z = SplineCuadLocal(x, y, d_k, k)
-	s = zeros(length(x)-1, 3);
+  s = zeros(length(x)-1, 3);
   d = d_k;
-  #Recorremos todos los nodos de n+1 en adelante:
 
+  #Recorremos todos los nodos de n+1 en adelante:
   for i = (k+1):(length(x)-1)
 		p = (y(i+1)-y(i))/(x(i+1)-x(i));
 		q = (p-d)/(x(i+1)-x(i));
@@ -956,7 +976,6 @@ function z = SplineCuadLocal(x, y, d_k, k)
     d = d_k;
 
   #Recorremos todos los nodos desde n hasta el 1:
-
   for j = k:-1:1
 		p = (y(j+1)-y(j))/(x(j+1)-x(j))
 		q = (d-p)/(x(j+1)-x(j))
@@ -971,7 +990,7 @@ function z = SplineCuadLocal(x, y, d_k, k)
     z = mkpp(x, s);
 end
 ```
-
+\vspace*{2\baselineskip}
 ## Splines cúbicos
 
 Para el cálculo de splines cúbicos por medio de la segunda derivada nos hemos
@@ -1053,29 +1072,31 @@ function z = SplinePer (x, y)
                 mu(i)=h(i)/(h(i+1)+h(i));
         endfor
         mu(n-1)=1;
-        A=diag(mu,-1)+diag(twoes,0)+diag(lambda,1);
+        A=diag(mu,-1)+diag(twoes,0)+diag(lambda,1); #Inicializamos matriz tridiagonal
         dd1=zeros(n-1,1);
         for i=1:(n-1)
-                dd1(i)=(y(i+1)-y(i))/(x(i+1)-x(i));
+                dd1(i)=(y(i+1)-y(i))/(x(i+1)-x(i)); #Primeras derivadas
         endfor
         dd2=zeros(n-2,1);
         for i=1:(n-2)
-                dd2(i)=(dd1(i+1)-dd1(i))/(x(i+2)-x(i));
+                dd2(i)=(dd1(i+1)-dd1(i))/(x(i+2)-x(i)); #Segundas derivadas
         endfor
-   A(1,:)=h(1)*A(1,:);
+   A(1,:)=h(1)*A(1,:); #Ajustes de la matriz
    A(1,1)=A(1,1)-h(1)/3;
    A(1,2)=A(1,2)+h(1)/6;
    A(n,:)=h(n-1)*A(1,:);
 
    A(n,1)=A(1,1)+h(1)/3;
    A(n,2)=A(1,2)-h(1)/6;
+
    gamma=zeros(n,1);
-        gamma(1)=h(1)-dd1(1);
+   gamma(1)=h(1)-dd1(1);
    gamma(n)=-h(n-1)+dd1(1);
+
         for i=1:(n-2)
-                gamma(i+1)=6*dd2(i);
+                gamma(i+1)=6*dd2(i); 
         endfor
-   m=A\gamma;
+	m=A\gamma;
 	s = ppint(ppint(SplineLineal(x, m)));
 end
 ```
