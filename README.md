@@ -13,16 +13,16 @@
 	- [X] [Construcción de splines clásicos a partir de la segunda derivada](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
    	- [X] Spline sujeto
    	- [X] Spline natural
-   	- [ ] Spline periódico
+   	- [X] Spline periódico
 	- [X] Propiedades de minimización
-	- [ ] Ejemplos
+	- [X] Ejemplos
 - [ ] Implementación en ordenador
 	- [X] Splines cuadráticos
       - [X] A trozos
       - [X] Global
 	- [X] Splines sujeto
 	- [X] Spline natural
-	- [ ] Spline periódico
+	- [X] Spline periódico
 
 
 ## Compilar el documento
