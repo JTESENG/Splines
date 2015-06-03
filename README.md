@@ -2,6 +2,8 @@
 
 ## A Hacer
 
+### Presentación (en beamer (?) ) sobre los cuadráticos para exposición
+
 - [X] Splines cuadráticos
 	- [X] Introducción
 	- [X] Descripción del espacio de splines cuadráticos
