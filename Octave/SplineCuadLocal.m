@@ -1,6 +1,7 @@
 function z = SplineCuadLocal(x, y, d_k, k)
-	s = zeros(length(x)-1, 3);
+  s = zeros(length(x)-1, 3);
   d = d_k;
+
   #Recorremos todos los nodos de n+1 en adelante:
 
   for i = (k+1):(length(x)-1)
@@ -25,5 +26,6 @@ function z = SplineCuadLocal(x, y, d_k, k)
   for i = 1:length(s)
     s(i,:) = polyaffine(s(i,:), [-x(i), 1]);
   end
-    z = mkpp(x, s);
+
+  z = mkpp(x, s);
 end

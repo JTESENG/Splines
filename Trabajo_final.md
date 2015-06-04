@@ -893,29 +893,17 @@ Equivalentemente para $S_2$ y $S_3$, obtenemos la solución:
 
 # Implementación en ordenador: Octave
 
-## Spline lineal
-
-La implementación de la función que nos permite calcular un spline lineal es muy
-sencilla:
-
-```octave
-function s = SplineLineal(x,y)
-  p = diff(y)./diff(x);
-  A = [p' y(1:end-1)'];
-  s = mkpp(x,A);
-end
-```
-
 ## Splines cuadráticos
 
 Utilizando el **método global**, podemos definir fácilmente una
 función que calcule un spline cuadrático de clase 1:
+
 ```octave
 function s = SplineCuad(x, y, d_k, k)
-  # Cantidad de intervalos
+  # Número de intervalos
   n = length(x) - 1;
 
-  # 1, x, x^2
+  # 1, x, x²
   A(:,1) = [ones(n+1,1); 0];
   A(:,2) = [x'         ; 1];
   A(:,3) = [x'.^2      ; 2.*x(k+1)];
@@ -926,11 +914,12 @@ function s = SplineCuad(x, y, d_k, k)
     A(:, j) = [t(x').^2; 2.*t(x(k+1))];
   end
 
-  # Resolver el sistema
+  # Resolución del sistema
   sol = A \ [y' ; d_k];
 
   for k = 1:n
-    p = sol(3:-1:1);
+    p = sol(3:-1:1)';
+
     for l = 2:k
       p += sol(l+2).*[1, -2.*x(l), x(l).^2];
     end
@@ -941,6 +930,9 @@ function s = SplineCuad(x, y, d_k, k)
   s = mkpp(x,B);
 end
 ```
+
+\pagebreak
+
 Otra implementación posible es calcular el spline **a trozos**:
 
 ```octave
@@ -949,6 +941,7 @@ function z = SplineCuadLocal(x, y, d_k, k)
   d = d_k;
 
   #Recorremos todos los nodos de n+1 en adelante:
+
   for i = (k+1):(length(x)-1)
 		p = (y(i+1)-y(i))/(x(i+1)-x(i));
 		q = (p-d)/(x(i+1)-x(i));
@@ -959,6 +952,7 @@ function z = SplineCuadLocal(x, y, d_k, k)
     d = d_k;
 
   #Recorremos todos los nodos desde n hasta el 1:
+
   for j = k:-1:1
 		p = (y(j+1)-y(j))/(x(j+1)-x(j))
 		q = (d-p)/(x(j+1)-x(j))
@@ -970,15 +964,17 @@ function z = SplineCuadLocal(x, y, d_k, k)
   for i = 1:length(s)
     s(i,:) = polyaffine(s(i,:), [-x(i), 1]);
   end
-    z = mkpp(x, s);
+
+  z = mkpp(x, s);
 end
 ```
-\vspace*{2\baselineskip}
+\pagebreak
+
 ## Splines cúbicos
 
-Para el cálculo de splines cúbicos por medio de la segunda derivada nos hemos
-valido de la interpolación de splines lineales y de la función `ppint`, que
-realiza la integración de un spline.
+Para el cálculo de splines cúbicos por medio de la segunda derivada resolvemos
+el sistema y luego aplicamos la fórmula para obtener la expresión de cada 
+fórmula:
 
 ### Spline sujeto
 
@@ -1004,7 +1000,7 @@ function s = SplineSuj (x, y, d_1, d_n)
   gamma(2:n) = 6*dd2(1:n-1);
   gamma(n+1) = 6*(d_n-dd2(n-1))/(x(n+1)-x(n));
 
-  m = A\gamma';
+  m = A \ gamma';
   s = ppint(ppint(SplineLineal(x, m')));
 end
 ```
@@ -1030,11 +1026,20 @@ function s = SplineNat(x, y)
   if(n < 3)
     A = 2;
   else
-    A = diag(twoes) + diag(lambda(1:end-1),1) + diag(mu(2:end),-1);
+    A = diag(twoes) + diag(lambda(1:end-1),1) + diag(mu(2:end),-1)
   end
 
-  m = A \ gamma';
-  s = ppint(ppint(SplineLineal(x, [0 m' 0])));
+  m = [0, (A \ (6.*gamma'))', 0];
+
+  for i = 1:n
+    p  = (-m(i)/6)  * poly([x(i+1), x(i+1), x(i+1)]);
+    p += (m(i+1)/6) * poly([x(i), x(i), x(i)]);
+    p += (y(i)-(m(i)*h(i).^2/6))*[0 0 -1 x(i+1)];
+    p += (y(i+1)-(m(i+1)*h(i).^2/6))*[0 0 1 -x(i)];
+    p *= 1/h(i);
+    B(i,:) = polyaffine(p, [-x(i) 1]);
+  end
+  s = mkpp(x, B);
 end
 ```
 ### Spline periódico
@@ -1044,48 +1049,52 @@ La función del **spline periódico** queda:
 
 ```octave
 function z = SplinePer (x, y) 
-    n=length(x);
-    twoes=2*ones(1,n);
-##    twoes[1] = twoes[1] +2;
-    h=diff(x);
-    lambda=zeros(1,n-1); ##
-    for i=1:(n-2) 
-    	lambda(i+1)=h(i+1)/(h(i+1)+h(i));
-    endfor
-    mu=zeros(1,n-1);
-    for i=1:(n-2)
-    	mu(i)=mu(i)+h(i)/(h(i+1)+h(i));
-    endfor
-#    mu(n-1)=1;
+  n     = length(x);
+  twoes = 2*ones(1,n);
+  h     = diff(x);
 
-    A=1*diag(mu,-1)+1*diag(twoes)+1*diag(lambda,1); 
-    [fil col] = length(A);
-    A(1, fil) = h(n-1)/(h(n-1)+h(n-2));
-    
-    dd1=zeros(n-1,1);
-    for i=1:(n-1)
-   		dd1(i)=(y(i+1)-y(i))/(x(i+1)-x(i)); #Primeras derivadas
-    endfor
-    dd2=zeros(n-2,1);
-    for i=1:(n-2)
-    	dd2(i)=(dd1(i+1)-dd1(i))/(x(i+2)-x(i)); #Segundas derivadas
-    endfor
-    
-    A(1,:)=h(1)*A(1,:);   #Ajustes de la matriz
-    A(1,1)=A(1,1)-h(1)/3;
-    A(1,2)=A(1,2)+h(1)/6;
-    A(n,:)=h(n-1)*A(1,:);
-    A(n,1)=A(1,1)+h(1)/3;
-    A(n,2)=A(1,2)-h(1)/6;
-    gamma=zeros(n,1);
-    gamma(1)=h(1)-dd1(1);
-    gamma(n)=-h(n-1)+dd1(1);
-    for i=1:(n-2)
-    	gamma(i+1)=6*dd2(i);
-    endfor
-    m=A\gamma;
-    s = ppint(ppint(SplineLineal(x, m)));  
+  for i=1:(n-2) 
+  	lambda(i+1) = h(i+1)/(h(i+1)+h(i));
+  endfor
 
+  for i=1:(n-2)
+  	mu(i) = mu(i)+h(i)/(h(i+1)+h(i));
+  endfor
+
+  A = diag(mu,-1) + diag(twoes) + diag(lambda,1); 
+  A(1, n) = h(n-1)/(h(n-1)+h(n-2));
+  
+  dd1 = diff(y)./diff(x); #Primeras derivadas
+
+  #Segundas derivadas
+  dd2 = zeros(n-2,1);
+  for i=1:(n-2)
+  	dd2(i) = (dd1(i+1)-dd1(i))/(x(i+2)-x(i));
+  endfor
+  
+  A(1,:)=h(1)*A(1,:);   #Ajustes de la matriz
+  A(1,1)=A(1,1)-h(1)/3;
+  A(1,2)=A(1,2)+h(1)/6;
+  A(n,:)=h(n-1)*A(1,:);
+  A(n,1)=A(1,1)+h(1)/3;
+  A(n,2)=A(1,2)-h(1)/6;
+
+  gamma(1)=(h(1)-dd1(1))/h(1) + (dd1(1)-h(n))/h(n);
+  for i=1:(n-2)
+  	gamma(i+1)=6*dd2(i);
+  endfor
+
+  m=A\gamma';
+
+	for i = 1:n
+	  p  = (-m(i)/6)  * poly([x(i+1), x(i+1), x(i+1)]);
+	  p += (m(i+1)/6) * poly([x(i), x(i), x(i)]);
+	  p += (y(i)-(m(i)*h(i).^2/6))*[0 0 -1 x(i+1)];
+	  p += (y(i+1)-(m(i+1)*h(i).^2/6))*[0 0 1 -x(i)];
+	  p *= 1/h(i);
+	  B(i,:) = polyaffine(p, [-x(i) 1]);
+  	endfor
+  	s = mkpp(x, B);
 endfunction
 ```
 \pagebreak
