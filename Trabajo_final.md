@@ -46,7 +46,7 @@ que pasa por ciertos puntos se resume en la siguiente definición:
 \begin{definicion}
 Sean $[a,b]$ un intervalo, $P = \{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$,
 $k,r\in \mathbb{N}$, $r < k$. Se dice que $s:[a,b] \to \mathbb{R}$ es un
-spline de clase 'r' y grado 'k' si $s \in C^r([a,b])$ y para todo $1 \leq i \leq n$,
+spline de clase $r$ y grado $k$ si $s \in C^r([a,b])$ y para todo $1 \leq i \leq n$,
 $s_{|[x_{i-1},x_i]} \in \mathbb{P}_k$. $S^r_k(P)$ es el espacio de dichas funciones.
 \end{definicion}
 \vspace*{2\baselineskip}
@@ -99,8 +99,8 @@ El problema que debemos resolver es el siguiente:
 
 \begin{problema}
 Sea $[a,b]$ intervalo, $P \in \mathscr{P}([a,b])$ partición. Hallar $s \in S_2(P)$ tal que:
-$$s(x_i)=y_i\ i=0,1,...,n$$
-$$s'(x_k)=d_k \ para \ k=\{0,1,...,n\}$$
+$$s(x_i)=y_i \qquad  i = 0,1,...,n$$
+$$s'(x_k)=d_k \qquad k = 0,1,...,n$$
 
 \end{problema}
 
@@ -130,7 +130,7 @@ s_k(x)=y_{k-1}+p_k(x-x_{k-1})+\frac{d_k-p_k}{h_k}(x-x_{k-1})(x-x_k)
 \end{equation}
 
 Conocida la expresión de $s_k$ podemos calcular $d_{k-1} = s'_k(x_{k-1})$, y repetir
-este proceso para calcular $s_{k-1}$, hasta llegar a $k = 1$ ($S_1(x)$ cuya derivada es $d_1$).
+este proceso para calcular $s_{k-1}$, hasta llegar a $k = 1$ ($s_1$ con derivada $d_1$).
 
 
 Si $k < n$, debemos calcular $s_{k+1}$. Como sabemos la derivada $d_k$, calculamos la tabla de diferencias divididas:
@@ -187,7 +187,8 @@ $$\{1, x, x^2, (x-x_1)_+^2, ... , (x-x_{n-1})_+^2\}$$
 
 Tenemos los siguientes matrices y vectores:
 
-- $G$: matriz de Gram. Evaluamos los elementos de la base en todos los nodos y primera derivada en $x_k$.
+- $G$: matriz de Gram. Evaluamos los elementos de la base en todos los nodos. Añadimos
+una ecuación para la primera derivada en $x_k$.
 - $X$: vector de coeficientes.
 - $b$: vector con los valores que queremos interpolar.
 
@@ -233,29 +234,7 @@ $$s(x) = a + bx + cx^2 + \alpha_1(x-x_1)_+^2 + \cdots + \alpha_{n-1}(x-x_{n-1})_
 
 ## Error en los splines cuadráticos
 
-\begin{teorema}
-Sean $f \in C^2([a,b])$, $\{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$,
-$s \in S_2^1(\{x_i\}_{i = 0,...,n})$ spline para $f$,
-
-$h = max\{x_i - x_{i-1}\}_{i = 1...n}$, $E = f - s$.
-Además, sea $M >0$ tal que:
-
-\[
- M \geq Sup \{|f''(x) - f''(y)| \; : \; |x - y| \leq h, \; x,y \in [a,b] \}
- \]
-
-Entonces, se verifica, para todo $x \in [a,b]$:
-
-\begin{equation}
-E(x) \leq \frac{h^2M}{2}
-\end{equation}
-
-\end{teorema}
-
-La demostración de un caso parecido, así como cotas para las derivadas y cotas más precisas en
-función de la localización de $x$ puede encontrarse en
-*Quadratic Interpolatory Splines*,
-W. Kammerer, G. Reddien y R.S. Varga, (1973).
+**AÑADIR ERROR UTILIZANDO INTERPOLACIÓN DE HERMITE**
 
 \vspace*{2\baselineskip}
 
@@ -524,7 +503,7 @@ $$-M_i\frac{h_{i+1}}{2} + M_i\frac{h_{i+1}}{6} - M_i\frac{h_i}{2} + M_i\frac{h_i
 
 Multiplicamos a ambos lados por $6$, sacamos factor común y recordamos que $p_{i+1} = \frac{y_{i+1}-y_i}{h_{i+1}}$:
 
-$$ 6M_i (\frac{-3h_{i+1}}{6} + \frac{h_{i+1}}{6} - 3\frac{h_i}{6} + \frac{h_i}{6}) + 6(p_{i+1} - p_i) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
+$$ 6M_i \left(\frac{-3h_{i+1}}{6} + \frac{h_{i+1}}{6} - 3\frac{h_i}{6} + \frac{h_i}{6} \right) + 6(p_{i+1} - p_i) =  M_{i+1}h_{i+1} + M_{i-1}h_i$$
 
 
 Agrupando y multiplicando $M_i$ arriba y abajo por $(-2)$:
@@ -539,7 +518,7 @@ $$6\frac{p_{i+1}-p_i}{h_{i+1}+h_i} =  M_{i+1}\frac{h_{i+1}}{h_{i+1}+h_i} + M_{i-
 Denotando por $\displaystyle\mu_i = \frac{h_i}{h_i+h_{i+1}}$, $\displaystyle\lambda_i = 1-\mu_i = \frac{h_{i+1}}{h_i+h_{i+1}}$ y $\displaystyle\gamma_i = 6\frac{p_{i+1}-p_i}{h_{i+1}+h_i}$:
 
 \begin{equation} \label{eq:ast}
-\mu_iM_{i-1} + 2M_i + \lambda_iM_{i+1} = \gamma_i \ i=1,...,n-1
+\mu_iM_{i-1} + 2M_i + \lambda_iM_{i+1} = \gamma_i \qquad i=1,...,n-1
 \end{equation}
 
 Con los $M_i$ en las ligaduras tendremos $(n-1)$ condicinoes, para que el sistema
@@ -667,6 +646,7 @@ ${ S^{'}_1(x_0)= -M_0 \cdot \frac{h_1}{2}+ f{[x_o,x_1]} - \frac{M_1-M_0}{6} \cdo
 A partir del valor de los $M_i$ se obtienen los polinomios $S_i(x)$ en cada intervalo.
 
 \vspace*{2\baselineskip}
+
 ## Propiedades de minimización
 
 Comenzamos planteando un problema de minimización sobre el espacio euclídeo
@@ -680,7 +660,7 @@ Planteamos el problema:
 
 \begin{problema}
 Sea $f \in C^2([a,b])$, $P \in \mathscr{P}([a,b])$. Sea $H \subset C^2([a,b])$ definido por:
-\[H = \{g \in C^2([a,b]) \; : \; \forall p \in P \; g(p) = f(p) \text{ y } \; g'(a) = f'(a), \; g'(b) = f'(b)\} \]
+\[H = \{g \in C^2([a,b]) \; : \; \forall x_i \in P \; g(x_i) = f(x_i) \text{ y } \; g'(a) = f'(a), \; g'(b) = f'(b)\} \]
 
 Hallar $u \in H$ tal que $||u''||$ sea mínima.
 \end{problema}
@@ -709,13 +689,13 @@ Sea $u \in H$, $e = u - s$. Tenemos:
 Dividimos $<e'',s''>$ en intervalos:
 \[
 <e'',s''> = \int_a^b e''s''
-= \sum_1^{n-1} \int_{x_i}^{x_{i+1}} e''s''
+= \sum_1^{n-1} \int_{x_{i-1}}^{x_i} e''s''
 \]
 
 En cada intervalo, integramos por partes:
 \[
-\sum_1^{n-1}  \int_{x_i}^{x_{i+1}} e''s''
-= \sum_1^{n-1}  \left. e'(x)s''(x) \right|_{x_i}^{x_{i+1}} - \sum_1^{n-1}  \int_{x_i}^{x_{i+1}}e's'''
+\sum_1^{n-1}  \int_{x_{i-1}}^{x_i} e''s''
+= \sum_1^{n-1}  \left. e'(x)s''(x) \right|_{x_i}^{x_{i+1}} - \sum_1^{n-1}  \int_{x_{i-1}}^{x_i}e's'''
 \]
 
 La primera sumatoria es una suma telescópica, por lo que conservamos
@@ -732,7 +712,7 @@ ya que $u, s \in H$.
 En cuanto a la segunda, $s'''|_{[x_i, x_{i+1}]}$ es constante, por lo
 que podemos sacarlo de la integral:
 \[
-\sum_{1}^{n-1} s_i\int_a^be' = \sum_{1}^{n-1}  s_i(e(b) - e(a)) = 0
+\sum_{1}^{n-1} c_i\int_a^be' = \sum_{1}^{n-1} c_i(e(b) - e(a)) = 0
 \]
 
 Es decir, $<e'',s''> = 0$. Por tanto:
@@ -903,7 +883,7 @@ Equivalentemente para $S_2$ y $S_3$, obtenemos la solución:
   \end{cases}
 \end{equation*}
 
-(una vez descentrados, ver uso de polyaffine() )
+(una vez descentrados, ver uso de `polyaffine`)
 \end{solucion}
 
 
