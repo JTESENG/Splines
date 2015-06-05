@@ -73,10 +73,6 @@ acs-*.bib
 *.mtc
 *.mtc0
 
-# minted
-_minted*
-*.pyg
-
 # morewrites
 *.mw
 
@@ -97,3 +93,5 @@ _minted*
 .DS_store
 Trabajo.pdf
 octave-workspace
+*.nav
+*.snm
