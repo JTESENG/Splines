@@ -1,30 +1,41 @@
 # Metodos
 
-## A Hacer
+## Índice de la presentación (Splines cuadráticos)
 
-### Presentación (en beamer (?) ) sobre los cuadráticos para exposición
+1. Introducción.
+2. Descripción del espacio de splines cuadráticos: base, dimensión
+3. Interpolación con splines cuadráticos
+   1. A trozos
+   2. Global
+4. Ejemplos
+5. Implementación en ordenador
+   1. A trozos
+   2. Global
 
-- [X] Splines cuadráticos
-	- [X] Introducción
-	- [X] Descripción del espacio de splines cuadráticos
-	- [X] Interpolación con splines cuadráticos
-   	- [X] A trozos
-   	- [X] Global
-	- [X] Ejemplos
-- [ ] Splines cúbicos
-	- [X] [Construcción de splines clásicos a partir de la segunda derivada](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
-   	- [X] Spline sujeto
-   	- [X] Spline natural
-   	- [X] Spline periódico
-	- [X] Propiedades de minimización
-	- [X] Ejemplos
-- [ ] Implementación en ordenador
-	- [X] Splines cuadráticos
-      - [X] A trozos
-      - [X] Global
-	- [X] Splines sujeto
-	- [X] Spline natural
-	- [X] Spline periódico
+
+## Índice del trabajo
+
+- Splines cuadráticos
+	- Introducción
+	- Descripción del espacio de splines cuadráticos
+	- Interpolación con splines cuadráticos
+   	- A trozos
+   	- Global
+	- Ejemplos
+- Splines cúbicos
+	- [Construcción de splines clásicos a partir de la segunda derivada](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
+   	- Spline sujeto
+   	- Spline natural
+   	- Spline periódico
+	- Propiedades de minimización
+	- Ejemplos
+- Implementación en ordenador
+	- Splines cuadráticos
+      - A trozos
+      - Global
+	- Splines sujeto
+	- Spline natural
+	- Spline periódico
 
 
 ## Compilar el documento
