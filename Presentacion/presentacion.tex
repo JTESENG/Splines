@@ -57,9 +57,9 @@ literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1
 }
 
 % Gráficos
-\usepackage{pgfplots}
-\pgfplotsset{width=7cm,compat=1.8} % Opciones para gráficos
-\usepackage{caption}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.markings}
 
 %% Temas %%
 % Tema y tema de color
@@ -132,6 +132,12 @@ Rubén Morales \and Pablo Baeyens \and Francisco Morales
 Un \textbf{spline cuadrático} es una función $s \in S_2^1(P)$, para
 cierta partición $P$ sobre un intervalo.
 \end{definicion}
+\begin{columns}
+\column{0.5\textwidth}
+\includegraphics[width=\textwidth]{EjemploDef.png}
+\column{.5\textwidth}
+\includegraphics[width=\textwidth]{EjemploDefDer.png}
+\end{columns}
 \end{frame}
 
 \begin{frame}{Dimensión del espacio}
@@ -140,8 +146,16 @@ Sea $[a,b]$ intervalo, $P = \{x_i\}_{i=0...\alert<1>{n}} \in \mathscr{P}([a,b])$
 entonces $\dim(S_2(P)) = \alert<2>{n+2}$.
 \end{proposicion}
 \begin{proof}<3->
-Podemos deducirlo a partir de la fórmula general, $\dim(S_{\alert<3>{2}}^{\alert<4>{1}}(P)) = (\alert<3>{2} - \alert<4>{1})n +
-\alert<4>{1} + 1 = 2$.
+Podemos deducirlo a partir de la fórmula general:
+
+\[
+\dim(S_{\alert<4>{k}}^{\alert<5>{r}}(P)) = (\alert<4>{k} - \alert<5>{r})n
++ \alert<5>{r} + 1
+\]
+
+Así:
+
+\[\dim(S_{\alert<4>{2}}^{\alert<5>{1}}(P)) = (\alert<4>{2} - \alert<5>{1})n + \alert<5>{1} + 1 = 2\]
 \end{proof}
 \end{frame}
 
@@ -155,9 +169,124 @@ Conocida la dimensión podemos establecer una base:
 \section{Interpolación}
 
 \begin{frame}{Método local}
+Dada la derivada en el nodo $k$, podemos calcular mediante
+diferencias divididas los trozos a ambos lados:
+
+\vfill
+
+\begin{overlayarea}{\textwidth}{.4\textheight}
+\only<1>{
+Si $d_k$ queda a la \textbf{derecha} del trozo:
+\begin{table}[h]
+\centering
+\begin{tabular}{llll}
+$x_{k-1}$ & $y_{k-1}$ & & \\
+$x_k$ & $y_k$ & $p_k$ & \\
+$x_k$ & $y_k$ & $d_k$ & $\frac{d_k-p_k}{h_k}$
+\end{tabular}
+\end{table}
+
+\begin{equation} \label{eq:sk}
+s_k(x)=y_{k-1}+p_k(x-x_{k-1})+\frac{d_k-p_k}{h_k}(x-x_{k-1})(x-x_k)
+\end{equation}
+
+}
+
+\only<2>{
+Si $d_k$ queda a la \textbf{izquierda} del trozo:
+\begin{table}[h]
+\centering
+\begin{tabular}{llll}
+$x_k$ & $y_k$ & & \\
+$x_k$ & $y_k$ & $d_k$ & \\
+$x_{k+1}$ & $y_{k+1}$ & $p_{k+1}$ & $\frac{p_{k+1}-d_k}{h_k}$
+\end{tabular}
+\end{table}
+
+\begin{equation} \label{eq:skmas}
+s_{k+1}(x)=y_k+d_k(x-x_k)+\frac{p_{k+1}-d_k}{h_{k+1}}(x-x_k)(x-x_k)
+\end{equation}
+
+}
+\end{overlayarea}
+\end{frame}
+
+\begin{frame}{Método local}
+
+Repetimos este proceso actualizando la derivada:
+
+\begin{itemize}
+\item Hacia la \alert<1>{izquierda}, aplicando la primera fórmula.
+\item Hacia la \alert<2>{derecha}, aplicando la segunda fórmula.
+\end{itemize}
+
+\vfill
+
+\begin{tikzpicture}[scale=1.5]
+\draw (-3.5,0) -- (-2.5,0);
+\draw[dotted] (-2.5, 0) -- (-1.5,0);
+\draw (-1.5,0) -- (1.5,0);
+\draw[dotted] (1.5, 0) -- (2.5,0);
+\draw (2.5,0) -- (3.5,0);
+
+\foreach \x in  {-3,-1,0,1,3}
+\draw[shift={(\x,0)},color=black] (0pt,3pt) -- (0pt,-3pt);
+
+\draw[shift={(1,0)},color=black] (0pt,0pt) -- (0pt,-3pt)
+node[below] {$x_{k+1}$};
+\draw[shift={(-1,0)},color=black] (0pt,0pt) -- (0pt,-3pt)
+node[below] {$x_{k-1}$};
+\draw[shift={(0,0)},color=black] (0pt,0pt) -- (0pt,-3pt)
+node[below] {$x_k$};
+\draw[shift={(-3,0)},color=black] (0pt,0pt) -- (0pt,-3pt)
+node[below] {$x_0$};
+\draw[shift={(3,0)},color=black] (0pt,0pt) -- (0pt,-3pt)
+node[below] {$x_n$};
+
+\draw (0.5,0) edge[ultra thin, ->, bend left=50, looseness=1]  node[above right] {\alert<2>{\footnotesize $d_{k+1} = s'_k(x_{k+1})$}} (2,0.15);
+\draw (-0.5,0) edge[ultra thin, ->, bend right=50, looseness=1]  node[above left] {\alert<1>{\footnotesize $d_{k-1} = s'_k(x_{k-1})$}} (-2,0.15);
+\end{tikzpicture}
 \end{frame}
 
 \begin{frame}{Método global}
+
+Resolvemos el sistema, añadiendo la condición para la derivada:
+
+\begin{equation*}
+\begin{pmatrix}
+  1 & x_0 & x_0^2   & 0 & \cdots & 0\\
+  1 & x_1 & x_1^2   & (x_1-x_1)_{+}^2 & \cdots & 0\\
+  \vdots& & \vdots  & \vdots          & \cdots & \vdots \\
+  \vdots& & \vdots  & \vdots          & \cdots & \vdots \\
+  1 & x_n & x_n^2   & (x_n-x_1)_{+}^2 & \cdots & (x_n-x_{n-1})_{+}^2\\
+  \alert<2>{0} &   \alert<2>{1} &  \alert<2>{2x_k} & \alert<2>{2(x_k-x_1)_{+}} & \alert<2>{\cdots} & \alert<2>{2(x_k-x_{n-1})_{+}}
+\end{pmatrix}
+\begin{pmatrix}
+  a \\
+  b \\
+  c \\
+  \alpha_1 \\
+  \vdots \\
+  \alpha_{n-1}
+\end{pmatrix}
+=
+\begin{pmatrix}
+  y_0\\
+  y_1\\
+  \vdots\\
+  \vdots\\
+  y_n\\
+  \alert<2>{d_k}\\
+\end{pmatrix}
+\end{equation*}
+
+\vspace{2pt}
+
+\uncover<3>{
+\begin{equation*}
+ s(x) = a + bx + cx^2 + \alpha_1(x-x_1)_+^2 + \cdots + \alpha_{n-1}(x-x_{n-1})_+^2
+\end{equation*}
+}
 \end{frame}
 
 \section{Implementación}
