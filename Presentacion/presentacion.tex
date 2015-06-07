@@ -60,6 +60,7 @@ literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1
 \usepackage{tikz}
 \usetikzlibrary{arrows}
 \usetikzlibrary{decorations.markings}
+\usetikzlibrary{positioning}
 
 %% Temas %%
 % Tema y tema de color
@@ -167,6 +168,25 @@ Conocida la dimensión podemos establecer una base:
 \end{frame}
 
 \section{Interpolación}
+
+\begin{frame}{Problema de interpolación}
+\begin{exampleblock}{Problema}
+Hallar $s \in S_2(P)$ tal que para todo $0 \leq i \leq n$, $s(x_i) = y_i$ y
+para un cierto $k$, $s'(x_k) = d_k$.
+\end{exampleblock}
+
+\vfill
+
+Los datos del problema son:
+\begin{table}[h]
+\centering
+\begin{tabular}{l|ccccc}
+$x_i$ & $x_0$ & $\cdots$ & $x_k$ & $\cdots$ & $x_n$ \\
+$y_i$ & $y_0$ & $\cdots$ & $y_k$ & $\cdots$ & $y_n$ \\
+$d_i$ & &  & $d_k$ &  &
+\end{tabular}
+\end{table}
+\end{frame}
 
 \begin{frame}{Método local}
 Dada la derivada en el nodo $k$, podemos calcular mediante
@@ -289,6 +309,78 @@ Resolvemos el sistema, añadiendo la condición para la derivada:
  s(x) = a + bx + cx^2 + \alpha_1(x-x_1)_+^2 + \cdots + \alpha_{n-1}(x-x_{n-1})_+^2
 \end{equation*}
 }
+\end{frame}
+
+\section{Ejemplos}
+
+\begin{frame}{Ejemplo: Método global}
+\begin{exampleblock}{Método global}
+Hallar $s \in S_2(2,4,5,8)$ que interpole los datos de la tabla.
+\begin{table}[h]
+\centering
+\begin{tabular}{l|ccccc}
+$x_i$ & 2 & 4 & 5 & 8 \\
+$y_i$ & 7 & 3 & 5 & 5 \\
+$d_i$ &   & 4 &   &
+\end{tabular}
+\end{table}
+\end{exampleblock}
+\end{frame}
+
+\begin{frame}{Ejemplo: Método global}
+Debemos hallar $a,b,c, \alpha_1, \alpha_2 \in \mathbb{R}$ tales que, para $x \in [2,8]$:
+
+\[ s(x)  = a + bx + cx^2 + \alpha_1 (x - 4)^2_+ + \alpha_2 (x -5)^2_+\]
+
+\uncover<2>{
+\[
+\begin{pmatrix}
+1 & 2 & 4  & 0  & 0\\
+1 & 4 & 16 & 0  & 0\\
+1 & 5 & 25 & 1  & 0\\
+1 & 8 & 64 & 16 & 9\\
+0 & 1 &  8 & 0  & 0
+\end{pmatrix}
+\begin{pmatrix}
+a 		 \\
+b 		 \\
+c 		 \\
+\alpha_1 \\
+\alpha_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+7\\
+3\\
+5\\
+5\\
+4
+\end{pmatrix}
+\]
+
+\[a = 35 \quad b = -20 \quad c = 3 \quad \alpha_1 = -5 \quad \alpha_2 = 2\]
+}
+\end{frame}
+
+\begin{frame}{Ejemplo: Método global}
+\[
+s(x) =
+\begin{cases}
+ 3x^2 - 20x + 35  & x \in [2,4] \\
+-2x^2 + 20x - 45 & x \in (4,5] \\
+ 5  & x \in (5,8] \\
+\end{cases}
+\]
+
+\vfill
+
+\begin{columns}
+\column{.6\textwidth}
+\includegraphics[width=\textwidth]{EjemploGlobal.png}
+\column{.6\textwidth}
+\includegraphics[width=\textwidth]{EjemploGlobalDer.png}
+\end{columns}
+
 \end{frame}
 
 \section{Implementación}
