@@ -325,8 +325,8 @@ Nos dan la derivada en el nodo 3, procedemos a calcular las diferencias dividida
 x & y & DD1 &DD2\\
 \hline
 $1$ & $4$ &     & \\
-$3$ & $8$ & $\ \ 2$ & \\
-$3$ & $8$ & $\ \ 5$ & $\ \sfrac{3}{2}$ \\
+$3$ & $8$ & $2$ & \\
+$3$ & $8$ & $5$ & $\sfrac{3}{2}$ \\
 \hline
 \end{tabular}
 \end{table}
@@ -545,7 +545,7 @@ $$
 S'_n(x_n) = - \frac{M_{n-1}(x_n-x_n)^2}{2h_n} + \frac{M_n(x_n-x_{n-1})^2}{2h_n} + \frac{(y_n-y_{n-1})}{h_n} - \frac{(M_n-M_{n-1})h_n}{6} \\
 $$
 \begin{equation} \label{eq:ast3}
-\implies M_{n-1}+2M_n=6f[x_{n-1},x_n,x_n] 
+\implies M_{n-1}+2M_n=6f[x_{n-1},x_n,x_n]
 \end{equation}
 
 
@@ -622,7 +622,7 @@ $$
   2+2 	   & \lambda_0 &    0       &   0         \\
   \mu_1  & 2	 		& \ddots  &   0                \\
   0      & \ddots    & \ddots     &  \lambda_{n-2}            \\
-  \lambda_{n-1} &     0     & \mu_{n-1}  &    2     
+  \lambda_{n-1} &     0     & \mu_{n-1}  &    2
 \end{pmatrix}
 \begin{pmatrix}
   M_0 \\
@@ -854,7 +854,7 @@ El sistema queda:
 \begin{equation*}
 \begin{pmatrix}
 	2 & 1/2 \\
-	1/2 & 2 
+	1/2 & 2
 \end{pmatrix}
 \begin{pmatrix}
 	M_1  \\
@@ -863,7 +863,7 @@ El sistema queda:
 =
 \begin{pmatrix}
 	6\cdot(-\frac{5}{2})  \\
-	6\cdot(-1) 
+	6\cdot(-1)
 \end{pmatrix}
 \end{equation*}
 
@@ -973,7 +973,7 @@ end
 ## Splines cúbicos
 
 Para el cálculo de splines cúbicos por medio de la segunda derivada resolvemos
-el sistema y luego aplicamos la fórmula para obtener la expresión de cada 
+el sistema y luego aplicamos la fórmula para obtener la expresión de cada
 fórmula:
 
 ### Spline sujeto
@@ -1048,12 +1048,12 @@ La función del **spline periódico** queda:
 
 
 ```octave
-function z = SplinePer (x, y) 
+function z = SplinePer (x, y)
   n     = length(x);
   twoes = 2*ones(1,n);
   h     = diff(x);
 
-  for i=1:(n-2) 
+  for i=1:(n-2)
   	lambda(i+1) = h(i+1)/(h(i+1)+h(i));
   endfor
 
@@ -1061,9 +1061,9 @@ function z = SplinePer (x, y)
   	mu(i) = mu(i)+h(i)/(h(i+1)+h(i));
   endfor
 
-  A = diag(mu,-1) + diag(twoes) + diag(lambda,1); 
+  A = diag(mu,-1) + diag(twoes) + diag(lambda,1);
   A(1, n) = h(n-1)/(h(n-1)+h(n-2));
-  
+
   dd1 = diff(y)./diff(x); #Primeras derivadas
 
   #Segundas derivadas
@@ -1071,7 +1071,7 @@ function z = SplinePer (x, y)
   for i=1:(n-2)
   	dd2(i) = (dd1(i+1)-dd1(i))/(x(i+2)-x(i));
   endfor
-  
+
   A(1,:)=h(1)*A(1,:);   #Ajustes de la matriz
   A(1,1)=A(1,1)-h(1)/3;
   A(1,2)=A(1,2)+h(1)/6;
