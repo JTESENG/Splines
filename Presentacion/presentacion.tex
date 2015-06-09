@@ -22,12 +22,9 @@
 \usepackage{mathrsfs}
 \usepackage{xfrac}
 \newtheorem*{proposicion}{Proposición}
-\newtheorem*{teorema}{Teorema}
 \theoremstyle{definition}
 \newtheorem*{definicion}{Definición}
 \newtheorem*{problema}{Problema}
-\theoremstyle{remark}
-\newtheorem*{solucion}{Solución}
 
 % Colores
 \definecolor{backg}{HTML}{F2F2F2}    % Fondo
@@ -36,7 +33,6 @@
 \definecolor{keywords}{HTML}{08388c} % Palabras clave
 \definecolor{strings}{HTML}{FA5858}  % Strings
 \definecolor{links}{HTML}{2C2C95}    % Enlaces
-\definecolor{bars}{HTML}{045FB4}     % Barras (gráfico)
 
 % Código
 \usepackage{listings}
@@ -68,7 +64,7 @@ literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1
   \usetheme{Dresden}
   \usecolortheme{dolphin}
   \useinnertheme{circles}
-  \setbeamercovered{transparent}
+  \setbeamercovered{invisible}
 % Colores bloques
   \setbeamercolor{block title}{bg=title,fg=links}
   \setbeamercolor{block body}{bg=backg,fg=black}
@@ -157,7 +153,7 @@ Podemos deducirlo a partir de la fórmula general:
 
 Así:
 
-\[\dim(S_{\alert<4>{2}}^{\alert<5>{1}}(P)) = (\alert<4>{2} - \alert<5>{1})n + \alert<5>{1} + 1 = 2\]
+\[\dim(S_{\alert<4>{2}}^{\alert<5>{1}}(P)) = (\alert<4>{2} - \alert<5>{1})n + \alert<5>{1} + 1 = n + 2\]
 \end{proof}
 \end{frame}
 
@@ -190,14 +186,17 @@ $d_i$ & &  & $d_k$ &  &
 \end{frame}
 
 \begin{frame}{Método local}
-Dada la derivada en el nodo $k$, podemos calcular mediante
-diferencias divididas los trozos a ambos lados:
+Dada $d_k$, calculamos mediante diferencias divididas $s_k$ y $s_{k+1}$.
 
 \vfill
 
-\begin{overlayarea}{\textwidth}{.4\textheight}
-\only<1>{
-Si $d_k$ queda a la \textbf{derecha} del trozo:
+\only<1>{$s_k$: $d_k$ queda a la \textbf{derecha}}
+\only<2>{$s_{k+1}$: $d_k$ queda a la \textbf{izquierda}}
+
+\vfill
+
+\begin{overprint}
+\onslide<1>
 \begin{table}[h]
 \centering
 \begin{tabular}{llll}
@@ -207,14 +206,7 @@ $x_k$ & $y_k$ & $d_k$ & $\frac{d_k-p_k}{h_k}$
 \end{tabular}
 \end{table}
 
-\begin{equation*}
-s_k(x)=y_{k-1}+p_k(x-x_{k-1})+\frac{d_k-p_k}{h_k}(x-x_{k-1})(x-x_k)
-\end{equation*}
-
-}
-
-\only<2>{
-Si $d_k$ queda a la \textbf{izquierda} del trozo:
+\onslide<2>
 \begin{table}[h]
 \centering
 \begin{tabular}{llll}
@@ -223,13 +215,19 @@ $x_k$ & $y_k$ & $d_k$ & \\
 $x_{k+1}$ & $y_{k+1}$ & $p_{k+1}$ & $\frac{p_{k+1}-d_k}{h_k}$
 \end{tabular}
 \end{table}
+\end{overprint}
 
+\begin{overprint}
+\onslide<1>
+\begin{equation*}
+s_k(x)=y_{k-1}+p_k(x-x_{k-1})+\frac{d_k-p_k}{h_k}(x-x_{k-1})(x-x_k)
+\end{equation*}
+
+\onslide<2>
 \begin{equation*}
 s_{k+1}(x)=y_k+d_k(x-x_k)+\frac{p_{k+1}-d_k}{h_{k+1}}(x-x_k)(x-x_k)
 \end{equation*}
-
-}
-\end{overlayarea}
+\end{overprint}
 \end{frame}
 
 \begin{frame}{Método local}
@@ -265,8 +263,8 @@ node[below] {$x_0$};
 \draw[shift={(3,0)},color=black] (0pt,0pt) -- (0pt,-3pt)
 node[below] {$x_n$};
 
-\draw (0.5,0) edge[ultra thin, ->, bend left=50, looseness=1]  node[above right] {\alert<2>{\footnotesize $d_{k+1} = s'_{k+1}(x_{k+1})$}} (2,0.15);
-\draw (-0.5,0) edge[ultra thin, ->, bend right=50, looseness=1]  node[above left] {\alert<1>{\footnotesize $d_{k-1} = s'_k(x_{k-1})$}} (-2,0.15);
+\visible<2>{\draw (0.5,0) edge[ultra thin, ->, bend left=50, looseness=1]  node[above right] {\footnotesize $d_{k+1} = s'_{k+1}(x_{k+1})$} (2,0.15)};
+\visible<1>{\draw (-0.5,0) edge[ultra thin, ->, bend right=50, looseness=1]  node[above left] {\footnotesize $d_{k-1} = s'_k(x_{k-1})$} (-2,0.15)};
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -299,7 +297,7 @@ $d_i$ &   &  &  5 & &
 \begin{tabular}{cccc}
 1 & 4 &   & \\
 3 & 8 & 2 & \\
-3 & 8 & 5 & $\frac{3}{2}$
+3 & 8 & \textbf{5} & $\frac{3}{2}$
 \end{tabular}
 \end{table}
 }
@@ -310,7 +308,7 @@ $d_i$ &   &  &  5 & &
 \begin{tabular}{cccc}
 -1 & 1  &                & \\
 1  & 4  & $\frac{3}{2}$  & \\
-1  & 4  & -1           & $\frac{-5}{4}$ \\
+1  & 4  & \textbf{-1}           & $\frac{-5}{4}$ \\
 \end{tabular}
 \end{table}
 }
@@ -320,7 +318,7 @@ $d_i$ &   &  &  5 & &
 \centering
 \begin{tabular}{cccc}
 3  & 8  &      & \\
-3  & 8  & 5  & \\
+3  & 8  & \textbf{5}  & \\
 6  & 2  & -2 & $\frac{-7}{3}$
 \end{tabular}
 \end{table}
@@ -331,7 +329,7 @@ $d_i$ &   &  &  5 & &
 \centering
 \begin{tabular}{cccc}
 6 & 2  &       & \\
-6 & 2  & -9  & \\
+6 & 2  & \textbf{-9}  & \\
 7 & 9  & 7   & 16
 \end{tabular}
 \end{table}
