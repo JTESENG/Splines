@@ -234,9 +234,34 @@ $$s(x) = a + bx + cx^2 + \alpha_1(x-x_1)_+^2 + \cdots + \alpha_{n-1}(x-x_{n-1})_
 
 ## Error en los splines cuadráticos
 
-**AÑADIR ERROR UTILIZANDO INTERPOLACIÓN DE HERMITE**
+**ECHADLE UN VISTAZO Y CORREGID SINTAXIS**
 
-\vspace*{2\baselineskip}
+
+\begin{teorema}
+Sean $f \in C^3([a,b])$, $\{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$,
+$s \in S_2^1(\{x_i\}_{i = 0,...,n})$ spline para $f$, 
+
+$h = max\{x_i - x_{i-1}\}_{i = 1...n}$, $E = f - s$.
+Además, se conoce la derivada en un nodo, y sea $M >0$ tal que:
+
+\[
+ M \geq Sup \{|f''(x) - f''(y)| \; : \; |x - y| \leq h, \; x,y \in [a,b] \}
+ \]
+\[
+ D \eq max \{|f'(x) - d_i|_{i = 0...n} \}
+
+Entonces, se verifica, para todo $x \in [a,b]$:
+
+\begin{equation}
+E(x) \leq \frac{Dh}{4} \+ {2Mh^3}{81}
+\end{equation}
+
+\end{teorema}
+
+La demostración,  puede encontrarse en
+\emph{Quadratic Interpolatory Splines}, W. Kammerer, G. Reddien y R.S.
+Varga, (1973).
+
 
 ## Ejemplos
 
