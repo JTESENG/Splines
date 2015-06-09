@@ -109,7 +109,7 @@ Es decir, sabemos los valores de la función en todos los nodos y el valor de la
 \vspace*{2\baselineskip}
 
 \begin{solucion}
-Si $k > 0$, para calcular $s_k$ podemos calcular la tabla de diferencias divididas:
+Si $k \neq 0$, para calcular $s_k$ podemos calcular la tabla de diferencias divididas:
 \begin{table}[h]
 \centering
 \begin{tabular}{llll}
@@ -133,7 +133,7 @@ Conocida la expresión de $s_k$ podemos calcular $d_{k-1} = s'_k(x_{k-1})$, y re
 este proceso para calcular $s_{k-1}$, hasta llegar a $k = 1$ ($s_1$ con derivada $d_1$).
 
 
-Si $k < n$, debemos calcular $s_{k+1}$. Como sabemos la derivada $d_k$, calculamos la tabla de diferencias divididas:
+Si $k \neq n$, debemos calcular $s_{k+1}$. Como sabemos la derivada $d_k$, calculamos la tabla de diferencias divididas:
 
 \vspace*{2\baselineskip}
 
@@ -234,33 +234,24 @@ $$s(x) = a + bx + cx^2 + \alpha_1(x-x_1)_+^2 + \cdots + \alpha_{n-1}(x-x_{n-1})_
 
 ## Error en los splines cuadráticos
 
-**ECHADLE UN VISTAZO Y CORREGID SINTAXIS**
-
-
 \begin{teorema}
 Sean $f \in C^3([a,b])$, $\{x_i\}_{i = 0...n} \in \mathscr{P}([a,b])$,
-$s \in S_2^1(\{x_i\}_{i = 0,...,n})$ spline para $f$, 
+$s \in S_2(\{x_i\}_{i = 0,...,n})$ spline para $f$ (con derivada dada en un nodo), $E = f - s$. Sean:
 
-$h = max\{x_i - x_{i-1}\}_{i = 1...n}$, $E = f - s$.
-Además, se conoce la derivada en un nodo, y sea $M >0$ tal que:
+\begin{itemize}
+\item $h = \max \left( \{h_i\}_{i = 1...n} \right)$
+\item $M$ cota superior de $f'''$
+\item $D = max \{|f'(x) - d_i|\}_{i = 0...n}$
+\end{itemize}
 
-\[
- M \geq Sup \{|f''(x) - f''(y)| \; : \; |x - y| \leq h, \; x,y \in [a,b] \}
- \]
-\[
- D \eq max \{|f'(x) - d_i|_{i = 0...n} \}
 
-Entonces, se verifica, para todo $x \in [a,b]$:
+Entonces, para todo $x \in [a,b]$:
 
-\begin{equation}
-E(x) \leq \frac{Dh}{4} \+ {2Mh^3}{81}
-\end{equation}
+\begin{equation*}
+E(x) \leq \frac{Dh}{4} + \frac{2Mh^3}{81}
+\end{equation*}
 
 \end{teorema}
-
-La demostración,  puede encontrarse en
-\emph{Quadratic Interpolatory Splines}, W. Kammerer, G. Reddien y R.S.
-Varga, (1973).
 
 
 ## Ejemplos
