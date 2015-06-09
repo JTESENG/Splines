@@ -512,6 +512,28 @@ s(x) =
 
 \end{frame}
 
+\begin{frame}{Error en la interpolación con splines cuadráticos}
+\begin{block}{Error}
+Sean $f \in C^3([a,b])$, $P \in \mathscr{P}([a,b])$,
+$s \in S_2(P)$ spline para $f$ y:
+
+\begin{itemize}
+\item $h = max \{h_i\}$
+\item $M$ cota superior de $f'''$
+\item $D = max \{|f'(x) - d_i|\}$
+\end{itemize}
+
+
+Entonces, para todo $x \in [a,b]$:
+
+\visible<2->{
+\begin{equation*}
+|f(x) - s(x)| \leq \frac{Dh}{4} + \frac{2Mh^3}{81}
+\end{equation*}
+}
+\end{block}
+\end{frame}
+
 \section{Implementación}
 
 \begin{frame}[fragile]{\texttt{SplineCuad}}
