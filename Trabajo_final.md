@@ -628,36 +628,102 @@ $$\begin{pmatrix}
 A partir del valor de los $M_i$ se obtienen los polinomios $S_i(x)$ en cada intervalo.
 \vspace*{2\baselineskip}
 
+
  - **Spline periódico**
 
-En este caso $S'_1(x_0) = S'_n(x_n)$ y $S''_1(x_0) = S''_n(x_n)$. El sistema queda ($\lambda_0=1$):
+En este caso $S'_1(x_0) = S'_n(x_n)$ y $S''_1(x_0) = S''_n(x_n)$. 
+Como se sigue cumpliendo que
+\begin{equation} \label{eq:ast}
+\mu_iM_{i-1} + 2M_i + \lambda_iM_{i+1} = \gamma_i \qquad i=1,...,n-1
+\end{equation} el sistema queda algo así:
 
-<!--Falta reestructurar matriz-->
 $$
 \begin{pmatrix}
-  2+2 	   & \lambda_0 &    0       &   0         \\
-  \mu_1  & 2	 		& \ddots  &   0                \\
-  0      & \ddots    & \ddots     &  \lambda_{n-2}            \\
-  \lambda_{n-1} &     0     & \mu_{n-1}  &    2
+  \cdots &  \cdots   &   ?       &   \cdots    & \cdots       \\
+  \mu_1  & 2	 		& \lambda_1 &      0     &   0                \\
+  0      & \ddots    & \ddots    & \ddots      &   0         \\
+  0      &     0     & \mu_{n-1} &    2        &  \lambda_{n-1}       \\
+  \cdots &  \cdots   &   ?       &   \cdots    & \cdots 
 \end{pmatrix}
 \begin{pmatrix}
   M_0 \\
   M_1 \\
   \vdots \\
-  M_{n-2} \\
-  M_{n-1}
+  M_{n-1} \\
+  M_{n}
 \end{pmatrix} =
 \begin{pmatrix}
-  \gamma_0+\gamma_n= \sfrac{h_1-S^{'}_1(x_0)}{h_1}+\sfrac{S^{'}_1(x_0)-h_n}{h_n} \\
+  ? \\
   \gamma_1 \\
   \vdots \\
-  \gamma_{n-2} \\
-  \gamma_{n-1}
+  \gamma_{n-1} \\
+  ?
 \end{pmatrix}$$
 
-En este caso tenemos en cuenta que:
+En el spline periódico $M_0=M_n$, podemos razonarlo de la forma siguiente:
 
-${ S^{'}_1(x_0)= -M_0 \cdot \frac{h_1}{2}+ f{[x_o,x_1]} - \frac{M_1-M_0}{6} \cdot h_1 }$
+${  S^{''}_1(x_0) = M_0 \frac{h_1}{h_1} + M_1\frac{x_0-x_0}{h_1} = S^{''}_n(x_n) = M_{n-1}\frac{x_n-x_n}{h_n} + M_1\frac{h_n}{h_n}
+\implies M_0=M_n  }$
+
+${   \implies  }$
+
+$$
+\begin{pmatrix}
+  1      &   0       &   \cdots  &   0         & -1       \\
+  \mu_1  &   2	 		& \lambda_1 &      0      &   0                \\
+  0      & \ddots    & \ddots    & \ddots      &   0         \\
+  0      &     0     & \mu_{n-1} &    2        &  \lambda_{n-1}       \\
+  \cdots &  \cdots   &   ?       &   \cdots    & \cdots 
+\end{pmatrix}
+\begin{pmatrix}
+  M_0 \\
+  M_1 \\
+  \vdots \\
+  M_{n-1} \\
+  M_{n}
+\end{pmatrix} =
+\begin{pmatrix}
+  0 \\
+  \gamma_1 \\
+  \vdots \\
+  \gamma_{n-1} \\
+  ?
+\end{pmatrix}$$
+
+Igualando las primeras derivadas en el primer y último nodo:
+
+${  S^{'}_1(x_0) = -\frac{M_0h_1}{2} + \frac{M_0h_1}{6}    + f[{x_0,x_1}] - \frac{M_1h_1}{6}
+ = M_nh_n + f[{x_{n-1},x_n}] - \frac{M_n-M_{n-1}}{6}h_n = S^{'}_n(x_n)  }$
+
+${  \implies  -\frac{M_0h_1}{2} + f[{x_0,x_1}] - \frac{(M_1-M_0)h_1}{6}
+ = \frac{M_{n-1}(x_n-x_n)^2}{h_n} + \frac{M_nh_n^2}{h_n} + f[{x_{n-1},x_n}] - \frac{M_nh_n}{6} + \frac{M_{n-1}h_n}{6}  }$
+
+${  \cdots \implies
+3M_0h_1 - M_1h_1 -5M_nh_n - M_{n-1}h_n 
+ =  -6( f[{x_0,x_1}] - f[{x_{n-1},x_n}] ) }$.  El sistema queda:
+
+$$
+\begin{pmatrix}
+  1      &   0       &   \cdots  &   0         & -1       \\
+  \mu_1  &   2	 		& \lambda_1 &      0      &   0                \\
+  0      & \ddots    & \ddots    & \ddots      &   0         \\
+  0      &     0     & \mu_{n-1} &    2        &  \lambda_{n-1}       \\
+  3h_1   &  -h_1     &   \cdots  &   -h_n      &   -5h_n 
+\end{pmatrix}
+\begin{pmatrix}
+  M_0 \\
+  M_1 \\
+  \vdots \\
+  M_{n-1} \\
+  M_{n}
+\end{pmatrix} =
+\begin{pmatrix}
+  0 \\
+  \gamma_1 \\
+  \vdots \\
+  \gamma_{n-1} \\
+  -6( f[{x_0,x_1}] - f[{x_{n-1},x_n}] )
+\end{pmatrix}$$
 
 A partir del valor de los $M_i$ se obtienen los polinomios $S_i(x)$ en cada intervalo.
 
