@@ -1019,33 +1019,32 @@ Otra implementación posible es calcular el spline **a trozos**:
 
 ```octave
 function z = SplineCuadLocal(x, y, d_k, k)
-  s = zeros(length(x)-1, 3);
-  d = d_k;
+	d = d_k;
+	h = diff(x);
+	p = diff(y)./h;
 
   #Recorremos todos los nodos de n+1 en adelante:
- if ( (k+1) != (length(x)-1) )
+ if (k != (length(x) - 1))
   for i = (k+1):(length(x)-1)
-	p = (y(i+1)-y(i))/(x(i+1)-x(i));
-	q = (p-d)/(x(i+1)-x(i));
-	v = [x(i) x(i)];
-	s(i,:) = [0, 0, y(i)]+[0, d, -d*x(i)]+q*poly(v);
-	d = polyval(polyder(s(i,:)),x(i+1));
+		q = (p(i) - d)/h(i);
+		v = [x(i) x(i)];
+		s(i,:) = [0, 0, y(i)] + [0, d, -d*x(i)] +q*poly(v);
+		d = polyval(polyder(s(i,:)),x(i+1));
   end
   d = d_k;
  endif
 
   #Recorremos todos los nodos desde n hasta el 1:
- if ( k != 1 )
+ if (k != 0)
   for j = k:-1:1
-		p = (y(j+1)-y(j))/(x(j+1)-x(j))
-		q = (d-p)/(x(j+1)-x(j))
-		v = [x(j) x(j+1)]
-		s(j,:) = [0 0 y(j)]+[0 p -p*x(j)]+q*poly(v);
-		d = polyval(polyder(s(j,:)), x(j))
+		q = (d - p(j))/h(j);
+		v = [x(j) x(j+1)];
+		s(j,:) = [0 0 y(j)] + [0 p(j) -p(j)*x(j)] + q*poly(v);
+		d = polyval(polyder(s(j,:)), x(j));
   end
  endif
 
-  for i = 1:length(s)
+  for i = 1:(length(x) - 1)
     s(i,:) = polyaffine(s(i,:), [-x(i), 1]);
   end
 
@@ -1130,6 +1129,7 @@ end
 
 La función del **spline periódico** queda:
 
+```octave
 function z = SplinePer (x, y)
   n     = length(x);
   twoes = 2*ones(1,n);
