@@ -954,7 +954,7 @@ El sistema queda:
 Del que obtenemos la solución $M_1=-\frac{36}{5}$, $M_2= -\frac{6}{5}$.
 Calculamos los trozos finalmente aplicando la fórmula:
 
-$$S_1(x)= M_0\frac{(x_1-x)^3}{6} + M_1\frac{(x-x_0)^3}{6} + (y_0-\frac{M_0}{6})\cdot\frac{x_1-x}{1} + (y_1-\frac{M_1}{6})\cdot\frac{x-x_0}{1} = 0.48x^3 - 0.18x^2 + 0.2x$$
+$$S_1(x)= M_0\frac{(x_1-x)^3}{6} + M_1\frac{(x-x_0)^3}{6} + (y_0-\frac{M_0}{6})\cdot\frac{x_1-x}{1} + (y_1-\frac{M_1}{6})\cdot\frac{x-x_0}{1} =    1.2x^3 + 3.6x^2 + \frac{3}{5}x$$
 
 Equivalentemente para $S_2$ y $S_3$, obtenemos la solución:
 
