@@ -693,13 +693,13 @@ $$
 Igualando las primeras derivadas en el primer y último nodo:
 
 ${  S^{'}_1(x_0) = -\frac{M_0h_1}{2} + \frac{M_0h_1}{6}    + f[{x_0,x_1}] - \frac{M_1h_1}{6}
- = M_nh_n + f[{x_{n-1},x_n}] - \frac{M_n-M_{n-1}}{6}h_n = S^{'}_n(x_n)  }$
+ = M_nh_n/2 + f[{x_{n-1},x_n}] - \frac{M_n-M_{n-1}}{6}h_n = S^{'}_n(x_n)  }$
 
 ${  \implies  -\frac{M_0h_1}{2} + f[{x_0,x_1}] - \frac{(M_1-M_0)h_1}{6}
- = \frac{M_{n-1}(x_n-x_n)^2}{h_n} + \frac{M_nh_n^2}{h_n} + f[{x_{n-1},x_n}] - \frac{M_nh_n}{6} + \frac{M_{n-1}h_n}{6}  }$
+ = \frac{M_{n-1}(x_n-x_n)^2}{h_n} + \frac{M_nh_n^2}{2h_n} + f[{x_{n-1},x_n}] - \frac{M_nh_n}{6} + \frac{M_{n-1}h_n}{6}  }$
 
 ${  \cdots \implies
-3M_0h_1 - M_1h_1 -5M_nh_n - M_{n-1}h_n 
+-2M_0h_1 - M_1h_1 -2M_nh_n - M_{n-1}h_n 
  =  -6( f[{x_0,x_1}] - f[{x_{n-1},x_n}] ) }$.  El sistema queda:
 
 $$
@@ -708,7 +708,7 @@ $$
   \mu_1  &   2	 		& \lambda_1 &      0      &   0                \\
   0      & \ddots    & \ddots    & \ddots      &   0         \\
   0      &     0     & \mu_{n-1} &    2        &  \lambda_{n-1}       \\
-  3h_1   &  -h_1     &   \cdots  &   -h_n      &   -5h_n 
+  -2h_1   &  -h_1     &   \cdots  &   -2h_n      &   -5h_n 
 \end{pmatrix}
 \begin{pmatrix}
   M_0 \\
@@ -1129,8 +1129,7 @@ end
 
 La función del **spline periódico** queda:
 
-```octave
-function z = SplinePer (x, y)
+```octavefunction z = SplinePer (x, y)
   n     = length(x);
   twoes = 2*ones(1,n);
   h     = diff(x);
@@ -1149,16 +1148,20 @@ function z = SplinePer (x, y)
   prim_fila(1)=1;
   prim_fila(n)=-1;
   ult_fila=zeros(1,n);
-  ult_fila(1)=3*h(1);
+  ult_fila(1)=-2*h(1);
   ult_fila(2)=-h(1);
   ult_fila(n-1)=-h(n-1);
-  ult_fila(n)=-5*h(n-1);
+  ult_fila(n)=-2*h(n-1);
   
   A = diag(mu,-1) + diag(twoes) + diag(lambda,1);
+  
 
   A(1,:)=prim_fila;
   A(n,:)=ult_fila;
+  A
   dd1 = diff(y)./diff(x); #Primeras derivadas
+  
+
   dd2 = zeros(n-2,1);     #Segundas derivadas
   for i=1:(n-2)
   	dd2(i) = (dd1(i+1)-dd1(i))/(x(i+2)-x(i));
@@ -1170,6 +1173,7 @@ function z = SplinePer (x, y)
   endfor
   gamma(n)= -6*( (y(2)-y(1))/(x(2)-x(1)) - (y(n)-y(n-1))/(x(n)-x(n-1)) );
   
+  gamma'
   m=A\gamma';
 
 	for i = 1:n-1
@@ -1180,7 +1184,7 @@ function z = SplinePer (x, y)
 	  p *= 1/h(i);
 	  B(i,:) = polyaffine(p, [-x(i) 1]);
   	endfor
-  	s = mkpp(x, B);
+  	z = mkpp(x, B);
 endfunction
 ```
 
