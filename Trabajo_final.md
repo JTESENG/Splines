@@ -1129,7 +1129,8 @@ end
 
 La función del **spline periódico** queda:
 
-```octavefunction z = SplinePer (x, y)
+```octave
+function z = SplinePer (x, y)
   n     = length(x);
   twoes = 2*ones(1,n);
   h     = diff(x);
