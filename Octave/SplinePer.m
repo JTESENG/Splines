@@ -13,7 +13,7 @@ function s = SplinePer (x, y)
 
   A = diag([mu 0],-1) + diag(twoes) + diag(lambda,1);
   A(1,:) = [1 zeros(1,n-2) -1];
-  A(n,:) = [3*h(1) -h(1) zeros(1,n-4) -h(n-1) -5*h(n-1)];
+  A(n,:) = [-2*h(1) -h(1) zeros(1,n-4) -h(n-1) -2*h(n-1)];
 
   dd1 = diff(y)./h; #Primeras derivadas
 
