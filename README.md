@@ -3,7 +3,7 @@
 Trabajo y presentación de Métodos Numéricos I sobre splines cuadráticos e interpolación de splines de clase 2
 mediante la segunda derivada. Realizado por:
 
-- [**@tzae**](https://github.com/tzae)
+- [**@mx-psi**](https://github.com/mx-psi)
 - [**@Rubenmp**](https://github.com/Rubenmp)
 - [**@PabloSpiegel**](https://github.com/PabloSpiegel)
 - [**@makixun**](https://github.com/makixun)
