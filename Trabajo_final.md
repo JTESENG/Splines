@@ -1227,7 +1227,6 @@ se definen, para $1 \leq i \leq n$:
 #Bibliografía
 - [*Quadratic Interpolatory Splines* - W.J.Kammerer, G. W. Reddien, and R.S. Varga](http://www.math.kent.edu/~varga/pub/paper_85.pdf)
 - [*Cubic Spline Interpolation*](https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
-(https://en.wikiversity.org/wiki/Cubic_Spline_Interpolation)
 - *Análisis numérico (Novena Edición)* - Richard L. Burden y J. Douglas Faires
 - *Analysis of Numerical Methods* - Eugene Isaacson, Herbert Bishop Keller
 - *Spline Approximation of Functions and Data* - Universidad de Oslo
